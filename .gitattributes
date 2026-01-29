@@ -1,0 +1,7 @@
+# Database / columnar formats can get big fast
+data/db/*.duckdb filter=lfs diff=lfs merge=lfs -text
+data/**/*.parquet filter=lfs diff=lfs merge=lfs -text
+
+# Compressed raw snapshots
+data/raw/**/*.gz filter=lfs diff=lfs merge=lfs -text
+data/raw/**/*.zip filter=lfs diff=lfs merge=lfs -text

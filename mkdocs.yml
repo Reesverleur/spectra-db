@@ -1,0 +1,17 @@
+site_name: Spectra DB
+repo_url: https://github.com/<your-org-or-user>/spectra-db
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Developer:
+      - Contributing: dev/contributing.md
+      - Data layout: dev/data_layout.md
+  - API Reference: reference.md
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
