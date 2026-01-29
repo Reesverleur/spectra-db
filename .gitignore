@@ -9,3 +9,8 @@ build/
 data/raw/_tmp/
 data/db/*.wal
 data/db/*.tmp
+
+# PyCharm / JetBrains
+.idea/
+*.iml
+out/
