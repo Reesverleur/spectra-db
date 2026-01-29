@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS meta_info (
   value TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS references (
+CREATE TABLE IF NOT EXISTS refs (
   ref_id TEXT PRIMARY KEY,
   citation TEXT,
   doi TEXT,
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS states (
   energy_value DOUBLE,
   energy_unit TEXT, -- "cm-1", "eV", "Hz"
   energy_uncertainty DOUBLE,
-  ref_id TEXT REFERENCES references(ref_id),
+  ref_id TEXT REFERENCES refs(ref_id),
   notes TEXT
 );
 
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS transitions (
   quantity_uncertainty DOUBLE,
   intensity_json TEXT, -- JSON string (Aki, f, S, log(gf), etc.)
   selection_rules TEXT,
-  ref_id TEXT REFERENCES references(ref_id),
+  ref_id TEXT REFERENCES refs(ref_id),
   source TEXT,
   notes TEXT
 );
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS spectroscopic_parameters (
   uncertainty DOUBLE,
   context_json TEXT, -- JSON string specifying state/v-range/etc.
   convention TEXT, -- e.g. "Watson A-reduction Ir"
-  ref_id TEXT REFERENCES references(ref_id),
+  ref_id TEXT REFERENCES refs(ref_id),
   source TEXT,
   notes TEXT
 );
