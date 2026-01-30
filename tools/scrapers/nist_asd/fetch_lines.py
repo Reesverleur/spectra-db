@@ -5,6 +5,7 @@ import html as _html
 import json
 import re
 from dataclasses import dataclass
+from typing import Any
 
 from bs4 import BeautifulSoup
 
@@ -104,7 +105,7 @@ def run(
     wavelength_type: str = "vacuum",
     force: bool = False,
 ) -> FetchRunResult:
-    """Fetch ASD lines for one spectrum window and write normalized NDJSON (with ref URLs)."""
+    """Fetch ASD lines for one spectrum window and write normalized NDJSON (with ref URLs + extra_json)."""
     try:
         paths = get_paths()
         ps = parse_spectrum_label(spectrum)
@@ -130,18 +131,13 @@ def run(
         ref_url_map = extract_ref_urls_from_html(raw_html)
 
         if fr.status_code != 200:
-            return FetchRunResult(
-                False,
-                0,
-                fr.status_code,
-                f"HTTP {fr.status_code} fetching lines for {ps.asd_label}",
-                str(fr.content_path),
-            )
+            return FetchRunResult(False, 0, fr.status_code, f"HTTP {fr.status_code} fetching lines for {ps.asd_label}", str(fr.content_path))
 
         df = parse_lines_response(raw_bytes)
         if df.empty:
             return FetchRunResult(True, 0, fr.status_code, "OK (0 rows)", str(fr.content_path))
 
+        # Discover commonly-used columns (best-effort)
         obs_wl_col = _get_col(df, "Observed", "Wavelength")
         ritz_wl_col = _get_col(df, "Ritz", "Wavelength")
         obs_unc_col = _get_col(df, "Unc", "Observed") or _get_col(df, "Unc.")
@@ -176,6 +172,35 @@ def run(
 
         append_ndjson_dedupe(species_path, [make_species_record(ps)], "species_id")
         append_ndjson_dedupe(iso_path, [make_isotopologue_record(sid)], "iso_id")
+
+        # Columns we explicitly map into intensity_json
+        handled_cols = set()
+        for c in [
+            obs_wl_col,
+            ritz_wl_col,
+            obs_unc_col,
+            ritz_unc_col,
+            wn_col,
+            wn_unc_col,
+            ei_col,
+            ek_col,
+            cfi_col,
+            tfi_col,
+            ji_col,
+            cfk_col,
+            tfk_col,
+            jk_col,
+            gi_col,
+            gk_col,
+            gigk_col,
+            type_col,
+            aki_col,
+            loggf_col,
+            f_col,
+            ref_col,
+        ]:
+            if c:
+                handled_cols.add(c)
 
         ref_records: list[dict] = []
         trans_records: list[dict] = []
@@ -242,6 +267,20 @@ def run(
             payload = _prune(payload)  # type: ignore[assignment]
             intensity_json = json.dumps(payload, ensure_ascii=False)
 
+            # Capture EVERYTHING else from the table
+            extras: dict[str, Any] = {}
+            for c in df.columns:
+                if c in handled_cols:
+                    continue
+                v = row.get(c)
+                if v is None:
+                    continue
+                sv = str(v).strip()
+                if not sv or sv.lower() == "nan":
+                    continue
+                extras[str(c)] = sv
+            extra_json = json.dumps(extras, ensure_ascii=False) if extras else None
+
             trans_records.append(
                 make_transition_record(
                     iso_id=iso_id,
@@ -249,6 +288,7 @@ def run(
                     quantity_unit=unit,
                     quantity_uncertainty=chosen_unc,
                     intensity_json=intensity_json,
+                    extra_json=extra_json,
                     selection_rules=str(row.get(type_col)).strip() if type_col else None,
                     ref_id=ref_id,
                     source="NIST_ASD_LINES",

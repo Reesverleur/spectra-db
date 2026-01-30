@@ -76,7 +76,7 @@ def parse_spectrum_label(label: str) -> ParsedSpectrum:
         return ParsedSpectrum(element=el, charge=ch, asd_label=f"{el} {ch}+")
 
     # Fe II / Po LXVII
-    m = re.match(r"^([A-Za-z]{1,2})\s+([IVXLCDM]+)$", s)
+    m = re.match(r"^([A-Za-z]{1,2})\s+([IVXLCDMivxlcdm]+)$", s)
     if m:
         el = m.group(1).capitalize()
         stage = roman_to_int(m.group(2))  # I -> 1, II -> 2, ...
@@ -209,14 +209,9 @@ def make_transition_record(
     notes: str | None,
     upper_state_id: str | None = None,
     lower_state_id: str | None = None,
+    extra_json: str | None = None,
 ) -> dict[str, Any]:
-    """Create a canonical 'transitions' record for an atomic spectral line.
-
-    Note:
-        We keep upper_state_id/lower_state_id optional. For ASD lines, we
-        typically store level labels inside intensity_json and fill IDs later
-        if/when we implement linking.
-    """
+    """Create a canonical 'transitions' record for an atomic spectral line."""
     transition_id = make_id(
         "trans",
         iso_id,
@@ -236,6 +231,7 @@ def make_transition_record(
         "quantity_unit": quantity_unit,
         "quantity_uncertainty": quantity_uncertainty,
         "intensity_json": intensity_json,
+        "extra_json": extra_json,
         "selection_rules": selection_rules,
         "ref_id": ref_id,
         "source": source,
