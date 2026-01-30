@@ -7,6 +7,7 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlencode
 
 from bs4 import BeautifulSoup
 
@@ -19,12 +20,7 @@ REF_KEY_RE = re.compile(r"^(?P<kind>[ELT]):(?P<code>.+)$")
 CODE_RE = re.compile(r"^[A-Za-z]+(?P<db_id>\d+)(?P<comment>[A-Za-z]\d+)?$")
 
 
-def reconstruct_asbib_url(
-    ref_key: str,
-    *,
-    element: str | None = None,
-    spectr_charge: int | None = None,
-) -> str | None:
+def reconstruct_asbib_url(ref_key: str, *, element: str | None = None, spectr_charge: int | None = None) -> str | None:
     """
     Reconstruct ASBib popup URL from a ref key like:
       - E:L18349
@@ -49,13 +45,12 @@ def reconstruct_asbib_url(
         ("db", "el"),
         ("db_id", db_id),
         ("comment_code", comment),
-        ("element", element or ""),
-        ("spectr_charge", "" if spectr_charge is None else str(spectr_charge)),
         ("type", kind),
     ]
-
-    # build query string manually (no requests dependency here)
-    from urllib.parse import urlencode
+    if element:
+        params.append(("element", element))
+    if spectr_charge is not None:
+        params.append(("spectr_charge", str(spectr_charge)))
 
     qs = urlencode([(k, v) for (k, v) in params if v != ""], doseq=True)
     return f"{base}?{qs}"
@@ -79,7 +74,6 @@ def _backoff_sleep(attempt: int, base_s: float) -> None:
 
 
 def _extract_citation_and_doi(html: str) -> tuple[str | None, str | None]:
-    """Extract a compact citation string and DOI (best-effort)."""
     soup = BeautifulSoup(html, "html.parser")
     text = soup.get_text("\n")
     lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
@@ -89,7 +83,6 @@ def _extract_citation_and_doi(html: str) -> tuple[str | None, str | None]:
     if m:
         doi = m.group(0)
 
-    # Heuristic citation: take the first few non-empty content-y lines
     filtered = []
     for ln in lines:
         low = ln.lower()
@@ -131,7 +124,6 @@ def _write_ndjson(path: Path, records: list[dict[str, Any]]) -> None:
 
 
 def enrich_one(url: str, cache_dir: Path, max_retries: int, backoff_base: float, force: bool) -> EnrichResult:
-    """Fetch and parse a single ASBib ref page."""
     for attempt in range(max_retries + 1):
         fr = fetch_cached(url=url, params={}, cache_dir=cache_dir, force=force, polite_delay_s=0.0)
         code = fr.status_code
@@ -168,7 +160,6 @@ def main() -> None:
 
     cache_dir = paths.raw_dir / "nist_asd" / "refs"
 
-    todo = []
     # Fill missing URL fields from ref_id encoding when possible
     for r in refs:
         if r.get("url"):
@@ -176,15 +167,9 @@ def main() -> None:
         rid = r.get("ref_id")
         if not rid:
             continue
-        # We usually don't know element/spectr_charge at this stage; leave them out.
-        # URLs typically still resolve; enrichment will test HTTP status.
         r["url"] = reconstruct_asbib_url(str(rid))
-    for r in refs:
-        if r.get("citation"):
-            continue
-        url = r.get("url")
-        if url:
-            todo.append(r)
+
+    todo = [r for r in refs if (not r.get("citation")) and r.get("url")]
 
     if args.max is not None:
         todo = todo[: args.max]

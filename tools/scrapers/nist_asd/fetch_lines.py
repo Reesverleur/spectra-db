@@ -5,6 +5,7 @@ import html as _html
 import json
 import re
 from dataclasses import dataclass
+from urllib.parse import urlencode
 
 from bs4 import BeautifulSoup
 
@@ -25,22 +26,30 @@ from tools.scrapers.nist_asd.parse_lines import parse_lines_response
 _FLOAT_RE = re.compile(r"[-+]?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?")
 _POPDED_RE = re.compile(r"popded\('([^']+)'\)")
 _REF_SPLIT_RE = re.compile(r"\s*,\s*")
+CODE_RE = re.compile(r"^[A-Za-z]+(?P<db_id>\d+)(?P<comment>[A-Za-z]\d+)?$")
 
 
-def split_ref_codes(cell: object) -> list[str]:
-    if cell is None:
-        return []
-    s = str(cell).strip()
-    if not s or s.lower() == "nan":
-        return []
-    parts = [p.strip() for p in _REF_SPLIT_RE.split(s) if p.strip()]
-    # preserve order, drop duplicates
-    return list(dict.fromkeys(parts))
+def reconstruct_asbib_url(kind: str, code: str, *, element: str | None = None, spectr_charge: int | None = None) -> str | None:
+    """
+    kind: "L" or "T" (ASBib type)
+    code: e.g. "L18349c140" or "T7771"
+    """
+    m = CODE_RE.match(code.strip())
+    if not m:
+        return None
+    db_id = m.group("db_id")
+    comment = m.group("comment") or ""
 
+    base = "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi"
+    params = [("db", "el"), ("db_id", db_id), ("type", kind)]
+    if comment:
+        params.append(("comment_code", comment))
+    if element:
+        params.append(("element", element))
+    if spectr_charge is not None:
+        params.append(("spectr_charge", str(spectr_charge)))
 
-def make_ref_key(kind: str, code: str) -> str:
-    # kind is one of: "E" (levels), "T" (TP refs), "L" (line refs)
-    return f"{kind}:{code}"
+    return f"{base}?{urlencode(params)}"
 
 
 @dataclass(frozen=True)
@@ -65,6 +74,21 @@ def extract_ref_urls_from_html(raw_html: str) -> dict[str, str]:
             continue
         out[txt] = _html.unescape(m.group(1)).strip()
     return out
+
+
+def split_ref_codes(cell: object) -> list[str]:
+    if cell is None:
+        return []
+    s = str(cell).strip()
+    if not s or s.lower() == "nan":
+        return []
+    parts = [p.strip() for p in _REF_SPLIT_RE.split(s) if p.strip()]
+    return list(dict.fromkeys(parts))  # stable, de-duped, in-order
+
+
+def make_ref_key(kind: str, code: str) -> str:
+    # kind: "T" (TP), "L" (line)
+    return f"{kind}:{code}"
 
 
 def _safe_float(x: object) -> float | None:
@@ -121,21 +145,26 @@ def _parse_energy_range(val: object) -> tuple[float | None, float | None]:
     return (None, None)
 
 
+def _parse_two_energies(val: object) -> tuple[float | None, float | None]:
+    """Parse cells that contain Ei and Ek separated by whitespace (no dash)."""
+    s = str(val).strip()
+    if not s or s.lower() == "nan":
+        return (None, None)
+    s = s.replace(",", "").replace(" ", "")
+    nums = [float(m.group(0)) for m in _FLOAT_RE.finditer(s)]
+    if len(nums) >= 2:
+        return nums[0], nums[1]
+    if len(nums) == 1:
+        return nums[0], None
+    return (None, None)
+
+
 def _parse_level_triplet(val: object) -> dict[str, str | None]:
-    """Parse a combined 'Conf  Term...  J' cell.
-
-    Assumptions (per ASD lines tables):
-      - Configuration has no spaces (first token)
-      - J has no spaces (last token, e.g. 9/2)
-      - Term may contain internal spaces (middle tokens)
-
-    Handles multiple spaces/tabs and ignores empty/'nan' cells.
-    """
+    """Parse combined 'Conf  Term...  J' cell (ASD lines tables)."""
     s = str(val).strip()
     if not s or s.lower() == "nan":
         return {"configuration": None, "term": None, "J": None}
 
-    # split on any whitespace (spaces or tabs)
     toks = re.split(r"\s+", s)
     if len(toks) < 2:
         return {"configuration": s, "term": None, "J": None}
@@ -143,7 +172,6 @@ def _parse_level_triplet(val: object) -> dict[str, str | None]:
     config = toks[0]
     j = toks[-1]
     term = " ".join(toks[1:-1]).strip() or None
-
     return {"configuration": config, "term": term, "J": j}
 
 
@@ -298,22 +326,26 @@ def run(
             ritz_unc = _safe_float(row.get(ritz_unc_col)) if ritz_unc_col else None
             chosen_unc = obs_unc if (obs_wl is not None) else ritz_unc
 
-            # refs (comma-separated supported)
+            # ---- refs (comma-separated supported; store as keys) ----
             tp_codes = split_ref_codes(row.get(tp_col)) if tp_col else []
             line_codes = split_ref_codes(row.get(line_ref_col)) if line_ref_col else []
-
-            # Back-compat singletons (first code only)
-            tp_ref_id = tp_codes[0] if tp_codes else None
-            line_ref_id = line_codes[0] if line_codes else None
-            ref_id = line_ref_id or tp_ref_id  # keep existing transition.ref_id behavior
 
             tp_ref_keys = [make_ref_key("T", c) for c in tp_codes]
             line_ref_keys = [make_ref_key("L", c) for c in line_codes]
 
-            tp_ref_urls = [ref_url_map.get(c) for c in tp_codes if ref_url_map.get(c)]
-            line_ref_urls = [ref_url_map.get(c) for c in line_codes if ref_url_map.get(c)]
+            tp_ref_urls = [(ref_url_map.get(c) or reconstruct_asbib_url("T", c, element=ps.element, spectr_charge=ps.charge)) for c in tp_codes]
+            tp_ref_urls = [u for u in tp_ref_urls if u]
 
-            # Create/append ref records for each individual code
+            line_ref_urls = [(ref_url_map.get(c) or reconstruct_asbib_url("L", c, element=ps.element, spectr_charge=ps.charge)) for c in line_codes]
+            line_ref_urls = [u for u in line_ref_urls if u]
+
+            tp_ref_id = tp_ref_keys[0] if tp_ref_keys else None
+            line_ref_id = line_ref_keys[0] if line_ref_keys else None
+
+            # transitions.ref_id should ALSO be a ref key
+            ref_id = line_ref_id or tp_ref_id
+
+            # Emit ref records for each individual key
             for c in tp_codes:
                 rk = make_ref_key("T", c)
                 ref_records.append(
@@ -321,11 +353,10 @@ def run(
                         "ref_id": rk,
                         "citation": None,
                         "doi": None,
-                        "url": ref_url_map.get(c),
+                        "url": ref_url_map.get(c) or reconstruct_asbib_url("T", c, element=ps.element, spectr_charge=ps.charge),
                         "notes": f"ASD TP Ref code={c} (from lines table).",
                     }
                 )
-
             for c in line_codes:
                 rk = make_ref_key("L", c)
                 ref_records.append(
@@ -333,16 +364,24 @@ def run(
                         "ref_id": rk,
                         "citation": None,
                         "doi": None,
-                        "url": ref_url_map.get(c),
+                        "url": ref_url_map.get(c) or reconstruct_asbib_url("L", c, element=ps.element, spectr_charge=ps.charge),
                         "notes": f"ASD Line Ref code={c} (from lines table).",
                     }
                 )
 
-            # Ei/Ek robust
+            # ---- Ei/Ek robust ----
             ei = _safe_float(row.get(ei_col)) if ei_col else None
             ek = _safe_float(row.get(ek_col)) if ek_col else None
 
-            # If the cell contains a hyphen, parse range and trust it
+            # If packed into same column, parse two numbers even without dash
+            if ei_col and ek_col and ei_col == ek_col:
+                ei2, ek2 = _parse_two_energies(row.get(ei_col))
+                if ei2 is not None:
+                    ei = ei2
+                if ek2 is not None:
+                    ek = ek2
+
+            # If a dash is present, parse "Ei - Ek"
             if ei_col:
                 cell = str(row.get(ei_col))
                 if "-" in cell or "–" in cell or "—" in cell:
@@ -361,9 +400,7 @@ def run(
                     if ek2 is not None:
                         ek = ek2
 
-            # Lower/Upper parsing:
-            # Prefer the combined cells "Lower Level Conf., Term, J" and "Upper Level Conf., Term, J"
-            # because they reliably contain all three pieces.
+            # ---- Lower/Upper parsing ----
             if lower_combined:
                 lower = _parse_level_triplet(row.get(lower_combined))
             else:
@@ -382,7 +419,6 @@ def run(
                     "J": str(row.get(up_j_col)).strip() if up_j_col else None,
                 }
 
-            # Normalize empties / "nan" to None
             for side in (lower, upper):
                 for k in ("configuration", "term", "J"):
                     v = side.get(k)
@@ -402,7 +438,7 @@ def run(
                 "ritz_wavelength_unc": ritz_unc,
                 "wavelength_unit": unit,
                 "wavelength_medium_requested": wavelength_type,
-                "wavelength_medium_inferred": _infer_medium_from_header(obs_wl_col),
+                "wavelength_medium_inferred": _infer_medium_from_header(str(obs_wl_col) if obs_wl_col else None),
                 "observed_wavelength_header": obs_wl_col,
                 "ritz_wavelength_header": ritz_wl_col,
                 "relative_intensity": _safe_float(row.get(relint_col)) if relint_col else None,
@@ -413,10 +449,10 @@ def run(
                 "lower": lower,
                 "upper": upper,
                 "type": ttype,
-                # Back-compat singletons (first only)
+                # Back-compat singletons (keys, not codes)
                 "tp_ref_id": tp_ref_id,
                 "line_ref_id": line_ref_id,
-                # Correct multi-ref support
+                # Multi-ref support
                 "tp_ref_codes": tp_codes,
                 "line_ref_codes": line_codes,
                 "tp_ref_keys": tp_ref_keys,
@@ -453,7 +489,7 @@ def run(
                     intensity_json=intensity_json,
                     extra_json=extra_json,
                     selection_rules=ttype,
-                    ref_id=ref_id,
+                    ref_id=ref_id,  # IMPORTANT: this is now a ref KEY (L:... or T:...)
                     source="NIST_ASD_LINES",
                     notes=f"NIST ASD lines for {ps.asd_label} [{min_wav}, {max_wav}] {unit}",
                 )
