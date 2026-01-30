@@ -84,6 +84,47 @@ class QueryAPI:
         ]
         return [dict(zip(cols, r, strict=True)) for r in rows]
 
+    def atomic_levels(
+        self,
+        iso_id: str,
+        limit: int = 50,
+        max_energy: float | None = None,
+    ) -> list[dict[str, Any]]:
+        """Fetch atomic levels (with ref URL) for an isotopologue, ordered by energy."""
+        clauses = ["s.iso_id = ?", "s.state_type = 'atomic'"]
+        args: list[Any] = [iso_id]
+
+        if max_energy is not None:
+            clauses.append("s.energy_value <= ?")
+            args.append(max_energy)
+
+        where = " AND ".join(clauses)
+        q = f"""
+        SELECT s.state_id, s.configuration, s.term, s.j_value, s.f_value, s.g_value,
+               s.energy_value, s.energy_unit, s.energy_uncertainty,
+               r.url AS ref_url
+        FROM states s
+        LEFT JOIN refs r ON s.ref_id = r.ref_id
+        WHERE {where}
+        ORDER BY s.energy_value
+        LIMIT ?
+        """
+        args.append(limit)
+        rows = self.con.execute(q, args).fetchall()
+        cols = [
+            "state_id",
+            "configuration",
+            "term",
+            "j_value",
+            "f_value",
+            "g_value",
+            "energy_value",
+            "energy_unit",
+            "energy_uncertainty",
+            "ref_url",
+        ]
+        return [dict(zip(cols, r, strict=True)) for r in rows]
+
 
 def open_default_api(db_path: Path | None = None) -> QueryAPI:
     """Open the default database and return a QueryAPI instance."""

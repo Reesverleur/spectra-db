@@ -12,13 +12,7 @@ from spectra_db.util.paths import get_paths
 
 @dataclass
 class DuckDBStore:
-    """DuckDB-backed store for spectra_db.
-
-    Responsibilities:
-    - initialize schema
-    - load canonical NDJSON datasets into tables
-    - provide a simple connection handle for query layer
-    """
+    """DuckDB-backed store for spectra_db."""
 
     db_path: Path
 
@@ -47,22 +41,12 @@ class DuckDBStore:
             return pd.DataFrame()
         return pd.read_json(path, lines=True)
 
-    def load_table_from_ndjson(
-        self,
-        table_name: str,
-        ndjson_path: Path,
-        *,
-        truncate: bool = False,
-    ) -> int:
-        """Load rows from NDJSON into a DuckDB table.
+    def load_table_from_ndjson(self, table_name: str, ndjson_path: Path, *, truncate: bool = False) -> int:
+        """Load rows from NDJSON into a DuckDB table, aligning columns.
 
-        Args:
-            table_name: Destination table name.
-            ndjson_path: Path to NDJSON file.
-            truncate: If True, delete existing rows first.
-
-        Returns:
-            Number of rows inserted.
+        - Adds missing columns with None
+        - Drops extra columns not in the table
+        - Reorders columns to match the table
         """
         df = self._read_ndjson(ndjson_path)
         if df.empty:
@@ -71,33 +55,23 @@ class DuckDBStore:
         with self.connect() as con:
             if truncate:
                 con.execute(f"DELETE FROM {table_name}")
+
+            info = con.execute(f"PRAGMA table_info('{table_name}')").fetchall()
+            table_cols = [row[1] for row in info]
+
+            for c in table_cols:
+                if c not in df.columns:
+                    df[c] = None
+
+            df = df[table_cols]
+
             con.register("incoming_df", df)
             con.execute(f"INSERT INTO {table_name} SELECT * FROM incoming_df")
+
         return int(len(df))
 
-    def bootstrap_from_normalized_dir(
-        self,
-        normalized_dir: Path,
-        *,
-        truncate_all: bool = False,
-    ) -> dict[str, int]:
-        """Load all canonical datasets from data/normalized into DuckDB.
-
-        Expected filenames:
-            species.ndjson
-            isotopologues.ndjson
-            refs.ndjson
-            states.ndjson
-            transitions.ndjson
-            parameters.ndjson
-
-        Args:
-            normalized_dir: Directory containing NDJSON files.
-            truncate_all: If True, clear destination tables before insert.
-
-        Returns:
-            Dict of table_name -> rows inserted.
-        """
+    def bootstrap_from_normalized_dir(self, normalized_dir: Path, *, truncate_all: bool = False) -> dict[str, int]:
+        """Load all canonical datasets from data/normalized into DuckDB."""
         mapping = {
             "refs": normalized_dir / "refs.ndjson",
             "species": normalized_dir / "species.ndjson",
@@ -108,9 +82,9 @@ class DuckDBStore:
         }
 
         results: dict[str, int] = {}
+
         with self.connect() as con:
             if truncate_all:
-                # Order matters because of FKs.
                 con.execute("DELETE FROM spectroscopic_parameters")
                 con.execute("DELETE FROM transitions")
                 con.execute("DELETE FROM states")
@@ -123,6 +97,7 @@ class DuckDBStore:
                 results[table] = self.load_table_from_ndjson(table, path, truncate=False)
             else:
                 results[table] = 0
+
         return results
 
 
