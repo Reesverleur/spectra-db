@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import argparse
 import html as _html
+import json
 import re
 from dataclasses import dataclass
+from typing import Any
 
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -36,7 +38,6 @@ class FetchRunResult:
 
 
 def extract_ref_urls_from_html(raw_html: str) -> dict[str, str]:
-    """Map ref_id text (e.g. 'L8672c99') -> popup URL extracted from popded('...')."""
     soup = BeautifulSoup(raw_html, "html.parser")
     out: dict[str, str] = {}
     for a in soup.find_all("a"):
@@ -53,7 +54,6 @@ def extract_ref_urls_from_html(raw_html: str) -> dict[str, str]:
 
 
 def _safe_float(x: object) -> float | None:
-    """Parse ASD numbers robustly (handles '82 258.919' -> 82258.919)."""
     s = str(x).strip().strip("[]()")
     if not s or s.lower() == "nan":
         return None
@@ -78,12 +78,21 @@ def _parse_j(x: object) -> float | None:
         return None
 
 
-def _col(df: pd.DataFrame, name: str) -> str:
+def _col_exact(df: pd.DataFrame, name: str) -> str:
     target = name.strip().lower()
     for c in df.columns:
         if str(c).strip().lower() == target:
             return c
     raise KeyError(f"Missing required column: {name}. Columns={list(df.columns)}")
+
+
+def _find_col_contains(df: pd.DataFrame, *needles: str) -> str | None:
+    needles_l = [n.lower() for n in needles]
+    for c in df.columns:
+        name = str(c).strip().lower()
+        if all(n in name for n in needles_l):
+            return c
+    return None
 
 
 def _find_level_col(df: pd.DataFrame) -> str:
@@ -93,26 +102,11 @@ def _find_level_col(df: pd.DataFrame) -> str:
     raise KeyError(f"Missing Level column. Columns={list(df.columns)}")
 
 
-def _find_unc_col(df: pd.DataFrame) -> str | None:
-    for c in df.columns:
-        if "unc" in str(c).strip().lower():
-            return c
-    return None
-
-
-def _find_ref_col(df: pd.DataFrame) -> str | None:
-    for c in df.columns:
-        if "ref" in str(c).strip().lower():
-            return c
-    return None
-
-
 def _normalize_missing_series(s: pd.Series) -> pd.Series:
     return s.replace({"": pd.NA, "nan": pd.NA, "NaN": pd.NA, "None": pd.NA})
 
 
 def run(*, spectrum: str, units: str = "cm-1", force: bool = False) -> FetchRunResult:
-    """Fetch ASD energy levels for one spectrum and write normalized NDJSON (with ref URLs)."""
     try:
         paths = get_paths()
         ps = parse_spectrum_label(spectrum)
@@ -131,31 +125,23 @@ def run(*, spectrum: str, units: str = "cm-1", force: bool = False) -> FetchRunR
         ref_url_map = extract_ref_urls_from_html(raw_html)
 
         if fr.status_code != 200:
-            return FetchRunResult(
-                False,
-                0,
-                fr.status_code,
-                f"HTTP {fr.status_code} fetching levels for {ps.asd_label}",
-                str(fr.content_path),
-            )
+            return FetchRunResult(False, 0, fr.status_code, f"HTTP {fr.status_code} fetching levels for {ps.asd_label}", str(fr.content_path))
 
         df = parse_levels_response(raw_bytes)
         if df.empty:
-            return FetchRunResult(
-                False,
-                0,
-                fr.status_code,
-                f"Parsed 0 rows for levels: {ps.asd_label}",
-                str(fr.content_path),
-            )
+            return FetchRunResult(False, 0, fr.status_code, f"Parsed 0 rows for levels: {ps.asd_label}", str(fr.content_path))
 
-        cfg_col = _col(df, "Configuration")
-        term_col = _col(df, "Term")
-        j_col = _col(df, "J")
+        cfg_col = _col_exact(df, "Configuration")
+        term_col = _col_exact(df, "Term")
+        j_col = _col_exact(df, "J")
         level_col = _find_level_col(df)
-        unc_col = _find_unc_col(df)
-        ref_col = _find_ref_col(df)
+        unc_col = _find_col_contains(df, "unc")
+        ref_col = _find_col_contains(df, "ref")
 
+        lande_col = _find_col_contains(df, "land", "g")  # "Landé g-factor" etc.
+        perc_col = _find_col_contains(df, "percent")  # "Leading Percentages"
+
+        # Forward-fill for continuation rows
         df[cfg_col] = _normalize_missing_series(df[cfg_col]).ffill()
         df[term_col] = _normalize_missing_series(df[term_col]).ffill()
 
@@ -170,6 +156,16 @@ def run(*, spectrum: str, units: str = "cm-1", force: bool = False) -> FetchRunR
 
         ref_records: list[dict] = []
         state_records: list[dict] = []
+
+        handled_cols = {cfg_col, term_col, j_col, level_col}
+        if unc_col:
+            handled_cols.add(unc_col)
+        if ref_col:
+            handled_cols.add(ref_col)
+        if lande_col:
+            handled_cols.add(lande_col)
+        if perc_col:
+            handled_cols.add(perc_col)
 
         for _, row in df.iterrows():
             cfg = str(row.get(cfg_col, "")).strip()
@@ -189,6 +185,27 @@ def run(*, spectrum: str, units: str = "cm-1", force: bool = False) -> FetchRunR
 
             ref = str(row.get(ref_col, "")).strip() if ref_col else ""
             ref_id = ref if ref and ref.lower() != "nan" else None
+
+            lande_g = _safe_float(row.get(lande_col)) if lande_col else None
+            leading_pct = None
+            if perc_col:
+                val = row.get(perc_col)
+                if val is not None and str(val).strip().lower() != "nan":
+                    leading_pct = str(val).strip()
+
+            # Capture ALL remaining columns for future-proofing
+            extras: dict[str, Any] = {}
+            for c in df.columns:
+                if c in handled_cols:
+                    continue
+                v = row.get(c)
+                if v is None:
+                    continue
+                sv = str(v).strip()
+                if not sv or sv.lower() == "nan":
+                    continue
+                extras[str(c)] = sv
+            extra_json = json.dumps(extras, ensure_ascii=False) if extras else None
 
             if ref_id:
                 ref_records.append(
@@ -217,6 +234,9 @@ def run(*, spectrum: str, units: str = "cm-1", force: bool = False) -> FetchRunR
                     "j_value": jv,
                     "f_value": None,
                     "g_value": g,
+                    "lande_g": lande_g,
+                    "leading_percentages": leading_pct,
+                    "extra_json": extra_json,
                     "energy_value": energy,
                     "energy_unit": units,
                     "energy_uncertainty": unc,

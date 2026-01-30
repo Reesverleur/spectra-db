@@ -55,6 +55,10 @@ CREATE TABLE IF NOT EXISTS states (
   f_value DOUBLE,
   g_value DOUBLE,
 
+  lande_g DOUBLE,
+  leading_percentages TEXT,
+  extra_json TEXT,
+
   energy_value DOUBLE,
   energy_unit TEXT,
   energy_uncertainty DOUBLE,
@@ -74,6 +78,7 @@ CREATE TABLE IF NOT EXISTS transitions (
   quantity_uncertainty DOUBLE,
 
   intensity_json TEXT, -- packed physics payload (Aki, Ei/Ek, gi/gk, etc.)
+    extra_json TEXT,
   selection_rules TEXT,
 
   ref_id TEXT REFERENCES refs(ref_id),
