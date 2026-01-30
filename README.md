@@ -65,7 +65,7 @@ Extras:
 
 ---
 
-## Quick Start: Ingest → Build DB → Query
+## Quick Start: Ingest → Build DB → Query (not necessary if data directory is pulled correctly)
 
 ### A) (Optional) Start fresh
 If you want a clean rebuild:
