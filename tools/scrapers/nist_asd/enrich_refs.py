@@ -15,36 +15,49 @@ from tools.scrapers.common.http import fetch_cached
 
 DOI_RE = re.compile(r"\b10\.\d{4,9}/[-._;()/:A-Z0-9]+\b", re.IGNORECASE)
 
-REF_RE = re.compile(r"^([LT])(\d+)([A-Za-z]\d+)?$")
+REF_KEY_RE = re.compile(r"^(?P<kind>[ELT]):(?P<code>.+)$")
+CODE_RE = re.compile(r"^[A-Za-z]+(?P<db_id>\d+)(?P<comment>[A-Za-z]\d+)?$")
 
 
-def reconstruct_asbib_url(ref_id: str, *, element: str | None = None, spectr_charge: int | None = None) -> str | None:
-    """Reconstruct ASBib popup URL from ref_id like L8672c99 or T6892c83.
-
-    If element/spectr_charge are unknown, we still return a URL with db_id/comment_code;
-    many pages resolve without element/spectr_charge, but including them is better.
+def reconstruct_asbib_url(
+    ref_key: str,
+    *,
+    element: str | None = None,
+    spectr_charge: int | None = None,
+) -> str | None:
     """
-    m = REF_RE.match(ref_id.strip())
+    Reconstruct ASBib popup URL from a ref key like:
+      - E:L18349
+      - L:L18361c138
+      - T:T6892c83
+    """
+    m = REF_KEY_RE.match(ref_key.strip())
     if not m:
         return None
-    db_id = m.group(2)
-    comment = m.group(3) or ""
-    # NIST examples show db=el and type=E for energy/wavelength refs.
-    # We'll try type=E first in enrichment; if that fails, we can fall back.
+    kind = m.group("kind")
+    code = m.group("code").strip()
+
+    m2 = CODE_RE.match(code)
+    if not m2:
+        return None
+
+    db_id = m2.group("db_id")
+    comment = m2.group("comment") or ""
+
     base = "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi"
     params = [
         ("db", "el"),
         ("db_id", db_id),
-        ("comment_code", comment.replace(" ", "")),
-        ("ref", db_id),
-        ("type", "E"),
+        ("comment_code", comment),
+        ("element", element or ""),
+        ("spectr_charge", "" if spectr_charge is None else str(spectr_charge)),
+        ("type", kind),
     ]
-    if element:
-        params.append(("element", element))
-    if spectr_charge is not None:
-        params.append(("spectr_charge", str(spectr_charge)))
-    # build query string
-    qs = "&".join(f"{k}={v}" for k, v in params)
+
+    # build query string manually (no requests dependency here)
+    from urllib.parse import urlencode
+
+    qs = urlencode([(k, v) for (k, v) in params if v != ""], doseq=True)
     return f"{base}?{qs}"
 
 

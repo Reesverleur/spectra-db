@@ -26,6 +26,7 @@ from tools.scrapers.nist_asd.parse_levels import parse_levels_response
 
 _FLOAT_RE = re.compile(r"[-+]?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?")
 _POPDED_RE = re.compile(r"popded\('([^']+)'\)")
+_REF_SPLIT_RE = re.compile(r"\s*,\s*")
 
 
 @dataclass(frozen=True)
@@ -38,6 +39,10 @@ class FetchRunResult:
 
 
 def extract_ref_urls_from_html(raw_html: str) -> dict[str, str]:
+    """
+    Build a mapping from visible reference code text -> popded URL.
+    Works even when a table cell has multiple <a> tags (comma-separated).
+    """
     soup = BeautifulSoup(raw_html, "html.parser")
     out: dict[str, str] = {}
     for a in soup.find_all("a"):
@@ -49,8 +54,35 @@ def extract_ref_urls_from_html(raw_html: str) -> dict[str, str]:
         if not m:
             continue
         url = _html.unescape(m.group(1)).strip()
+        # Keep last-seen; usually identical anyway.
         out[txt] = url
     return out
+
+
+def split_ref_codes(cell: object) -> list[str]:
+    """
+    Split a reference cell like:
+        "L18349,L18361c138"
+        "L18349, L18361c138"
+    into a stable ordered unique list.
+    """
+    if cell is None:
+        return []
+    s = str(cell).strip()
+    if not s or s.lower() == "nan":
+        return []
+    parts = [p.strip() for p in _REF_SPLIT_RE.split(s) if p.strip()]
+    # preserve order, drop duplicates
+    return list(dict.fromkeys(parts))
+
+
+def make_ref_key(kind: str, code: str) -> str:
+    """
+    kind:
+      - "E" for energy level references (ASBib type=E)
+    code is the visible ASD code (often starts with L..., but that is fine).
+    """
+    return f"{kind}:{code}"
 
 
 def _safe_float(x: object) -> float | None:
@@ -125,11 +157,23 @@ def run(*, spectrum: str, units: str = "cm-1", force: bool = False) -> FetchRunR
         ref_url_map = extract_ref_urls_from_html(raw_html)
 
         if fr.status_code != 200:
-            return FetchRunResult(False, 0, fr.status_code, f"HTTP {fr.status_code} fetching levels for {ps.asd_label}", str(fr.content_path))
+            return FetchRunResult(
+                False,
+                0,
+                fr.status_code,
+                f"HTTP {fr.status_code} fetching levels for {ps.asd_label}",
+                str(fr.content_path),
+            )
 
         df = parse_levels_response(raw_bytes)
         if df.empty:
-            return FetchRunResult(False, 0, fr.status_code, f"Parsed 0 rows for levels: {ps.asd_label}", str(fr.content_path))
+            return FetchRunResult(
+                False,
+                0,
+                fr.status_code,
+                f"Parsed 0 rows for levels: {ps.asd_label}",
+                str(fr.content_path),
+            )
 
         cfg_col = _col_exact(df, "Configuration")
         term_col = _col_exact(df, "Term")
@@ -183,8 +227,27 @@ def run(*, spectrum: str, units: str = "cm-1", force: bool = False) -> FetchRunR
 
             unc = _safe_float(row.get(unc_col)) if unc_col else None
 
-            ref = str(row.get(ref_col, "")).strip() if ref_col else ""
-            ref_id = ref if ref and ref.lower() != "nan" else None
+            # ---- References (multi-ref aware) ----
+            ref_cell = str(row.get(ref_col, "")).strip() if ref_col else ""
+            ref_codes = split_ref_codes(ref_cell)
+            ref_keys = [make_ref_key("E", c) for c in ref_codes]
+            ref_urls = [ref_url_map.get(c) for c in ref_codes if ref_url_map.get(c)]
+
+            # Back-compat singleton
+            primary_ref_id = ref_keys[0] if ref_keys else None
+
+            # Emit one ref record per code/key (dedupe happens later)
+            for code in ref_codes:
+                rk = make_ref_key("E", code)
+                ref_records.append(
+                    {
+                        "ref_id": rk,
+                        "citation": None,
+                        "doi": None,
+                        "url": ref_url_map.get(code),
+                        "notes": f"ASD Energy Level ref code={code}; url extracted from popded(...) when available.",
+                    }
+                )
 
             lande_g = _safe_float(row.get(lande_col)) if lande_col else None
             leading_pct = None
@@ -205,20 +268,19 @@ def run(*, spectrum: str, units: str = "cm-1", force: bool = False) -> FetchRunR
                 if not sv or sv.lower() == "nan":
                     continue
                 extras[str(c)] = sv
+
+            # Store multi-ref info in extra_json so query/export can show it
+            if ref_codes:
+                extras["ref_codes"] = ref_codes
+                extras["ref_keys"] = ref_keys
+            if ref_urls:
+                extras["ref_urls"] = ref_urls
+
             extra_json = json.dumps(extras, ensure_ascii=False) if extras else None
 
-            if ref_id:
-                ref_records.append(
-                    {
-                        "ref_id": ref_id,
-                        "citation": None,
-                        "doi": None,
-                        "url": ref_url_map.get(ref_id),
-                        "notes": "ASD ref id; url extracted from popded(...) when available.",
-                    }
-                )
-
-            state_id = make_id("state", iso_id, cfg, term, j_raw, str(energy), ref_id or "")
+            # Make ID stable and sensitive to the full ref list (prevents corruption collisions)
+            refs_for_id = ",".join(ref_keys) if ref_keys else ""
+            state_id = make_id("state", iso_id, cfg, term, j_raw, str(energy), refs_for_id)
 
             state_records.append(
                 {
@@ -240,7 +302,8 @@ def run(*, spectrum: str, units: str = "cm-1", force: bool = False) -> FetchRunR
                     "energy_value": energy,
                     "energy_unit": units,
                     "energy_uncertainty": unc,
-                    "ref_id": ref_id,
+                    # Back-compat singleton ref_id; full list is in extra_json
+                    "ref_id": primary_ref_id,
                     "notes": f"NIST ASD energy levels for {ps.asd_label}",
                 }
             )

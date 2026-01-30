@@ -24,6 +24,23 @@ from tools.scrapers.nist_asd.parse_lines import parse_lines_response
 
 _FLOAT_RE = re.compile(r"[-+]?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?")
 _POPDED_RE = re.compile(r"popded\('([^']+)'\)")
+_REF_SPLIT_RE = re.compile(r"\s*,\s*")
+
+
+def split_ref_codes(cell: object) -> list[str]:
+    if cell is None:
+        return []
+    s = str(cell).strip()
+    if not s or s.lower() == "nan":
+        return []
+    parts = [p.strip() for p in _REF_SPLIT_RE.split(s) if p.strip()]
+    # preserve order, drop duplicates
+    return list(dict.fromkeys(parts))
+
+
+def make_ref_key(kind: str, code: str) -> str:
+    # kind is one of: "E" (levels), "T" (TP refs), "L" (line refs)
+    return f"{kind}:{code}"
 
 
 @dataclass(frozen=True)
@@ -281,23 +298,43 @@ def run(
             ritz_unc = _safe_float(row.get(ritz_unc_col)) if ritz_unc_col else None
             chosen_unc = obs_unc if (obs_wl is not None) else ritz_unc
 
-            # refs
-            tp_ref = str(row.get(tp_col)).strip() if tp_col else ""
-            line_ref = str(row.get(line_ref_col)).strip() if line_ref_col else ""
-            tp_ref_id = tp_ref if tp_ref and tp_ref.lower() != "nan" else None
-            line_ref_id = line_ref if line_ref and line_ref.lower() != "nan" else None
-            ref_id = line_ref_id or tp_ref_id
+            # refs (comma-separated supported)
+            tp_codes = split_ref_codes(row.get(tp_col)) if tp_col else []
+            line_codes = split_ref_codes(row.get(line_ref_col)) if line_ref_col else []
 
-            for rid in [tp_ref_id, line_ref_id]:
-                if not rid:
-                    continue
+            # Back-compat singletons (first code only)
+            tp_ref_id = tp_codes[0] if tp_codes else None
+            line_ref_id = line_codes[0] if line_codes else None
+            ref_id = line_ref_id or tp_ref_id  # keep existing transition.ref_id behavior
+
+            tp_ref_keys = [make_ref_key("T", c) for c in tp_codes]
+            line_ref_keys = [make_ref_key("L", c) for c in line_codes]
+
+            tp_ref_urls = [ref_url_map.get(c) for c in tp_codes if ref_url_map.get(c)]
+            line_ref_urls = [ref_url_map.get(c) for c in line_codes if ref_url_map.get(c)]
+
+            # Create/append ref records for each individual code
+            for c in tp_codes:
+                rk = make_ref_key("T", c)
                 ref_records.append(
                     {
-                        "ref_id": rid,
+                        "ref_id": rk,
                         "citation": None,
                         "doi": None,
-                        "url": ref_url_map.get(rid),
-                        "notes": "ASD ref id; url extracted from popded(...) when available.",
+                        "url": ref_url_map.get(c),
+                        "notes": f"ASD TP Ref code={c} (from lines table).",
+                    }
+                )
+
+            for c in line_codes:
+                rk = make_ref_key("L", c)
+                ref_records.append(
+                    {
+                        "ref_id": rk,
+                        "citation": None,
+                        "doi": None,
+                        "url": ref_url_map.get(c),
+                        "notes": f"ASD Line Ref code={c} (from lines table).",
                     }
                 )
 
@@ -376,8 +413,16 @@ def run(
                 "lower": lower,
                 "upper": upper,
                 "type": ttype,
+                # Back-compat singletons (first only)
                 "tp_ref_id": tp_ref_id,
                 "line_ref_id": line_ref_id,
+                # Correct multi-ref support
+                "tp_ref_codes": tp_codes,
+                "line_ref_codes": line_codes,
+                "tp_ref_keys": tp_ref_keys,
+                "line_ref_keys": line_ref_keys,
+                "tp_ref_urls": tp_ref_urls,
+                "line_ref_urls": line_ref_urls,
                 "log_gf": _safe_float(row.get(loggf_col)) if loggf_col else None,
                 "f": _safe_float(row.get(f_col)) if f_col else None,
             }

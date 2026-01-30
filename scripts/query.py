@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
@@ -88,6 +89,102 @@ def resolve_species_ids(api, query: str) -> list[str]:
         return [m["species_id"] for m in matches]
 
 
+_FLOAT_RE = re.compile(r"[-+]?\d+(?:\.\d+)?")
+
+
+def _group_thousands_space(n: int) -> str:
+    s = str(abs(n))
+    parts = []
+    while s:
+        parts.append(s[-3:])
+        s = s[:-3]
+    out = " ".join(reversed(parts))
+    return ("-" if n < 0 else "") + out
+
+
+def _fmt_cm1(x: float | None) -> str:
+    if x is None:
+        return ""
+    # NIST shows e.g. "1 872.5998"
+    s = f"{float(x):.4f}"
+    if "." in s:
+        ip, fp = s.split(".", 1)
+        return f"{_group_thousands_space(int(ip))}.{fp}"
+    return _group_thousands_space(int(s))
+
+
+def _fmt_unc(x: float | None) -> str:
+    if x is None:
+        return ""
+    x = float(x)
+    # keep at least 4 decimals; allow up to 6 if needed
+    s6 = f"{x:.6f}".rstrip("0").rstrip(".")
+    if "." in s6 and len(s6.split(".", 1)[1]) >= 4:
+        return s6
+    return f"{x:.4f}"
+
+
+def _fmt_trim(x: float | None, decimals: int = 3) -> str:
+    if x is None:
+        return ""
+    s = f"{float(x):.{decimals}f}".rstrip("0").rstrip(".")
+    return s
+
+
+def _fmt_j(j: float | None) -> str:
+    if j is None:
+        return ""
+    j = float(j)
+    # Prefer halves like ASD (9/2, 7/2, ...)
+    two_j = round(j * 2)
+    if abs(j * 2 - two_j) < 1e-8:
+        if two_j % 2 == 0:
+            return str(two_j // 2)
+        return f"{two_j}/2"
+    # fallback
+    return _fmt_trim(j, 6)
+
+
+def _first_url_ellipsis(urls: object) -> str:
+    if not urls:
+        return ""
+    if isinstance(urls, str):
+        return urls
+    if isinstance(urls, list):
+        cleaned = [u for u in urls if u]
+        if not cleaned:
+            return ""
+        return cleaned[0] + (" …" if len(cleaned) > 1 else "")
+    return str(urls)
+
+
+def _json_load_maybe(s: str | None) -> dict:
+    if not s:
+        return {}
+    try:
+        import json
+
+        obj = json.loads(s)
+        return obj if isinstance(obj, dict) else {}
+    except Exception:
+        return {}
+
+
+def _extract_level_reference(r: dict) -> str:
+    """
+    Prefer the ASD-style reference codes if present in extra_json;
+    fall back to ref_url if that's all we have.
+    """
+    ex = _json_load_maybe(r.get("extra_json"))
+    for key in ("Reference", "References", "Ref", "Refs", "ref", "refs"):
+        if key in ex and ex[key]:
+            v = ex[key]
+            if isinstance(v, list):
+                return ", ".join(str(x) for x in v if x is not None and str(x).strip())
+            return str(v)
+    return r.get("ref_url") or ""
+
+
 def _format_table(rows: list[dict[str, Any]], columns: list[tuple[str, str]]) -> str:
     """Format rows into an aligned table with | separators."""
     table = []
@@ -107,6 +204,38 @@ def _format_table(rows: list[dict[str, Any]], columns: list[tuple[str, str]]) ->
     sep = "-+-".join("-" * w for w in widths)
 
     out_lines = [fmt_row(headers), sep]
+    out_lines.extend(fmt_row(r) for r in table)
+    return "\n".join(out_lines)
+
+
+def _format_table_adv(rows: list[dict[str, Any]], columns: list[tuple[str, str, str]]) -> str:
+    """
+    columns: (key, header, align) where align is 'l' or 'r'
+    """
+    table = []
+    for r in rows:
+        table.append([("" if r.get(k) is None else str(r.get(k))) for k, _, _ in columns])
+
+    headers = [h for _, h, _ in columns]
+
+    widths = []
+    for j in range(len(columns)):
+        col_vals = [headers[j], *[row[j] for row in table]]
+        widths.append(max(len(v) for v in col_vals))
+
+    def fmt_row(vals: list[str], is_header: bool = False) -> str:
+        out = []
+        for i, v in enumerate(vals):
+            align = columns[i][2]
+            if is_header:
+                out.append(v.ljust(widths[i]))
+            else:
+                out.append(v.rjust(widths[i]) if align == "r" else v.ljust(widths[i]))
+        return " | ".join(out)
+
+    sep = "-+-".join("-" * w for w in widths)
+
+    out_lines = [fmt_row(headers, is_header=True), sep]
     out_lines.extend(fmt_row(r) for r in table)
     return "\n".join(out_lines)
 
@@ -132,7 +261,7 @@ def _group_sticky_levels(disp: list[dict[str, Any]]) -> list[dict[str, Any]]:
         items.sort(
             key=lambda x: (
                 float("inf") if x["energy_value"] is None else x["energy_value"],
-                float("inf") if x["J"] is None else x["J"],
+                float("-inf") if x["J"] is None else -float(x["J"]),
             )
         )
         out.extend(items)
@@ -197,36 +326,65 @@ def main() -> None:
                 disp.append(
                     {
                         "energy_value": r["energy_value"],  # helper for sorting only
-                        "Energy": r["energy_value"],
-                        "Unit": r["energy_unit"],
-                        "Unc": r["energy_uncertainty"],
-                        "J": r["j_value"],
-                        "g": r["g_value"],
-                        "Landé g": r.get("lande_g"),
-                        "Configuration": r["configuration"],
-                        "Term": r["term"],
-                        "Ref URL": r.get("ref_url"),
+                        "Configuration": r.get("configuration"),
+                        "Term": r.get("term"),
+                        "J": r.get("j_value"),
+                        "Level": r.get("energy_value"),
+                        "Uncertainty": r.get("energy_uncertainty"),
+                        "Landé-g": r.get("lande_g"),
+                        "Leading percentages": r.get("leading_percentages"),
+                        "Ref URL": _first_url_ellipsis(_json_load_maybe(r.get("extra_json")).get("ref_urls") or r.get("ref_url")),
+                        "extra_json": r.get("extra_json"),
                     }
                 )
 
+            # Keep ASD-like grouping order, but do NOT blank repeated config/term
             disp = _group_sticky_levels(disp)
+
+            # Forward-fill Configuration / Term so implied values are printed
+            last_conf = ""
+            last_term = ""
             for d in disp:
-                d.pop("energy_value", None)
+                c = (d.get("Configuration") or "").strip()
+                t = (d.get("Term") or "").strip()
+                if c:
+                    last_conf = c
+                else:
+                    d["Configuration"] = last_conf
+                if t:
+                    last_term = t
+                else:
+                    d["Term"] = last_term
+
+            # Convert to display strings
+            out_rows = []
+            for d in disp:
+                out_rows.append(
+                    {
+                        "Configuration": d.get("Configuration") or "",
+                        "Term": d.get("Term") or "",
+                        "J": _fmt_j(d.get("J")),
+                        "Level": _fmt_cm1(d.get("Level")),
+                        "Uncertainty": _fmt_unc(d.get("Uncertainty")),
+                        "Landé-g": _fmt_trim(d.get("Landé-g"), 3),
+                        "Leading percentages": (d.get("Leading percentages") or ""),
+                        "Reference": (d.get("Reference") or ""),
+                    }
+                )
 
             print(f"\n== {sid} (iso: {iso_id}) ==")
             print(
-                _format_table(
-                    disp,
+                _format_table_adv(
+                    out_rows,
                     [
-                        ("Energy", "Energy"),
-                        ("Unit", "Unit"),
-                        ("Unc", "Unc"),
-                        ("J", "J"),
-                        ("g", "g"),
-                        ("Landé g", "Landé g"),
-                        ("Configuration", "Configuration"),
-                        ("Term", "Term"),
-                        ("Ref URL", "Ref URL"),
+                        ("Configuration", "Configuration", "l"),
+                        ("Term", "Term", "l"),
+                        ("J", "J", "r"),
+                        ("Level", "Level (cm^-1)", "r"),
+                        ("Uncertainty", "Uncertainty (cm^-1)", "r"),
+                        ("Landé-g", "Landé-g", "r"),
+                        ("Leading percentages", "Leading percentages", "r"),
+                        ("Ref URL", "Ref URL", "l"),
                     ],
                 )
             )
@@ -285,9 +443,9 @@ def main() -> None:
                 lower_cell = " ".join([x for x in [lower.get("configuration"), lower.get("term"), lower.get("J")] if x])
                 upper_cell = " ".join([x for x in [upper.get("configuration"), upper.get("term"), upper.get("J")] if x])
 
-                tp_ref = payload.get("tp_ref_id")
-                line_ref = payload.get("line_ref_id")
                 ttype = payload.get("type") or r.get("selection_rules")
+                tp_urls = payload.get("tp_ref_urls") or []
+                line_urls = payload.get("line_ref_urls") or []
 
                 disp.append(
                     {
@@ -303,9 +461,8 @@ def main() -> None:
                         "Lower": lower_cell,
                         "Upper": upper_cell,
                         "Type": ttype,
-                        "TP Ref": tp_ref,
-                        "Line Ref": line_ref,
-                        "Ref URL": r.get("ref_url"),
+                        "TP Ref URL": _first_url_ellipsis(tp_urls),
+                        "Line Ref URL": _first_url_ellipsis(line_urls),
                     }
                 )
 
@@ -326,9 +483,8 @@ def main() -> None:
                         ("Lower", "Lower Level Conf., Term, J"),
                         ("Upper", "Upper Level Conf., Term, J"),
                         ("Type", "Type"),
-                        ("TP Ref", "TP Ref."),
-                        ("Line Ref", "Line Ref."),
-                        ("Ref URL", "Ref URL"),
+                        ("TP Ref URL", "TP Ref URL"),
+                        ("Line Ref URL", "Line Ref URL"),
                     ],
                 )
             )
