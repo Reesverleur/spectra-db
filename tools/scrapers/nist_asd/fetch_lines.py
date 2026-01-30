@@ -96,6 +96,18 @@ def _prune(obj: object) -> object:
     return obj
 
 
+def _infer_medium_from_header(header: str | None) -> str | None:
+    """Infer wavelength medium from a column header string."""
+    if not header:
+        return None
+    h = header.lower()
+    if "vac" in h:
+        return "vacuum"
+    if "air" in h:
+        return "air"
+    return None
+
+
 def run(
     *,
     spectrum: str,
@@ -253,7 +265,13 @@ def run(
                     "term": str(row.get(tfk_col)).strip() if tfk_col else None,
                     "J": str(row.get(jk_col)).strip() if jk_col else None,
                 },
+                "wavelength_medium_requested": wavelength_type,
+                "observed_wavelength_header": obs_wl_col,
+                "ritz_wavelength_header": ritz_wl_col,
+                "wavelength_medium_inferred": _infer_medium_from_header(obs_wl_col),
             }
+
+            # Record wavelength convention information
 
             gi = _safe_float(row.get(gi_col)) if gi_col else None
             gk = _safe_float(row.get(gk_col)) if gk_col else None
