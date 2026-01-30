@@ -257,18 +257,54 @@ def main() -> None:
             disp = []
             for r in rows:
                 payload = r.get("payload") or {}
+
+                # Pull values in the same structure as NIST table
+                obs = payload.get("observed_wavelength")
+                obs_unc = payload.get("observed_wavelength_unc")
+                ritz = payload.get("ritz_wavelength")
+                ritz_unc = payload.get("ritz_wavelength_unc")
+
+                relint = payload.get("relative_intensity")
+                aki = payload.get("Aki_s-1")
+                acc = payload.get("accuracy_code")
+
+                ei = payload.get("Ei_cm-1")
+                ek = payload.get("Ek_cm-1")
+                # If Ek missing but Ei and wavenumber present, compute Ek (traceable derivation)
+                wn = payload.get("wavenumber_cm-1")
+                if ek is None and ei is not None and wn is not None:
+                    try:
+                        ek = float(ei) + float(wn)
+                    except Exception:
+                        pass
+
+                lower = payload.get("lower") or {}
+                upper = payload.get("upper") or {}
+
+                # NIST shows conf, term, J in separate subfields; we print as one cell
+                lower_cell = " ".join([x for x in [lower.get("configuration"), lower.get("term"), lower.get("J")] if x])
+                upper_cell = " ".join([x for x in [upper.get("configuration"), upper.get("term"), upper.get("J")] if x])
+
+                tp_ref = payload.get("tp_ref_id")
+                line_ref = payload.get("line_ref_id")
+                ttype = payload.get("type") or r.get("selection_rules")
+
                 disp.append(
                     {
-                        "Lambda": r["wavelength"],
-                        "Unit": r["unit"],
-                        "Unc": r.get("unc"),
-                        "WN(cm-1)": payload.get("wavenumber_cm-1"),
-                        "Ei(cm-1)": payload.get("Ei_cm-1"),
-                        "Ek(cm-1)": payload.get("Ek_cm-1"),
-                        "Type": payload.get("type") or r.get("selection_rules"),
-                        "Aki": payload.get("Aki_s-1"),
-                        "f": payload.get("f"),
-                        "log(gf)": payload.get("log_gf"),
+                        "Obs": obs,
+                        "Unc": obs_unc,
+                        "Ritz": ritz,
+                        "Unc2": ritz_unc,
+                        "RelInt": relint,
+                        "Aki": aki,
+                        "Acc": acc,
+                        "Ei": ei,
+                        "Ek": ek,
+                        "Lower": lower_cell,
+                        "Upper": upper_cell,
+                        "Type": ttype,
+                        "TP Ref": tp_ref,
+                        "Line Ref": line_ref,
                         "Ref URL": r.get("ref_url"),
                     }
                 )
@@ -278,16 +314,20 @@ def main() -> None:
                 _format_table(
                     disp,
                     [
-                        ("Lambda", "Lambda"),
-                        ("Unit", "Unit"),
+                        ("Obs", "Observed λ"),
                         ("Unc", "Unc"),
-                        ("WN(cm-1)", "WN(cm-1)"),
-                        ("Ei(cm-1)", "Ei(cm-1)"),
-                        ("Ek(cm-1)", "Ek(cm-1)"),
+                        ("Ritz", "Ritz λ"),
+                        ("Unc2", "Unc"),
+                        ("RelInt", "Rel. Int."),
+                        ("Aki", "Aki (s^-1)"),
+                        ("Acc", "Acc"),
+                        ("Ei", "Ei (cm^-1)"),
+                        ("Ek", "Ek (cm^-1)"),
+                        ("Lower", "Lower Level Conf., Term, J"),
+                        ("Upper", "Upper Level Conf., Term, J"),
                         ("Type", "Type"),
-                        ("Aki", "Aki"),
-                        ("f", "f"),
-                        ("log(gf)", "log(gf)"),
+                        ("TP Ref", "TP Ref."),
+                        ("Line Ref", "Line Ref."),
                         ("Ref URL", "Ref URL"),
                     ],
                 )

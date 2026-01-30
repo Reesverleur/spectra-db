@@ -203,13 +203,14 @@ def make_transition_record(
     quantity_unit: str,
     quantity_uncertainty: float | None,
     intensity_json: str | None,
+    extra_json: str | None,
     selection_rules: str | None,
     ref_id: str | None,
     source: str,
     notes: str | None,
     upper_state_id: str | None = None,
     lower_state_id: str | None = None,
-    extra_json: str | None = None,
+    dedupe_key: str | None = None,
 ) -> dict[str, Any]:
     """Create a canonical 'transitions' record for an atomic spectral line."""
     transition_id = make_id(
@@ -220,6 +221,7 @@ def make_transition_record(
         str(quantity_uncertainty),
         selection_rules or "",
         ref_id or "",
+        dedupe_key or "",
     )
 
     return {

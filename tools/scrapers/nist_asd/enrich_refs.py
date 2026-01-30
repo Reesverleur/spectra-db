@@ -15,6 +15,38 @@ from tools.scrapers.common.http import fetch_cached
 
 DOI_RE = re.compile(r"\b10\.\d{4,9}/[-._;()/:A-Z0-9]+\b", re.IGNORECASE)
 
+REF_RE = re.compile(r"^([LT])(\d+)([A-Za-z]\d+)?$")
+
+
+def reconstruct_asbib_url(ref_id: str, *, element: str | None = None, spectr_charge: int | None = None) -> str | None:
+    """Reconstruct ASBib popup URL from ref_id like L8672c99 or T6892c83.
+
+    If element/spectr_charge are unknown, we still return a URL with db_id/comment_code;
+    many pages resolve without element/spectr_charge, but including them is better.
+    """
+    m = REF_RE.match(ref_id.strip())
+    if not m:
+        return None
+    db_id = m.group(2)
+    comment = m.group(3) or ""
+    # NIST examples show db=el and type=E for energy/wavelength refs.
+    # We'll try type=E first in enrichment; if that fails, we can fall back.
+    base = "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi"
+    params = [
+        ("db", "el"),
+        ("db_id", db_id),
+        ("comment_code", comment.replace(" ", "")),
+        ("ref", db_id),
+        ("type", "E"),
+    ]
+    if element:
+        params.append(("element", element))
+    if spectr_charge is not None:
+        params.append(("spectr_charge", str(spectr_charge)))
+    # build query string
+    qs = "&".join(f"{k}={v}" for k, v in params)
+    return f"{base}?{qs}"
+
 
 @dataclass
 class EnrichResult:
@@ -124,6 +156,16 @@ def main() -> None:
     cache_dir = paths.raw_dir / "nist_asd" / "refs"
 
     todo = []
+    # Fill missing URL fields from ref_id encoding when possible
+    for r in refs:
+        if r.get("url"):
+            continue
+        rid = r.get("ref_id")
+        if not rid:
+            continue
+        # We usually don't know element/spectr_charge at this stage; leave them out.
+        # URLs typically still resolve; enrichment will test HTTP status.
+        r["url"] = reconstruct_asbib_url(str(rid))
     for r in refs:
         if r.get("citation"):
             continue

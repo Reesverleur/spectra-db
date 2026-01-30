@@ -5,7 +5,6 @@ import html as _html
 import json
 import re
 from dataclasses import dataclass
-from typing import Any
 
 from bs4 import BeautifulSoup
 
@@ -37,7 +36,6 @@ class FetchRunResult:
 
 
 def extract_ref_urls_from_html(raw_html: str) -> dict[str, str]:
-    """Map ref_id text (e.g. 'L8672c99') -> popup URL extracted from popded('...')."""
     soup = BeautifulSoup(raw_html, "html.parser")
     out: dict[str, str] = {}
     for a in soup.find_all("a"):
@@ -48,8 +46,7 @@ def extract_ref_urls_from_html(raw_html: str) -> dict[str, str]:
         m = _POPDED_RE.search(onclick)
         if not m:
             continue
-        url = _html.unescape(m.group(1)).strip()
-        out[txt] = url
+        out[txt] = _html.unescape(m.group(1)).strip()
     return out
 
 
@@ -62,24 +59,75 @@ def _safe_float(x: object) -> float | None:
     return float(m.group(0)) if m else None
 
 
-def _get_col(df, *needles: str) -> str | None:
+def _find_cols(df, *needles: str) -> list[str]:
     needles_l = [n.lower() for n in needles]
+    out: list[str] = []
     for c in df.columns:
         name = str(c).lower()
         if all(n in name for n in needles_l):
-            return c
+            out.append(c)
+    return out
+
+
+def _find_col(df, *needles: str) -> str | None:
+    cols = _find_cols(df, *needles)
+    return cols[0] if cols else None
+
+
+def _infer_medium_from_header(header: str | None) -> str | None:
+    if not header:
+        return None
+    h = header.lower()
+    if "vac" in h:
+        return "vacuum"
+    if "air" in h:
+        return "air"
     return None
 
 
-def _parse_gi_gk(x: object) -> tuple[float | None, float | None]:
-    s = str(x).strip()
+def _parse_energy_range(val: object) -> tuple[float | None, float | None]:
+    """Parse a cell like '1872.5998 - 112 994.097' into (Ei, Ek)."""
+    s = str(val).strip()
     if not s or s.lower() == "nan":
         return (None, None)
-    s = s.replace("–", "-").replace("—", "-")
-    parts = [p.strip() for p in s.split("-") if p.strip()]
-    if len(parts) == 2:
-        return (_safe_float(parts[0]), _safe_float(parts[1]))
+    s = s.replace(" ", "").replace(",", "")
+    parts = re.split(r"\s*-\s*", s)
+    nums: list[float] = []
+    for p in parts:
+        m = _FLOAT_RE.search(p)
+        if m:
+            nums.append(float(m.group(0)))
+    if len(nums) >= 2:
+        return nums[0], nums[1]
+    if len(nums) == 1:
+        return nums[0], None
     return (None, None)
+
+
+def _parse_level_triplet(val: object) -> dict[str, str | None]:
+    """Parse a combined 'Conf  Term...  J' cell.
+
+    Assumptions (per ASD lines tables):
+      - Configuration has no spaces (first token)
+      - J has no spaces (last token, e.g. 9/2)
+      - Term may contain internal spaces (middle tokens)
+
+    Handles multiple spaces/tabs and ignores empty/'nan' cells.
+    """
+    s = str(val).strip()
+    if not s or s.lower() == "nan":
+        return {"configuration": None, "term": None, "J": None}
+
+    # split on any whitespace (spaces or tabs)
+    toks = re.split(r"\s+", s)
+    if len(toks) < 2:
+        return {"configuration": s, "term": None, "J": None}
+
+    config = toks[0]
+    j = toks[-1]
+    term = " ".join(toks[1:-1]).strip() or None
+
+    return {"configuration": config, "term": term, "J": j}
 
 
 def _prune(obj: object) -> object:
@@ -96,18 +144,6 @@ def _prune(obj: object) -> object:
     return obj
 
 
-def _infer_medium_from_header(header: str | None) -> str | None:
-    """Infer wavelength medium from a column header string."""
-    if not header:
-        return None
-    h = header.lower()
-    if "vac" in h:
-        return "vacuum"
-    if "air" in h:
-        return "air"
-    return None
-
-
 def run(
     *,
     spectrum: str,
@@ -117,7 +153,6 @@ def run(
     wavelength_type: str = "vacuum",
     force: bool = False,
 ) -> FetchRunResult:
-    """Fetch ASD lines for one spectrum window and write normalized NDJSON (with ref URLs + extra_json)."""
     try:
         paths = get_paths()
         ps = parse_spectrum_label(spectrum)
@@ -149,32 +184,50 @@ def run(
         if df.empty:
             return FetchRunResult(True, 0, fr.status_code, "OK (0 rows)", str(fr.content_path))
 
-        # Discover commonly-used columns (best-effort)
-        obs_wl_col = _get_col(df, "Observed", "Wavelength")
-        ritz_wl_col = _get_col(df, "Ritz", "Wavelength")
-        obs_unc_col = _get_col(df, "Unc", "Observed") or _get_col(df, "Unc.")
-        ritz_unc_col = _get_col(df, "Unc", "Ritz")
-        wn_col = _get_col(df, "Wavenumber")
-        wn_unc_col = _get_col(df, "Unc", "Wavenumber") or _get_col(df, "Unc.", "Wavenumber")
-        ei_col = next((c for c in df.columns if str(c).strip().startswith("Ei")), None)
-        ek_col = next((c for c in df.columns if str(c).strip().startswith("Ek")), None)
+        # Wavelengths
+        obs_wl_col = _find_col(df, "observed", "wavelength")
+        ritz_wl_col = _find_col(df, "ritz", "wavelength")
 
-        cfi_col = _get_col(df, "Conf", "i") or _get_col(df, "Configuration", "i")
-        tfi_col = _get_col(df, "Term", "i")
-        ji_col = _get_col(df, "J", "i")
-        cfk_col = _get_col(df, "Conf", "k") or _get_col(df, "Configuration", "k")
-        tfk_col = _get_col(df, "Term", "k")
-        jk_col = _get_col(df, "J", "k")
+        # Two uncertainty cols by order
+        unc_cols = _find_cols(df, "unc")
+        obs_unc_col = _find_col(df, "unc", "observed") or (unc_cols[0] if len(unc_cols) >= 1 else None)
+        ritz_unc_col = _find_col(df, "unc", "ritz") or (unc_cols[1] if len(unc_cols) >= 2 else None)
 
-        gi_col = _get_col(df, "gi")
-        gk_col = _get_col(df, "gk")
-        gigk_col = _get_col(df, "gi", "gk")
+        # Rel int / Aki / Acc
+        relint_col = _find_col(df, "rel", "int")
+        aki_col = _find_col(df, "aki")
+        acc_col = _find_col(df, "acc")
 
-        type_col = _get_col(df, "Type")
-        aki_col = _get_col(df, "Aki")
-        loggf_col = _get_col(df, "log", "gf") or _get_col(df, "log(gf)")
-        f_col = _get_col(df, "f")
-        ref_col = _get_col(df, "Ref") or _get_col(df, "Reference")
+        # Ei/Ek: may be separate or packed
+        ei_col = _find_col(df, "ei")
+        ek_col = _find_col(df, "ek")
+
+        # Lower/Upper: prefer split cols, else combined
+        lo_conf_col = _find_col(df, "lower", "conf")
+        lo_term_col = _find_col(df, "lower", "term")
+        lo_j_col = _find_col(df, "lower", "j")
+        up_conf_col = _find_col(df, "upper", "conf")
+        up_term_col = _find_col(df, "upper", "term")
+        up_j_col = _find_col(df, "upper", "j")
+
+        lower_combined = _find_col(df, "lower", "level")
+        upper_combined = _find_col(df, "upper", "level")
+
+        # Type + refs
+        type_col = None
+        for c in df.columns:
+            if str(c).strip().lower() == "type":
+                type_col = c
+                break
+        if type_col is None:
+            type_col = _find_col(df, "type")
+
+        tp_col = _find_col(df, "tp", "ref")
+        line_ref_col = _find_col(df, "line", "ref")
+
+        # Optional f/log(gf)
+        loggf_col = _find_col(df, "log", "gf") or _find_col(df, "log(gf)")
+        f_col = _find_col(df, "f")
 
         normalized_dir = paths.normalized_dir
         species_path = normalized_dir / "species.ndjson"
@@ -185,34 +238,34 @@ def run(
         append_ndjson_dedupe(species_path, [make_species_record(ps)], "species_id")
         append_ndjson_dedupe(iso_path, [make_isotopologue_record(sid)], "iso_id")
 
-        # Columns we explicitly map into intensity_json
-        handled_cols = set()
-        for c in [
-            obs_wl_col,
-            ritz_wl_col,
-            obs_unc_col,
-            ritz_unc_col,
-            wn_col,
-            wn_unc_col,
-            ei_col,
-            ek_col,
-            cfi_col,
-            tfi_col,
-            ji_col,
-            cfk_col,
-            tfk_col,
-            jk_col,
-            gi_col,
-            gk_col,
-            gigk_col,
-            type_col,
-            aki_col,
-            loggf_col,
-            f_col,
-            ref_col,
-        ]:
-            if c:
-                handled_cols.add(c)
+        handled_cols = set(
+            c
+            for c in [
+                obs_wl_col,
+                ritz_wl_col,
+                obs_unc_col,
+                ritz_unc_col,
+                relint_col,
+                aki_col,
+                acc_col,
+                ei_col,
+                ek_col,
+                lo_conf_col,
+                lo_term_col,
+                lo_j_col,
+                up_conf_col,
+                up_term_col,
+                up_j_col,
+                lower_combined,
+                upper_combined,
+                type_col,
+                tp_col,
+                line_ref_col,
+                loggf_col,
+                f_col,
+            ]
+            if c
+        )
 
         ref_records: list[dict] = []
         trans_records: list[dict] = []
@@ -228,65 +281,112 @@ def run(
             ritz_unc = _safe_float(row.get(ritz_unc_col)) if ritz_unc_col else None
             chosen_unc = obs_unc if (obs_wl is not None) else ritz_unc
 
-            ref = str(row.get(ref_col)).strip() if ref_col else ""
-            ref_id = ref if ref and ref.lower() != "nan" else None
-            if ref_id:
+            # refs
+            tp_ref = str(row.get(tp_col)).strip() if tp_col else ""
+            line_ref = str(row.get(line_ref_col)).strip() if line_ref_col else ""
+            tp_ref_id = tp_ref if tp_ref and tp_ref.lower() != "nan" else None
+            line_ref_id = line_ref if line_ref and line_ref.lower() != "nan" else None
+            ref_id = line_ref_id or tp_ref_id
+
+            for rid in [tp_ref_id, line_ref_id]:
+                if not rid:
+                    continue
                 ref_records.append(
                     {
-                        "ref_id": ref_id,
+                        "ref_id": rid,
                         "citation": None,
                         "doi": None,
-                        "url": ref_url_map.get(ref_id),
+                        "url": ref_url_map.get(rid),
                         "notes": "ASD ref id; url extracted from popded(...) when available.",
                     }
                 )
 
+            # Ei/Ek robust
+            ei = _safe_float(row.get(ei_col)) if ei_col else None
+            ek = _safe_float(row.get(ek_col)) if ek_col else None
+
+            # If the cell contains a hyphen, parse range and trust it
+            if ei_col:
+                cell = str(row.get(ei_col))
+                if "-" in cell or "–" in cell or "—" in cell:
+                    ei2, ek2 = _parse_energy_range(row.get(ei_col))
+                    if ei2 is not None:
+                        ei = ei2
+                    if ek2 is not None:
+                        ek = ek2
+
+            if ek is None and ek_col:
+                cell = str(row.get(ek_col))
+                if "-" in cell or "–" in cell or "—" in cell:
+                    ei2, ek2 = _parse_energy_range(row.get(ek_col))
+                    if ei is None and ei2 is not None:
+                        ei = ei2
+                    if ek2 is not None:
+                        ek = ek2
+
+            # Lower/Upper parsing:
+            # Prefer the combined cells "Lower Level Conf., Term, J" and "Upper Level Conf., Term, J"
+            # because they reliably contain all three pieces.
+            if lower_combined:
+                lower = _parse_level_triplet(row.get(lower_combined))
+            else:
+                lower = {
+                    "configuration": str(row.get(lo_conf_col)).strip() if lo_conf_col else None,
+                    "term": str(row.get(lo_term_col)).strip() if lo_term_col else None,
+                    "J": str(row.get(lo_j_col)).strip() if lo_j_col else None,
+                }
+
+            if upper_combined:
+                upper = _parse_level_triplet(row.get(upper_combined))
+            else:
+                upper = {
+                    "configuration": str(row.get(up_conf_col)).strip() if up_conf_col else None,
+                    "term": str(row.get(up_term_col)).strip() if up_term_col else None,
+                    "J": str(row.get(up_j_col)).strip() if up_j_col else None,
+                }
+
+            # Normalize empties / "nan" to None
+            for side in (lower, upper):
+                for k in ("configuration", "term", "J"):
+                    v = side.get(k)
+                    if v is None:
+                        continue
+                    vv = str(v).strip()
+                    side[k] = None if (vv == "" or vv.lower() == "nan") else vv
+
+            ttype = str(row.get(type_col)).strip() if type_col else None
+            if ttype and ttype.lower() == "nan":
+                ttype = None
+
             payload: dict[str, object] = {
                 "observed_wavelength": obs_wl,
-                "ritz_wavelength": ritz_wl,
-                "wavelength_unit": unit,
                 "observed_wavelength_unc": obs_unc,
+                "ritz_wavelength": ritz_wl,
                 "ritz_wavelength_unc": ritz_unc,
-                "wavenumber_cm-1": _safe_float(row.get(wn_col)) if wn_col else None,
-                "wavenumber_unc_cm-1": _safe_float(row.get(wn_unc_col)) if wn_unc_col else None,
-                "Ei_cm-1": _safe_float(row.get(ei_col)) if ei_col else None,
-                "Ek_cm-1": _safe_float(row.get(ek_col)) if ek_col else None,
-                "type": str(row.get(type_col)).strip() if type_col else None,
-                "Aki_s-1": _safe_float(row.get(aki_col)) if aki_col else None,
-                "log_gf": _safe_float(row.get(loggf_col)) if loggf_col else None,
-                "f": _safe_float(row.get(f_col)) if f_col else None,
-                "lower": {
-                    "configuration": str(row.get(cfi_col)).strip() if cfi_col else None,
-                    "term": str(row.get(tfi_col)).strip() if tfi_col else None,
-                    "J": str(row.get(ji_col)).strip() if ji_col else None,
-                },
-                "upper": {
-                    "configuration": str(row.get(cfk_col)).strip() if cfk_col else None,
-                    "term": str(row.get(tfk_col)).strip() if tfk_col else None,
-                    "J": str(row.get(jk_col)).strip() if jk_col else None,
-                },
+                "wavelength_unit": unit,
                 "wavelength_medium_requested": wavelength_type,
+                "wavelength_medium_inferred": _infer_medium_from_header(obs_wl_col),
                 "observed_wavelength_header": obs_wl_col,
                 "ritz_wavelength_header": ritz_wl_col,
-                "wavelength_medium_inferred": _infer_medium_from_header(obs_wl_col),
+                "relative_intensity": _safe_float(row.get(relint_col)) if relint_col else None,
+                "Aki_s-1": _safe_float(row.get(aki_col)) if aki_col else None,
+                "accuracy_code": str(row.get(acc_col)).strip() if acc_col else None,
+                "Ei_cm-1": ei,
+                "Ek_cm-1": ek,
+                "lower": lower,
+                "upper": upper,
+                "type": ttype,
+                "tp_ref_id": tp_ref_id,
+                "line_ref_id": line_ref_id,
+                "log_gf": _safe_float(row.get(loggf_col)) if loggf_col else None,
+                "f": _safe_float(row.get(f_col)) if f_col else None,
             }
-
-            # Record wavelength convention information
-
-            gi = _safe_float(row.get(gi_col)) if gi_col else None
-            gk = _safe_float(row.get(gk_col)) if gk_col else None
-            if (gi is None or gk is None) and gigk_col:
-                gi2, gk2 = _parse_gi_gk(row.get(gigk_col))
-                gi = gi if gi is not None else gi2
-                gk = gk if gk is not None else gk2
-            payload["gi"] = gi
-            payload["gk"] = gk
 
             payload = _prune(payload)  # type: ignore[assignment]
             intensity_json = json.dumps(payload, ensure_ascii=False)
 
-            # Capture EVERYTHING else from the table
-            extras: dict[str, Any] = {}
+            # extras
+            extras: dict[str, object] = {}
             for c in df.columns:
                 if c in handled_cols:
                     continue
@@ -307,7 +407,7 @@ def run(
                     quantity_uncertainty=chosen_unc,
                     intensity_json=intensity_json,
                     extra_json=extra_json,
-                    selection_rules=str(row.get(type_col)).strip() if type_col else None,
+                    selection_rules=ttype,
                     ref_id=ref_id,
                     source="NIST_ASD_LINES",
                     notes=f"NIST ASD lines for {ps.asd_label} [{min_wav}, {max_wav}] {unit}",
