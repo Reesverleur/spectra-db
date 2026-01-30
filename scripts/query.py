@@ -3,17 +3,82 @@ from __future__ import annotations
 import argparse
 import json
 from collections import defaultdict
+from pathlib import Path
 from typing import Any
 
 from spectra_db.query import open_default_api
+from spectra_db.query.export import export_species_bundle
 from spectra_db.util.asd_spectrum import parse_spectrum_label
+
+"""
+Spectra DB Query CLI
+====================
+
+This script is for interactive/verification querying of the local Spectra DB.
+It supports both human-readable tables and machine-friendly JSON export.
+
+How queries are resolved
+------------------------
+Many commands accept a "query" string which can be either:
+
+1) An ASD spectrum label (exact ion stage), e.g.
+   - "H I"
+   - "He I"
+   - "Fe II"
+   - "Po LXVII"
+   - "Ar 15+"
+
+   In this case we resolve directly to a single internal species_id:
+     ASD:<Element>:<+charge>
+   Example:
+     "He I"  -> ASD:He:+0
+     "He II" -> ASD:He:+1
+
+2) A fuzzy search string, e.g. "He" or "Iron"
+   In this case we search the species table (formula/name) and return all matches.
+
+Commands
+--------
+species <q>
+    Search species by substring.
+
+levels <q> [--limit N] [--max-energy E]
+    Print atomic energy levels as a readable table.
+    Output is "group-sticky": levels are grouped by (Configuration, Term) while groups
+    are ordered by the minimum energy in that group.
+
+lines <q> [--min-wav A] [--max-wav B] [--unit nm] [--limit N]
+    Print line data in the chosen wavelength unit with a readable table.
+    The line table is populated from transitions.intensity_json, which contains
+    wavenumber and other physics fields when available.
+
+export <q> [--levels-max-energy E] [--levels-limit N]
+          [--lines-min-wav A] [--lines-max-wav B] [--lines-unit nm] [--lines-limit N]
+          [--out PATH]
+    Emit a machine-friendly JSON bundle containing species + isotopologues and optional
+    levels/lines. If --out is omitted, prints JSON to stdout.
+
+Examples
+--------
+# List species matching an element symbol:
+python scripts/query.py species He
+
+# Print first 20 He I levels (grouped):
+python scripts/query.py levels "He I" --limit 20
+
+# Print visible H I lines (nm):
+python scripts/query.py lines "H I" --min-wav 400 --max-wav 700 --unit nm --limit 30
+
+# Export a JSON bundle for downstream code:
+python scripts/query.py export "H I" --levels-max-energy 90000 --lines-min-wav 400 --lines-max-wav 700 --out h_i.json
+"""
 
 
 def resolve_species_ids(api, query: str) -> list[str]:
-    """Resolve a user query to species_ids.
+    """Resolve a user query to internal species_ids.
 
-    - If query looks like 'He I' or 'Fe II', resolve to exact ASD stage.
-    - Otherwise do a substring search over species and return matches.
+    - If query looks like 'He I'/'Fe II'/'Ar 15+' resolve to exactly one ASD ion stage.
+    - Otherwise search the species table by substring and return all matches.
     """
     try:
         ps = parse_spectrum_label(query)
@@ -47,12 +112,12 @@ def _format_table(rows: list[dict[str, Any]], columns: list[tuple[str, str]]) ->
 
 
 def _group_sticky_levels(disp: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Group levels by (configuration, term) but keep groups ordered by min energy."""
+    """Group levels by (Configuration, Term) while ordering groups by min energy."""
     groups = defaultdict(list)
     group_min: dict[tuple[str, str], float] = {}
 
     for d in disp:
-        key = (d.get("config") or "", d.get("term") or "")
+        key = (d.get("Configuration") or "", d.get("Term") or "")
         groups[key].append(d)
 
     for key, items in groups.items():
@@ -74,17 +139,6 @@ def _group_sticky_levels(disp: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return out
 
 
-def _label_level_side(side: dict[str, Any] | None) -> str:
-    """Make a compact label like '2p 2P° J=3/2'."""
-    if not side:
-        return ""
-    cfg = (side.get("configuration") or "").strip()
-    term = (side.get("term") or "").strip()
-    j = (side.get("J") or "").strip()
-    parts = [p for p in [cfg, term, (f"J={j}" if j else "")] if p]
-    return " ".join(parts)
-
-
 def main() -> None:
     ap = argparse.ArgumentParser(description="Query local Spectra DB.")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -99,20 +153,20 @@ def main() -> None:
 
     ln = sub.add_parser("lines", help="List spectral lines for a species/spectrum.")
     ln.add_argument("q", help='e.g. "H I" or "H"')
-    ln.add_argument(
-        "--min-wav",
-        type=float,
-        default=None,
-        help="Minimum wavelength for filter (same unit as stored).",
-    )
-    ln.add_argument(
-        "--max-wav",
-        type=float,
-        default=None,
-        help="Maximum wavelength for filter (same unit as stored).",
-    )
-    ln.add_argument("--unit", default="nm", help="Filter by quantity_unit (default: nm).")
+    ln.add_argument("--min-wav", type=float, default=None)
+    ln.add_argument("--max-wav", type=float, default=None)
+    ln.add_argument("--unit", default="nm", help="Filter by wavelength unit stored in DB (default: nm).")
     ln.add_argument("--limit", type=int, default=30)
+
+    ex = sub.add_parser("export", help="Export a machine-friendly JSON bundle.")
+    ex.add_argument("q", help='e.g. "H I" or "H"')
+    ex.add_argument("--levels-max-energy", type=float, default=None)
+    ex.add_argument("--levels-limit", type=int, default=5000)
+    ex.add_argument("--lines-min-wav", type=float, default=None)
+    ex.add_argument("--lines-max-wav", type=float, default=None)
+    ex.add_argument("--lines-unit", default="nm")
+    ex.add_argument("--lines-limit", type=int, default=10000)
+    ex.add_argument("--out", type=Path, default=None)
 
     args = ap.parse_args()
     api = open_default_api()
@@ -142,15 +196,16 @@ def main() -> None:
             for r in rows:
                 disp.append(
                     {
-                        "energy_value": r["energy_value"],  # helper for grouping; removed later
+                        "energy_value": r["energy_value"],  # helper for sorting only
                         "Energy": r["energy_value"],
                         "Unit": r["energy_unit"],
                         "Unc": r["energy_uncertainty"],
                         "J": r["j_value"],
                         "g": r["g_value"],
-                        "config": r["configuration"],
-                        "term": r["term"],
-                        "Ref_URL": r.get("ref_url"),
+                        "Landé g": r.get("lande_g"),
+                        "Configuration": r["configuration"],
+                        "Term": r["term"],
+                        "Ref URL": r.get("ref_url"),
                     }
                 )
 
@@ -163,14 +218,15 @@ def main() -> None:
                 _format_table(
                     disp,
                     [
-                        ("config", "Configuration"),
-                        ("term", "Term"),
+                        ("Energy", "Energy"),
+                        ("Unit", "Unit"),
+                        ("Unc", "Unc"),
                         ("J", "J"),
                         ("g", "g"),
-                        ("Energy", "Energy"),
-                        ("Unc", "Unc"),
-                        ("Unit", "Unit"),
-                        ("Ref", "Ref_URL"),
+                        ("Landé g", "Landé g"),
+                        ("Configuration", "Configuration"),
+                        ("Term", "Term"),
+                        ("Ref URL", "Ref URL"),
                     ],
                 )
             )
@@ -189,59 +245,31 @@ def main() -> None:
                 continue
             iso_id = iso[0]["iso_id"]
 
-            # Build SQL with optional bounds
-            clauses = ["iso_id = ?", "quantity_unit = ?"]
-            params: list[Any] = [iso_id, args.unit]
-
-            if args.min_wav is not None:
-                clauses.append("quantity_value >= ?")
-                params.append(args.min_wav)
-            if args.max_wav is not None:
-                clauses.append("quantity_value <= ?")
-                params.append(args.max_wav)
-
-            where = " AND ".join(clauses)
-            q = f"""
-            SELECT quantity_value, quantity_unit, quantity_uncertainty,
-                   intensity_json, selection_rules, ref_id
-            FROM transitions
-            WHERE {where}
-            ORDER BY quantity_value
-            LIMIT ?
-            """
-            params.append(args.limit)
-
-            rows = api.con.execute(q, params).fetchall()
-            cols = ["wav", "unit", "unc", "payload", "type", "ref"]
-            recs = [dict(zip(cols, r, strict=True)) for r in rows]
+            rows = api.lines(
+                iso_id=iso_id,
+                unit=args.unit,
+                min_wav=args.min_wav,
+                max_wav=args.max_wav,
+                limit=args.limit,
+                parse_payload=True,
+            )
 
             disp = []
-            for r in recs:
-                payload = {}
-                if r["payload"]:
-                    try:
-                        payload = json.loads(r["payload"])
-                    except Exception:
-                        payload = {}
-
-                lower = _label_level_side(payload.get("lower"))
-                upper = _label_level_side(payload.get("upper"))
-
+            for r in rows:
+                payload = r.get("payload") or {}
                 disp.append(
                     {
-                        "Lambda": r["wav"],
+                        "Lambda": r["wavelength"],
                         "Unit": r["unit"],
-                        "Unc": r["unc"],
+                        "Unc": r.get("unc"),
                         "WN(cm-1)": payload.get("wavenumber_cm-1"),
                         "Ei(cm-1)": payload.get("Ei_cm-1"),
                         "Ek(cm-1)": payload.get("Ek_cm-1"),
-                        "Type": payload.get("type") or r.get("type"),
+                        "Type": payload.get("type") or r.get("selection_rules"),
                         "Aki": payload.get("Aki_s-1"),
                         "f": payload.get("f"),
                         "log(gf)": payload.get("log_gf"),
-                        "Lower": lower,
-                        "Upper": upper,
-                        "Ref_URL": r.get("ref_url"),
+                        "Ref URL": r.get("ref_url"),
                     }
                 )
 
@@ -251,8 +279,8 @@ def main() -> None:
                     disp,
                     [
                         ("Lambda", "Lambda"),
-                        ("Unc", "Unc"),
                         ("Unit", "Unit"),
+                        ("Unc", "Unc"),
                         ("WN(cm-1)", "WN(cm-1)"),
                         ("Ei(cm-1)", "Ei(cm-1)"),
                         ("Ek(cm-1)", "Ek(cm-1)"),
@@ -260,12 +288,29 @@ def main() -> None:
                         ("Aki", "Aki"),
                         ("f", "f"),
                         ("log(gf)", "log(gf)"),
-                        ("Lower", "Lower"),
-                        ("Upper", "Upper"),
-                        ("Ref", "Ref_URL"),
+                        ("Ref URL", "Ref URL"),
                     ],
                 )
             )
+        return
+
+    if args.cmd == "export":
+        bundle = export_species_bundle(
+            query=args.q,
+            levels_max_energy=args.levels_max_energy,
+            levels_limit=args.levels_limit,
+            lines_min_wav=args.lines_min_wav,
+            lines_max_wav=args.lines_max_wav,
+            lines_unit=args.lines_unit,
+            lines_limit=args.lines_limit,
+        )
+        text = json.dumps(bundle, indent=2, ensure_ascii=False)
+        if args.out:
+            args.out.parent.mkdir(parents=True, exist_ok=True)
+            args.out.write_text(text + "\n", encoding="utf-8")
+            print(f"Wrote {args.out}")
+        else:
+            print(text)
         return
 
 

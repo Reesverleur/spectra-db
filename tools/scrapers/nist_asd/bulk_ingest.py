@@ -187,7 +187,7 @@ def ingest_levels(spec: str, cfg: BulkConfig, ckpt: Path) -> tuple[bool, int, st
         )
 
         if _should_retry(res.status_code) and attempt < cfg.max_retries:
-            print(f"  levels RETRY {attempt+1}/{cfg.max_retries}: {res.message}")
+            print(f"  levels RETRY {attempt + 1}/{cfg.max_retries}: {res.message}")
             _sleep_backoff(attempt, cfg.backoff_base_s)
             continue
 
@@ -241,7 +241,7 @@ def ingest_lines_adaptive(spec: str, cfg: BulkConfig, ckpt: Path, done_bins: set
                 break
 
             if _should_retry(res.status_code) and attempt < cfg.max_retries:
-                print(f"    lines RETRY {attempt+1}/{cfg.max_retries} bin [{lo:g},{hi:g}]: {res.message}")
+                print(f"    lines RETRY {attempt + 1}/{cfg.max_retries} bin [{lo:g},{hi:g}]: {res.message}")
                 _sleep_backoff(attempt, cfg.backoff_base_s)
                 continue
 

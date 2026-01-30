@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -84,13 +85,73 @@ class QueryAPI:
         ]
         return [dict(zip(cols, r, strict=True)) for r in rows]
 
+    def lines(
+        self,
+        iso_id: str,
+        *,
+        unit: str = "nm",
+        min_wav: float | None = None,
+        max_wav: float | None = None,
+        limit: int = 100,
+        parse_payload: bool = True,
+    ) -> list[dict[str, Any]]:
+        """Fetch spectral lines for an isotopologue within an optional wavelength range.
+
+        Returns a list of dicts. If parse_payload=True, `payload` is a dict parsed from
+        transitions.intensity_json (best-effort).
+        """
+        clauses = ["t.iso_id = ?", "t.quantity_unit = ?"]
+        args: list[Any] = [iso_id, unit]
+
+        if min_wav is not None:
+            clauses.append("t.quantity_value >= ?")
+            args.append(min_wav)
+        if max_wav is not None:
+            clauses.append("t.quantity_value <= ?")
+            args.append(max_wav)
+
+        where = " AND ".join(clauses)
+        q = f"""
+        SELECT t.quantity_value, t.quantity_unit, t.quantity_uncertainty,
+               t.intensity_json, t.extra_json, t.selection_rules,
+               r.url AS ref_url
+        FROM transitions t
+        LEFT JOIN refs r ON t.ref_id = r.ref_id
+        WHERE {where}
+        ORDER BY t.quantity_value
+        LIMIT ?
+        """
+        args.append(limit)
+        rows = self.con.execute(q, args).fetchall()
+
+        out: list[dict[str, Any]] = []
+        for wav, u, unc, intensity_json, extra_json, sel, ref_url in rows:
+            rec: dict[str, Any] = {
+                "wavelength": wav,
+                "unit": u,
+                "unc": unc,
+                "selection_rules": sel,
+                "ref_url": ref_url,
+                "extra_json": extra_json,
+            }
+            if parse_payload and intensity_json:
+                try:
+                    rec["payload"] = json.loads(intensity_json)
+                except Exception:
+                    rec["payload"] = {}
+            else:
+                rec["payload"] = None
+            out.append(rec)
+
+        return out
+
     def atomic_levels(
         self,
         iso_id: str,
         limit: int = 50,
         max_energy: float | None = None,
     ) -> list[dict[str, Any]]:
-        """Fetch atomic levels (with ref URL) for an isotopologue, ordered by energy."""
+        """Fetch atomic levels (with ref URL and extra columns) for an isotopologue."""
         clauses = ["s.iso_id = ?", "s.state_type = 'atomic'"]
         args: list[Any] = [iso_id]
 
@@ -101,6 +162,7 @@ class QueryAPI:
         where = " AND ".join(clauses)
         q = f"""
         SELECT s.state_id, s.configuration, s.term, s.j_value, s.f_value, s.g_value,
+               s.lande_g, s.leading_percentages, s.extra_json,
                s.energy_value, s.energy_unit, s.energy_uncertainty,
                r.url AS ref_url
         FROM states s
@@ -118,6 +180,9 @@ class QueryAPI:
             "j_value",
             "f_value",
             "g_value",
+            "lande_g",
+            "leading_percentages",
+            "extra_json",
             "energy_value",
             "energy_unit",
             "energy_uncertainty",
