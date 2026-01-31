@@ -1,0 +1,2336 @@
+{
+  "query": "H I",
+  "species_ids": [
+    "ASD:H:+0"
+  ],
+  "species": [],
+  "isotopologues": {
+    "ASD:H:+0": [
+      {
+        "iso_id": "ASD:H:+0/main",
+        "label": null,
+        "mass_amu": null,
+        "abundance": null,
+        "notes": "Default placeholder isotopologue for atomic ion (no isotope specificity yet)."
+      }
+    ]
+  },
+  "levels": {
+    "ASD:H:+0/main": [
+      {
+        "state_id": "state_47e1c06712f5733a",
+        "configuration": "1s",
+        "term": "2S",
+        "j_value": 0.5,
+        "f_value": null,
+        "g_value": 2.0,
+        "lande_g": null,
+        "leading_percentages": "100.0",
+        "extra_json": null,
+        "energy_value": 0.0,
+        "energy_unit": "cm-1",
+        "energy_uncertainty": 1e-09,
+        "ref_url": null
+      },
+      {
+        "state_id": "state_fdd3d95e538b9e9e",
+        "configuration": "2p",
+        "term": "2P°",
+        "j_value": 0.5,
+        "f_value": null,
+        "g_value": 2.0,
+        "lande_g": null,
+        "leading_percentages": "100.0",
+        "extra_json": "{\"ref_codes\": [\"L15291\"], \"ref_keys\": [\"E:L15291\"], \"ref_urls\": [\"https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=15291&comment_code=&element=H&spectr_charge=1&ref=15291&type=E\"]}",
+        "energy_value": 82258.9191133,
+        "energy_unit": "cm-1",
+        "energy_uncertainty": 3e-07,
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=15291&comment_code=&element=H&spectr_charge=1&ref=15291&type=E"
+      },
+      {
+        "state_id": "state_59adc3de88660b68",
+        "configuration": "2s",
+        "term": "2S",
+        "j_value": 0.5,
+        "f_value": null,
+        "g_value": 2.0,
+        "lande_g": null,
+        "leading_percentages": "100.0",
+        "extra_json": "{\"ref_codes\": [\"L15291\"], \"ref_keys\": [\"E:L15291\"], \"ref_urls\": [\"https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=15291&comment_code=&element=H&spectr_charge=1&ref=15291&type=E\"]}",
+        "energy_value": 82258.9543992821,
+        "energy_unit": "cm-1",
+        "energy_uncertainty": 1e-09,
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=15291&comment_code=&element=H&spectr_charge=1&ref=15291&type=E"
+      },
+      {
+        "state_id": "state_69933042c294af38",
+        "configuration": "2",
+        "term": "2S",
+        "j_value": null,
+        "f_value": null,
+        "g_value": null,
+        "lande_g": null,
+        "leading_percentages": "100.0",
+        "extra_json": "{\"ref_codes\": [\"L15291\"], \"ref_keys\": [\"E:L15291\"], \"ref_urls\": [\"https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=15291&comment_code=&element=H&spectr_charge=1&ref=15291&type=E\"]}",
+        "energy_value": 82259.158,
+        "energy_unit": "cm-1",
+        "energy_uncertainty": 0.01,
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=15291&comment_code=&element=H&spectr_charge=1&ref=15291&type=E"
+      },
+      {
+        "state_id": "state_77f686a3d2ef6db2",
+        "configuration": "2p",
+        "term": "2P°",
+        "j_value": 1.5,
+        "f_value": null,
+        "g_value": 4.0,
+        "lande_g": null,
+        "leading_percentages": "100.0",
+        "extra_json": "{\"ref_codes\": [\"L15291\"], \"ref_keys\": [\"E:L15291\"], \"ref_urls\": [\"https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=15291&comment_code=&element=H&spectr_charge=1&ref=15291&type=E\"]}",
+        "energy_value": 82259.2850014,
+        "energy_unit": "cm-1",
+        "energy_uncertainty": 4e-07,
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=15291&comment_code=&element=H&spectr_charge=1&ref=15291&type=E"
+      }
+    ]
+  },
+  "lines": {
+    "ASD:H:+0/main": [
+      {
+        "wavelength": 410.285985517,
+        "unit": "nm",
+        "unc": 2.2000000000000002e-08,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"24373.2429403\", \"gi gk\": \"2 - 4\"}",
+        "payload": {
+          "ritz_wavelength": 410.285985517,
+          "ritz_wavelength_unc": 2.2e-08,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 4287700.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82258.9191133,
+          "Ek_cm-1": 106632.1620536,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "6d",
+            "term": "2D",
+            "J": "3/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.021641
+        }
+      },
+      {
+        "wavelength": 410.286191087,
+        "unit": "nm",
+        "unc": 1.3e-08,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"24373.2307283\", \"gi gk\": \"2 - 2\"}",
+        "payload": {
+          "ritz_wavelength": 410.286191087,
+          "ritz_wavelength_unc": 1.3e-08,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 245010.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82258.9191133,
+          "Ek_cm-1": 106632.1498416,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "6s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.00061832
+        }
+      },
+      {
+        "wavelength": 410.28632,
+        "unit": "nm",
+        "unc": 0.0001,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=57&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"24373.223\"}",
+        "payload": {
+          "ritz_wavelength": 410.28632,
+          "ritz_wavelength_unc": 0.0001,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "type": "",
+          "line_ref_id": "L:c57",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "c57"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:c57"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=57&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 410.286503488,
+        "unit": "nm",
+        "unc": 6.000000000000001e-09,
+        "selection_rules": "E2",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=11759&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"24373.2121704\", \"gi gk\": \"2 - 6\"}",
+        "payload": {
+          "observed_wavelength": 410.286503488,
+          "observed_wavelength_unc": 6e-09,
+          "ritz_wavelength": 410.286503481,
+          "ritz_wavelength_unc": 7e-09,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "Ei_cm-1": 82258.9543992821,
+          "Ek_cm-1": 106632.1665697,
+          "lower": {
+            "configuration": "2s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "6d",
+            "term": "2D",
+            "J": "5/2"
+          },
+          "type": "E2",
+          "line_ref_id": "L:L11759",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "L11759"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:L11759"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=11759&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 410.286579132,
+        "unit": "nm",
+        "unc": 2.2000000000000002e-08,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"24373.2076763\", \"gi gk\": \"2 - 4\"}",
+        "payload": {
+          "ritz_wavelength": 410.286579132,
+          "ritz_wavelength_unc": 2.2e-08,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 2858300.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82258.9543992821,
+          "Ek_cm-1": 106632.1620756,
+          "lower": {
+            "configuration": "2s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "6p",
+            "term": "2P*",
+            "J": "3/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.014427
+        }
+      },
+      {
+        "wavelength": 410.286785081,
+        "unit": "nm",
+        "unc": 1.2e-08,
+        "selection_rules": "M1",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=11759&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"24373.1954423\", \"gi gk\": \"2 - 2\"}",
+        "payload": {
+          "observed_wavelength": 410.286785081,
+          "observed_wavelength_unc": 1.2e-08,
+          "ritz_wavelength": 410.286785074,
+          "ritz_wavelength_unc": 1.2e-08,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "Ei_cm-1": 82258.9543992821,
+          "Ek_cm-1": 106632.1498416,
+          "lower": {
+            "configuration": "2s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "6s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "type": "M1",
+          "line_ref_id": "L:L11759",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "L11759"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:L11759"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=11759&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 410.28680725,
+        "unit": "nm",
+        "unc": 1.7e-08,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"24373.1941249\", \"gi gk\": \"2 - 2\"}",
+        "payload": {
+          "ritz_wavelength": 410.28680725,
+          "ritz_wavelength_unc": 1.7e-08,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 2858400.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82258.9543992821,
+          "Ek_cm-1": 106632.1485242,
+          "lower": {
+            "configuration": "2s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "6p",
+            "term": "2P*",
+            "J": "1/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.0072136
+        }
+      },
+      {
+        "wavelength": 410.2892,
+        "unit": "nm",
+        "unc": 0.0006000000000000001,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7436&type=L&comment_code=c29&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"24373.05\", \"gi gk\": \"8 - 72\"}",
+        "payload": {
+          "observed_wavelength": 410.2892,
+          "observed_wavelength_unc": 0.0006,
+          "ritz_wavelength": 410.28991,
+          "ritz_wavelength_unc": 0.00024,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "relative_intensity": 70000.0,
+          "Aki_s-1": 973200.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82259.158,
+          "Ek_cm-1": 106632.1681,
+          "lower": {
+            "configuration": "2"
+          },
+          "upper": {
+            "configuration": "6"
+          },
+          "type": "",
+          "tp_ref_id": "T:T8637",
+          "line_ref_id": "L:L7436c29",
+          "tp_ref_codes": [
+            "T8637"
+          ],
+          "line_ref_codes": [
+            "L7436c29"
+          ],
+          "tp_ref_keys": [
+            "T:T8637"
+          ],
+          "line_ref_keys": [
+            "L:L7436c29"
+          ],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=8637&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7436&type=L&comment_code=c29&element=H&spectr_charge=0"
+          ],
+          "f": 0.022105
+        }
+      },
+      {
+        "wavelength": 410.28922,
+        "unit": "nm",
+        "unc": 0.0001,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=58&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"24373.051\"}",
+        "payload": {
+          "ritz_wavelength": 410.28922,
+          "ritz_wavelength_unc": 0.0001,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "type": "",
+          "line_ref_id": "L:c58",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "c58"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:c58"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=58&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 410.292068748,
+        "unit": "nm",
+        "unc": 8e-09,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"24372.8815683\", \"gi gk\": \"4 - 6\"}",
+        "payload": {
+          "ritz_wavelength": 410.292068748,
+          "ritz_wavelength_unc": 8e-09,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 5145000.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82259.2850014,
+          "Ek_cm-1": 106632.1665697,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "3/2"
+          },
+          "upper": {
+            "configuration": "6d",
+            "term": "2D",
+            "J": "5/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.019477
+        }
+      },
+      {
+        "wavelength": 410.29208,
+        "unit": "nm",
+        "unc": 3.0000000000000004e-05,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=59&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"24372.8810\"}",
+        "payload": {
+          "ritz_wavelength": 410.29208,
+          "ritz_wavelength_unc": 3e-05,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "type": "",
+          "line_ref_id": "L:c59",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "c59"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:c59"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=59&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 410.292144772,
+        "unit": "nm",
+        "unc": 2.2000000000000002e-08,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"24372.8770522\", \"gi gk\": \"4 - 4\"}",
+        "payload": {
+          "ritz_wavelength": 410.292144772,
+          "ritz_wavelength_unc": 2.2e-08,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 857480.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82259.2850014,
+          "Ek_cm-1": 106632.1620536,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "3/2"
+          },
+          "upper": {
+            "configuration": "6d",
+            "term": "2D",
+            "J": "3/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.0021641
+        }
+      },
+      {
+        "wavelength": 410.292350348,
+        "unit": "nm",
+        "unc": 1.3e-08,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"24372.8648402\", \"gi gk\": \"4 - 2\"}",
+        "payload": {
+          "ritz_wavelength": 410.292350348,
+          "ritz_wavelength_unc": 1.3e-08,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 490060.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82259.2850014,
+          "Ek_cm-1": 106632.1498416,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "3/2"
+          },
+          "upper": {
+            "configuration": "6s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.00061839
+        }
+      },
+      {
+        "wavelength": 434.1647191,
+        "unit": "nm",
+        "unc": 4e-07,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"23032.732880\", \"gi gk\": \"2 - 4\"}",
+        "payload": {
+          "ritz_wavelength": 434.1647191,
+          "ritz_wavelength_unc": 4e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 7854800.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82258.9191133,
+          "Ek_cm-1": 105291.651993,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "5d",
+            "term": "2D",
+            "J": "3/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.044395
+        }
+      },
+      {
+        "wavelength": 434.1651159,
+        "unit": "nm",
+        "unc": 8e-07,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"23032.71183\", \"gi gk\": \"2 - 2\"}",
+        "payload": {
+          "ritz_wavelength": 434.1651159,
+          "ritz_wavelength_unc": 8e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 429550.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82258.9191133,
+          "Ek_cm-1": 105291.63094,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "5s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.0012139
+        }
+      },
+      {
+        "wavelength": 434.16512,
+        "unit": "nm",
+        "unc": 0.00011,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=60&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"23032.712\"}",
+        "payload": {
+          "ritz_wavelength": 434.16512,
+          "ritz_wavelength_unc": 0.00011,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "type": "",
+          "line_ref_id": "L:c60",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "c60"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:c60"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=60&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 434.1653824,
+        "unit": "nm",
+        "unc": 8e-07,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"23032.69769\", \"gi gk\": \"2 - 4\"}",
+        "payload": {
+          "ritz_wavelength": 434.1653824,
+          "ritz_wavelength_unc": 8e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 4948300.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82258.9543992821,
+          "Ek_cm-1": 105291.65209,
+          "lower": {
+            "configuration": "2s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "5p",
+            "term": "2P*",
+            "J": "3/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.027967
+        }
+      },
+      {
+        "wavelength": 434.1657811,
+        "unit": "nm",
+        "unc": 8e-07,
+        "selection_rules": "M1",
+        "ref_url": null,
+        "extra_json": "{\"Transition Wavenumber\": \"23032.67654\", \"gi gk\": \"2 - 2\"}",
+        "payload": {
+          "ritz_wavelength": 434.1657811,
+          "ritz_wavelength_unc": 8e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "Ei_cm-1": 82258.9543992821,
+          "Ek_cm-1": 105291.63094,
+          "lower": {
+            "configuration": "2s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "5s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "type": "M1",
+          "tp_ref_codes": [],
+          "line_ref_codes": [],
+          "tp_ref_keys": [],
+          "line_ref_keys": [],
+          "tp_ref_urls": [],
+          "line_ref_urls": []
+        }
+      },
+      {
+        "wavelength": 434.1658238,
+        "unit": "nm",
+        "unc": 8e-07,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"23032.67427\", \"gi gk\": \"2 - 2\"}",
+        "payload": {
+          "ritz_wavelength": 434.1658238,
+          "ritz_wavelength_unc": 8e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 4948400.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82258.9543992821,
+          "Ek_cm-1": 105291.62867,
+          "lower": {
+            "configuration": "2s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "5p",
+            "term": "2P*",
+            "J": "1/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.013984
+        }
+      },
+      {
+        "wavelength": 434.16837,
+        "unit": "nm",
+        "unc": 0.00011,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=61&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"23032.539\"}",
+        "payload": {
+          "ritz_wavelength": 434.16837,
+          "ritz_wavelength_unc": 0.00011,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "type": "",
+          "line_ref_id": "L:c61",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "c61"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:c61"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=61&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 434.1692,
+        "unit": "nm",
+        "unc": 0.0006000000000000001,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7436&type=L&comment_code=c29&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"23032.49\", \"gi gk\": \"8 - 50\"}",
+        "payload": {
+          "observed_wavelength": 434.1692,
+          "observed_wavelength_unc": 0.0006,
+          "ritz_wavelength": 434.1691,
+          "ritz_wavelength_unc": 0.0003,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "relative_intensity": 90000.0,
+          "Aki_s-1": 2530400.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82259.158,
+          "Ek_cm-1": 105291.657,
+          "lower": {
+            "configuration": "2"
+          },
+          "upper": {
+            "configuration": "5"
+          },
+          "type": "",
+          "tp_ref_id": "T:T8637",
+          "line_ref_id": "L:L7436c29",
+          "tp_ref_codes": [
+            "T8637"
+          ],
+          "line_ref_codes": [
+            "L7436c29"
+          ],
+          "tp_ref_keys": [
+            "T:T8637"
+          ],
+          "line_ref_keys": [
+            "L:L7436c29"
+          ],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=8637&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7436&type=L&comment_code=c29&element=H&spectr_charge=0"
+          ],
+          "f": 0.044694
+        }
+      },
+      {
+        "wavelength": 434.171469,
+        "unit": "nm",
+        "unc": 4e-07,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"23032.374795\", \"gi gk\": \"4 - 6\"}",
+        "payload": {
+          "ritz_wavelength": 434.171469,
+          "ritz_wavelength_unc": 4e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 9425400.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82259.2850014,
+          "Ek_cm-1": 105291.659796,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "3/2"
+          },
+          "upper": {
+            "configuration": "5d",
+            "term": "2D",
+            "J": "5/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.039955
+        }
+      },
+      {
+        "wavelength": 434.1715,
+        "unit": "nm",
+        "unc": 4e-05,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=62&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"23032.3733\"}",
+        "payload": {
+          "ritz_wavelength": 434.1715,
+          "ritz_wavelength_unc": 4e-05,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "type": "",
+          "line_ref_id": "L:c62",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "c62"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:c62"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=62&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 434.1716161,
+        "unit": "nm",
+        "unc": 4e-07,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"23032.366992\", \"gi gk\": \"4 - 4\"}",
+        "payload": {
+          "ritz_wavelength": 434.1716161,
+          "ritz_wavelength_unc": 4e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 1570900.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82259.2850014,
+          "Ek_cm-1": 105291.651993,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "3/2"
+          },
+          "upper": {
+            "configuration": "5d",
+            "term": "2D",
+            "J": "3/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.0044395
+        }
+      },
+      {
+        "wavelength": 434.172013,
+        "unit": "nm",
+        "unc": 8e-07,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"23032.34594\", \"gi gk\": \"4 - 2\"}",
+        "payload": {
+          "ritz_wavelength": 434.172013,
+          "ritz_wavelength_unc": 8e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 859200.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82259.2850014,
+          "Ek_cm-1": 105291.63094,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "3/2"
+          },
+          "upper": {
+            "configuration": "5s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.0012141
+        }
+      },
+      {
+        "wavelength": 486.26365622,
+        "unit": "nm",
+        "unc": 1.9e-07,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"20564.975137\", \"gi gk\": \"2 - 4\"}",
+        "payload": {
+          "ritz_wavelength": 486.26365622,
+          "ritz_wavelength_unc": 1.9e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 17188000.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82258.9191133,
+          "Ek_cm-1": 102823.89425,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "4d",
+            "term": "2D",
+            "J": "3/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.12186
+        }
+      },
+      {
+        "wavelength": 486.264130267,
+        "unit": "nm",
+        "unc": 1.9e-08,
+        "selection_rules": "E2",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=9496&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"20564.9550877\", \"gi gk\": \"2 - 6\"}",
+        "payload": {
+          "observed_wavelength": 486.264130267,
+          "observed_wavelength_unc": 1.9e-08,
+          "ritz_wavelength": 486.264130279,
+          "ritz_wavelength_unc": 1.9e-08,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "Ei_cm-1": 82258.9543992821,
+          "Ek_cm-1": 102823.9094871,
+          "lower": {
+            "configuration": "2s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "4d",
+            "term": "2D",
+            "J": "5/2"
+          },
+          "type": "E2",
+          "line_ref_id": "L:L9496",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "L9496"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:L9496"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=9496&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 486.2642,
+        "unit": "nm",
+        "unc": 0.00014000000000000001,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=63&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"20564.952\"}",
+        "payload": {
+          "ritz_wavelength": 486.2642,
+          "ritz_wavelength_unc": 0.00014,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "type": "",
+          "line_ref_id": "L:c63",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "c63"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:c63"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=63&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 486.264488953,
+        "unit": "nm",
+        "unc": 8e-09,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=9477&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"20564.9399183\", \"gi gk\": \"2 - 4\"}",
+        "payload": {
+          "observed_wavelength": 486.264488953,
+          "observed_wavelength_unc": 8e-09,
+          "ritz_wavelength": 486.264488968,
+          "ritz_wavelength_unc": 7e-09,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 9668000.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82258.9543992821,
+          "Ek_cm-1": 102823.8943175,
+          "lower": {
+            "configuration": "2s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "4p",
+            "term": "2P*",
+            "J": "3/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "line_ref_id": "L:L9477",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [
+            "L9477"
+          ],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [
+            "L:L9477"
+          ],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=9477&type=L&element=H&spectr_charge=0"
+          ],
+          "f": 0.068544
+        }
+      },
+      {
+        "wavelength": 486.264631087,
+        "unit": "nm",
+        "unc": 9.000000000000001e-09,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"20564.9339078\", \"gi gk\": \"2 - 2\"}",
+        "payload": {
+          "ritz_wavelength": 486.264631087,
+          "ritz_wavelength_unc": 9e-09,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 859410.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82258.9191133,
+          "Ek_cm-1": 102823.8530211,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "4s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.0030465
+        }
+      },
+      {
+        "wavelength": 486.265465422,
+        "unit": "nm",
+        "unc": 8e-09,
+        "selection_rules": "M1",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=9496&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"20564.8986218\", \"gi gk\": \"2 - 2\"}",
+        "payload": {
+          "observed_wavelength": 486.265465422,
+          "observed_wavelength_unc": 8e-09,
+          "ritz_wavelength": 486.265465437,
+          "ritz_wavelength_unc": 7e-09,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "Ei_cm-1": 82258.9543992821,
+          "Ek_cm-1": 102823.8530211,
+          "lower": {
+            "configuration": "2s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "4s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "type": "M1",
+          "line_ref_id": "L:L9496",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "L9496"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:L9496"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=9496&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 486.265570377,
+        "unit": "nm",
+        "unc": 1.2e-08,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=9477&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"20564.8941832\", \"gi gk\": \"2 - 2\"}",
+        "payload": {
+          "observed_wavelength": 486.265570377,
+          "observed_wavelength_unc": 1.2e-08,
+          "ritz_wavelength": 486.265570389,
+          "ritz_wavelength_unc": 1.2e-08,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 9668200.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82258.9543992821,
+          "Ek_cm-1": 102823.8485825,
+          "lower": {
+            "configuration": "2s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "4p",
+            "term": "2P*",
+            "J": "1/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "line_ref_id": "L:L9477",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [
+            "L9477"
+          ],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [
+            "L:L9477"
+          ],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=9477&type=L&element=H&spectr_charge=0"
+          ],
+          "f": 0.034273
+        }
+      },
+      {
+        "wavelength": 486.2683,
+        "unit": "nm",
+        "unc": 0.00014000000000000001,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=64&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"20564.779\"}",
+        "payload": {
+          "ritz_wavelength": 486.2683,
+          "ritz_wavelength_unc": 0.00014,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "type": "",
+          "line_ref_id": "L:c64",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "c64"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:c64"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=64&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 486.271,
+        "unit": "nm",
+        "unc": 0.005,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7439&type=L&comment_code=c30&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"20564.67\", \"gi gk\": \"8 - 32\"}",
+        "payload": {
+          "observed_wavelength": 486.271,
+          "observed_wavelength_unc": 0.005,
+          "ritz_wavelength": 486.2691,
+          "ritz_wavelength_unc": 0.0003,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "relative_intensity": 180000.0,
+          "Aki_s-1": 8419300.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82259.158,
+          "Ek_cm-1": 102823.904,
+          "lower": {
+            "configuration": "2"
+          },
+          "upper": {
+            "configuration": "4"
+          },
+          "type": "",
+          "tp_ref_id": "T:T8637",
+          "line_ref_id": "L:L7439c30",
+          "tp_ref_codes": [
+            "T8637"
+          ],
+          "line_ref_codes": [
+            "L7439c30"
+          ],
+          "tp_ref_keys": [
+            "T:T8637"
+          ],
+          "line_ref_keys": [
+            "L:L7439c30"
+          ],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=8637&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7439&type=L&comment_code=c30&element=H&spectr_charge=0"
+          ],
+          "f": 0.11938
+        }
+      },
+      {
+        "wavelength": 486.271947584,
+        "unit": "nm",
+        "unc": 2.4e-08,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"20564.6244857\", \"gi gk\": \"4 - 6\"}",
+        "payload": {
+          "ritz_wavelength": 486.271947584,
+          "ritz_wavelength_unc": 2.4e-08,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 20625000.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82259.2850014,
+          "Ek_cm-1": 102823.9094871,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "3/2"
+          },
+          "upper": {
+            "configuration": "4d",
+            "term": "2D",
+            "J": "5/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.10967
+        }
+      },
+      {
+        "wavelength": 486.27202,
+        "unit": "nm",
+        "unc": 5e-05,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=65&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"20564.6216\"}",
+        "payload": {
+          "ritz_wavelength": 486.27202,
+          "ritz_wavelength_unc": 5e-05,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "type": "",
+          "line_ref_id": "L:c65",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "c65"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:c65"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=65&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 486.27230788,
+        "unit": "nm",
+        "unc": 1.9e-07,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"20564.609249\", \"gi gk\": \"4 - 4\"}",
+        "payload": {
+          "ritz_wavelength": 486.27230788,
+          "ritz_wavelength_unc": 1.9e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 3437500.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82259.2850014,
+          "Ek_cm-1": 102823.89425,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "3/2"
+          },
+          "upper": {
+            "configuration": "4d",
+            "term": "2D",
+            "J": "3/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.012186
+        }
+      },
+      {
+        "wavelength": 486.273282785,
+        "unit": "nm",
+        "unc": 1.2e-08,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"20564.5680197\", \"gi gk\": \"4 - 2\"}",
+        "payload": {
+          "ritz_wavelength": 486.273282785,
+          "ritz_wavelength_unc": 1.2e-08,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 1719000.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82259.2850014,
+          "Ek_cm-1": 102823.8530211,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "3/2"
+          },
+          "upper": {
+            "configuration": "4s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.0030469
+        }
+      },
+      {
+        "wavelength": 656.4522552,
+        "unit": "nm",
+        "unc": 2.4e-06,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=2752&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"15233.40033\", \"gi gk\": \"2 - 4\"}",
+        "payload": {
+          "observed_wavelength": 656.4522552,
+          "observed_wavelength_unc": 2.4e-06,
+          "ritz_wavelength": 656.4522556,
+          "ritz_wavelength_unc": 9e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 53877000.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82258.9191133,
+          "Ek_cm-1": 97492.319433,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "3d",
+            "term": "2D",
+            "J": "3/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "line_ref_id": "L:L2752",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [
+            "L2752"
+          ],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [
+            "L:L2752"
+          ],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=2752&type=L&element=H&spectr_charge=0"
+          ],
+          "f": 0.69614
+        }
+      },
+      {
+        "wavelength": 656.4527,
+        "unit": "nm",
+        "unc": 0.0004,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=67&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"15233.390\"}",
+        "payload": {
+          "ritz_wavelength": 656.4527,
+          "ritz_wavelength_unc": 0.0004,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "type": "",
+          "line_ref_id": "L:c67",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "c67"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:c67"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=67&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 656.4535,
+        "unit": "nm",
+        "unc": 0.0009000000000000001,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=68&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"15233.372\"}",
+        "payload": {
+          "ritz_wavelength": 656.4535,
+          "ritz_wavelength_unc": 0.0009,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "type": "",
+          "line_ref_id": "L:c68",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "c68"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:c68"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=68&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 656.4537684,
+        "unit": "nm",
+        "unc": 4e-07,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=6891&type=L&comment_code=c38&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"15233.365214\", \"gi gk\": \"2 - 4\"}",
+        "payload": {
+          "observed_wavelength": 656.4537684,
+          "observed_wavelength_unc": 4e-07,
+          "ritz_wavelength": 656.4537685,
+          "ritz_wavelength_unc": 3e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 22448000.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82258.9543992821,
+          "Ek_cm-1": 97492.319611,
+          "lower": {
+            "configuration": "2s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "3p",
+            "term": "2P*",
+            "J": "3/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "line_ref_id": "L:L6891c38",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [
+            "L6891c38"
+          ],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [
+            "L:L6891c38"
+          ],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=6891&type=L&comment_code=c38&element=H&spectr_charge=0"
+          ],
+          "f": 0.29005
+        }
+      },
+      {
+        "wavelength": 656.4564672,
+        "unit": "nm",
+        "unc": 3e-07,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"15233.302588\", \"gi gk\": \"2 - 2\"}",
+        "payload": {
+          "ritz_wavelength": 656.4564672,
+          "ritz_wavelength_unc": 3e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 2104600.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82258.9191133,
+          "Ek_cm-1": 97492.221701,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "3s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.013597
+        }
+      },
+      {
+        "wavelength": 656.4579878,
+        "unit": "nm",
+        "unc": 3e-07,
+        "selection_rules": "M1",
+        "ref_url": null,
+        "extra_json": "{\"Transition Wavenumber\": \"15233.267302\", \"gi gk\": \"2 - 2\"}",
+        "payload": {
+          "ritz_wavelength": 656.4579878,
+          "ritz_wavelength_unc": 3e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "Ei_cm-1": 82258.9543992821,
+          "Ek_cm-1": 97492.221701,
+          "lower": {
+            "configuration": "2s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "3s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "type": "M1",
+          "tp_ref_codes": [],
+          "line_ref_codes": [],
+          "tp_ref_keys": [],
+          "line_ref_keys": [],
+          "tp_ref_urls": [],
+          "line_ref_urls": []
+        }
+      },
+      {
+        "wavelength": 656.4583,
+        "unit": "nm",
+        "unc": 0.0006000000000000001,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=66&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"15233.260\"}",
+        "payload": {
+          "ritz_wavelength": 656.4583,
+          "ritz_wavelength_unc": 0.0006,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "type": "",
+          "line_ref_id": "L:c66",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "c66"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:c66"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=66&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 656.4584404,
+        "unit": "nm",
+        "unc": 4e-07,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=6891&type=L&comment_code=c38&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"15233.256799\", \"gi gk\": \"2 - 2\"}",
+        "payload": {
+          "observed_wavelength": 656.4584404,
+          "observed_wavelength_unc": 4e-07,
+          "ritz_wavelength": 656.4584403,
+          "ritz_wavelength_unc": 3e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 22449000.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82258.9543992821,
+          "Ek_cm-1": 97492.2112,
+          "lower": {
+            "configuration": "2s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "upper": {
+            "configuration": "3p",
+            "term": "2P*",
+            "J": "1/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "line_ref_id": "L:L6891c38",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [
+            "L6891c38"
+          ],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [
+            "L:L6891c38"
+          ],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=6891&type=L&comment_code=c38&element=H&spectr_charge=0"
+          ],
+          "f": 0.14503
+        }
+      },
+      {
+        "wavelength": 656.46,
+        "unit": "nm",
+        "unc": 0.003,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7400&type=L&comment_code=c29&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"15233.21\", \"gi gk\": \"8 - 18\"}",
+        "payload": {
+          "observed_wavelength": 656.46,
+          "observed_wavelength_unc": 0.003,
+          "ritz_wavelength": 656.4632,
+          "ritz_wavelength_unc": 0.0007,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "relative_intensity": 500000.0,
+          "Aki_s-1": 44101000.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82259.158,
+          "Ek_cm-1": 97492.304,
+          "lower": {
+            "configuration": "2"
+          },
+          "upper": {
+            "configuration": "3"
+          },
+          "type": "",
+          "tp_ref_id": "T:T8637",
+          "line_ref_id": "L:L7400c29",
+          "tp_ref_codes": [
+            "T8637"
+          ],
+          "line_ref_codes": [
+            "L7400c29"
+          ],
+          "tp_ref_keys": [
+            "T:T8637"
+          ],
+          "line_ref_keys": [
+            "L:L7400c29"
+          ],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=8637&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7400&type=L&comment_code=c29&element=H&spectr_charge=0"
+          ],
+          "f": 0.64108
+        }
+      },
+      {
+        "wavelength": 656.4608,
+        "unit": "nm",
+        "unc": 0.0009000000000000001,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=69&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"15233.202\"}",
+        "payload": {
+          "ritz_wavelength": 656.4608,
+          "ritz_wavelength_unc": 0.0009,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "type": "",
+          "line_ref_id": "L:c69",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "c69"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:c69"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=69&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 656.466464,
+        "unit": "nm",
+        "unc": 6e-06,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=2752&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"15233.07061\", \"gi gk\": \"4 - 6\"}",
+        "payload": {
+          "observed_wavelength": 656.466464,
+          "observed_wavelength_unc": 6e-06,
+          "ritz_wavelength": 656.466466,
+          "ritz_wavelength_unc": 3e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 64651000.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82259.2850014,
+          "Ek_cm-1": 97492.355566,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "3/2"
+          },
+          "upper": {
+            "configuration": "3d",
+            "term": "2D",
+            "J": "5/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "line_ref_id": "L:L2752",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [
+            "L2752"
+          ],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [
+            "L:L2752"
+          ],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=2752&type=L&element=H&spectr_charge=0"
+          ],
+          "f": 0.62654
+        }
+      },
+      {
+        "wavelength": 656.46662,
+        "unit": "nm",
+        "unc": 3.0000000000000004e-05,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=71&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"15233.0670\"}",
+        "payload": {
+          "ritz_wavelength": 656.46662,
+          "ritz_wavelength_unc": 3e-05,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "type": "",
+          "line_ref_id": "L:c71",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "c71"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:c71"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=71&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 656.4667,
+        "unit": "nm",
+        "unc": 0.00030000000000000003,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=70&type=L&element=H&spectr_charge=0",
+        "extra_json": "{\"Transition Wavenumber\": \"15233.065\"}",
+        "payload": {
+          "ritz_wavelength": 656.4667,
+          "ritz_wavelength_unc": 0.0003,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "accuracy_code": "",
+          "type": "",
+          "line_ref_id": "L:c70",
+          "tp_ref_codes": [],
+          "line_ref_codes": [
+            "c70"
+          ],
+          "tp_ref_keys": [],
+          "line_ref_keys": [
+            "L:c70"
+          ],
+          "tp_ref_urls": [],
+          "line_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=70&type=L&element=H&spectr_charge=0"
+          ]
+        }
+      },
+      {
+        "wavelength": 656.4680232,
+        "unit": "nm",
+        "unc": 9e-07,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"15233.034432\", \"gi gk\": \"4 - 4\"}",
+        "payload": {
+          "ritz_wavelength": 656.4680232,
+          "ritz_wavelength_unc": 9e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 10775000.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82259.2850014,
+          "Ek_cm-1": 97492.319433,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "3/2"
+          },
+          "upper": {
+            "configuration": "3d",
+            "term": "2D",
+            "J": "3/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.069615
+        }
+      },
+      {
+        "wavelength": 656.4722349,
+        "unit": "nm",
+        "unc": 3e-07,
+        "selection_rules": "",
+        "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
+        "extra_json": "{\"Transition Wavenumber\": \"15232.936700\", \"gi gk\": \"4 - 2\"}",
+        "payload": {
+          "ritz_wavelength": 656.4722349,
+          "ritz_wavelength_unc": 3e-07,
+          "wavelength_unit": "nm",
+          "wavelength_medium_requested": "vacuum",
+          "observed_wavelength_header": "Observed Wavelength",
+          "ritz_wavelength_header": "Ritz Wavelength",
+          "Aki_s-1": 4209700.0,
+          "accuracy_code": "AAA",
+          "Ei_cm-1": 82259.2850014,
+          "Ek_cm-1": 97492.221701,
+          "lower": {
+            "configuration": "2p",
+            "term": "2P*",
+            "J": "3/2"
+          },
+          "upper": {
+            "configuration": "3s",
+            "term": "2S",
+            "J": "1/2"
+          },
+          "type": "",
+          "tp_ref_id": "T:T7771",
+          "tp_ref_codes": [
+            "T7771"
+          ],
+          "line_ref_codes": [],
+          "tp_ref_keys": [
+            "T:T7771"
+          ],
+          "line_ref_keys": [],
+          "tp_ref_urls": [
+            "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=H&spectr_charge=0"
+          ],
+          "line_ref_urls": [],
+          "f": 0.013599
+        }
+      }
+    ]
+  }
+}

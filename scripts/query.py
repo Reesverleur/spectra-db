@@ -92,6 +92,45 @@ def _group_sticky_levels(disp: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return out
 
 
+def _parse_columns_arg(s: str | None) -> list[str] | None:
+    if not s:
+        return None
+    cols = [c.strip() for c in s.split(",") if c.strip()]
+    return cols or None
+
+
+def _apply_column_filter(
+    columns_full: list[tuple[str, str]],
+    *,
+    include_keys: list[str] | None,
+    exclude_keys: set[str],
+) -> list[tuple[str, str]]:
+    """
+    - If include_keys is provided, it overrides exclude_keys and returns columns in that order.
+    - Otherwise returns columns_full minus excluded keys.
+    """
+    col_map = {k: h for k, h in columns_full}
+    if include_keys:
+        out: list[tuple[str, str]] = []
+        for k in include_keys:
+            if k in col_map:
+                out.append((k, col_map[k]))
+        return out
+    return [(k, h) for (k, h) in columns_full if k not in exclude_keys]
+
+
+def _degeneracy_g_from_j(j: object) -> float | None:
+    """
+    Degeneracy (2J+1). Works for integer/half-integer J.
+    """
+    if j is None:
+        return None
+    try:
+        return 2.0 * float(j) + 1.0
+    except Exception:
+        return None
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description="Query local Spectra DB.")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -103,6 +142,15 @@ def main() -> None:
     lv.add_argument("q", help='e.g. "He I" or "He"')
     lv.add_argument("--limit", type=int, default=20)
     lv.add_argument("--max-energy", type=float, default=None)
+    lv.add_argument("--no-refs", action="store_true", help="Hide reference URL column.")
+    lv.add_argument("--compact", action="store_true", help="Hide commonly irrelevant columns.")
+    lv.add_argument(
+        "--columns",
+        default=None,
+        help=(
+            "Comma-separated column keys to show (overrides --no-refs/--compact). Levels keys: Energy,Unit,Unc,J,g,LandeG,Configuration,Term,RefURL"
+        ),
+    )
 
     ln = sub.add_parser("lines", help="List spectral lines for a species/spectrum.")
     ln.add_argument("q", help='e.g. "H I" or "H"')
@@ -110,6 +158,16 @@ def main() -> None:
     ln.add_argument("--max-wav", type=float, default=None)
     ln.add_argument("--unit", default="nm", help="Filter by wavelength unit stored in DB (default: nm).")
     ln.add_argument("--limit", type=int, default=30)
+    ln.add_argument("--no-refs", action="store_true", help="Hide TP/Line reference URL columns.")
+    ln.add_argument("--compact", action="store_true", help="Hide commonly irrelevant columns.")
+    ln.add_argument(
+        "--columns",
+        default=None,
+        help=(
+            "Comma-separated column keys to show (overrides --no-refs/--compact). "
+            "Lines keys: Obs,ObsUnc,Ritz,RitzUnc,RelInt,Aki,Acc,Ei,Ek,Lower,Upper,Type,TPRefURL,LineRefURL"
+        ),
+    )
 
     ex = sub.add_parser("export", help="Export a machine-friendly JSON bundle.")
     ex.add_argument("q", help='e.g. "H I" or "H"')
@@ -136,6 +194,8 @@ def main() -> None:
             print("No species found.")
             return
 
+        include_keys = _parse_columns_arg(args.columns)
+
         for sid in sids:
             iso = api.isotopologues_for_species(sid)
             if not iso:
@@ -150,18 +210,22 @@ def main() -> None:
                 exj = _json_load_maybe(r.get("extra_json"))
                 ref_urls = exj.get("ref_urls") or r.get("ref_url")
 
+                jv = r.get("j_value")
+                gdeg = _degeneracy_g_from_j(jv)
+
                 disp.append(
                     {
                         "energy_value": r["energy_value"],  # helper for sorting only
+                        # display keys (stable identifiers for column selection)
                         "Energy": r["energy_value"],
                         "Unit": r["energy_unit"],
                         "Unc": r["energy_uncertainty"],
-                        "J": r["j_value"],
-                        "g": r["g_value"],
-                        "Landé g": r.get("lande_g"),
+                        "J": jv,
+                        "g": gdeg,  # degeneracy 2J+1
+                        "LandeG": r.get("lande_g"),
                         "Configuration": r["configuration"],
                         "Term": r["term"],
-                        "Ref URL": _first_url_ellipsis(ref_urls),
+                        "RefURL": _first_url_ellipsis(ref_urls),
                     }
                 )
 
@@ -169,23 +233,30 @@ def main() -> None:
             for d in disp:
                 d.pop("energy_value", None)
 
+            columns_full = [
+                ("Energy", "Energy"),
+                ("Unit", "Unit"),
+                ("Unc", "Unc"),
+                ("J", "J"),
+                ("g", "g"),  # immediately to the right of J
+                ("LandeG", "Landé g"),
+                ("Configuration", "Configuration"),
+                ("Term", "Term"),
+                ("RefURL", "Ref URL"),
+            ]
+
+            exclude: set[str] = set()
+            if args.compact:
+                # Keep the most-used columns for quick inspection
+                # (Energy, J, g, Configuration, Term)
+                exclude |= {"Unit", "Unc", "LandeG", "RefURL"}
+            if args.no_refs:
+                exclude |= {"RefURL"}
+
+            columns = _apply_column_filter(columns_full, include_keys=include_keys, exclude_keys=exclude)
+
             print(f"\n== {sid} (iso: {iso_id}) ==")
-            print(
-                _format_table(
-                    disp,
-                    [
-                        ("Energy", "Energy"),
-                        ("Unit", "Unit"),
-                        ("Unc", "Unc"),
-                        ("J", "J"),
-                        ("g", "g"),
-                        ("Landé g", "Landé g"),
-                        ("Configuration", "Configuration"),
-                        ("Term", "Term"),
-                        ("Ref URL", "Ref URL"),
-                    ],
-                )
-            )
+            print(_format_table(disp, columns))
         return
 
     if args.cmd == "lines":
@@ -193,6 +264,8 @@ def main() -> None:
         if not sids:
             print("No species found.")
             return
+
+        include_keys = _parse_columns_arg(args.columns)
 
         for sid in sids:
             iso = api.isotopologues_for_species(sid)
@@ -234,8 +307,8 @@ def main() -> None:
 
                 lower = payload.get("lower") or {}
                 upper = payload.get("upper") or {}
-                lower_cell = " ".join([x for x in [lower.get("configuration"), lower.get("term"), lower.get("J")] if x])
-                upper_cell = " ".join([x for x in [upper.get("configuration"), upper.get("term"), upper.get("J")] if x])
+                lower_cell = ";  ".join([x for x in [lower.get("configuration"), lower.get("term"), lower.get("J")] if x])
+                upper_cell = ";  ".join([x for x in [upper.get("configuration"), upper.get("term"), upper.get("J")] if x])
 
                 ttype = payload.get("type") or r.get("selection_rules")
 
@@ -244,10 +317,11 @@ def main() -> None:
 
                 disp.append(
                     {
+                        # stable keys for column selection
                         "Obs": obs,
-                        "Unc": obs_unc,
+                        "ObsUnc": obs_unc,
                         "Ritz": ritz,
-                        "Unc2": ritz_unc,
+                        "RitzUnc": ritz_unc,
                         "RelInt": relint,
                         "Aki": aki,
                         "Acc": acc,
@@ -256,33 +330,39 @@ def main() -> None:
                         "Lower": lower_cell,
                         "Upper": upper_cell,
                         "Type": ttype,
-                        "TP Ref URL": _first_url_ellipsis(tp_urls),
-                        "Line Ref URL": _first_url_ellipsis(line_urls),
+                        "TPRefURL": _first_url_ellipsis(tp_urls),
+                        "LineRefURL": _first_url_ellipsis(line_urls),
                     }
                 )
 
+            columns_full = [
+                ("Obs", "Observed λ"),
+                ("ObsUnc", "Unc"),
+                ("Ritz", "Ritz λ"),
+                ("RitzUnc", "Unc"),
+                ("RelInt", "Rel. Int."),
+                ("Aki", "Aki (s^-1)"),
+                ("Acc", "Acc"),
+                ("Ei", "Ei (cm^-1)"),
+                ("Ek", "Ek (cm^-1)"),
+                ("Lower", "Lower Level Conf.; Term; J"),
+                ("Upper", "Upper Level Conf.; Term; J"),
+                ("Type", "Type"),
+                ("TPRefURL", "TP Ref URL"),
+                ("LineRefURL", "Line Ref URL"),
+            ]
+
+            exclude: set[str] = set()
+            if args.compact:
+                # typical "fast scan" view
+                exclude |= {"ObsUnc", "RitzUnc", "Acc", "TPRefURL", "LineRefURL"}
+            if args.no_refs:
+                exclude |= {"TPRefURL", "LineRefURL"}
+
+            columns = _apply_column_filter(columns_full, include_keys=include_keys, exclude_keys=exclude)
+
             print(f"\n== {sid} (iso: {iso_id}) ==")
-            print(
-                _format_table(
-                    disp,
-                    [
-                        ("Obs", "Observed λ"),
-                        ("Unc", "Unc"),
-                        ("Ritz", "Ritz λ"),
-                        ("Unc2", "Unc"),
-                        ("RelInt", "Rel. Int."),
-                        ("Aki", "Aki (s^-1)"),
-                        ("Acc", "Acc"),
-                        ("Ei", "Ei (cm^-1)"),
-                        ("Ek", "Ek (cm^-1)"),
-                        ("Lower", "Lower Level Conf., Term, J"),
-                        ("Upper", "Upper Level Conf., Term, J"),
-                        ("Type", "Type"),
-                        ("TP Ref URL", "TP Ref URL"),
-                        ("Line Ref URL", "Line Ref URL"),
-                    ],
-                )
-            )
+            print(_format_table(disp, columns))
         return
 
     if args.cmd == "export":

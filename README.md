@@ -1,195 +1,141 @@
 # Spectra DB
 
-Local-first spectroscopic data mirror + query API (DuckDB-backed), currently focused on **NIST ASD (Atomic Spectra Database)** levels and lines. The project is designed to **preserve everything available** (including optional/ion-specific columns) and expose a clean, fast interface from both the **command line** and **Python**.
+**Spectra DB** is a **local-first spectroscopic data mirror + query API** backed by **DuckDB**.
 
-> This project is not affiliated with NIST. Use is at your own risk and subject to upstream terms/disclaimers.
+The current focus is a faithful mirror of **NIST ASD (Atomic Spectra Database)**:
+
+- scrape and cache ASD HTML responses (provenance / reproducibility)
+- normalize to canonical NDJSON (diffable, resumable ingestion)
+- load into DuckDB for fast local queries
+- provide a CLI (`scripts/query.py`) and a small Python API (`spectra_db.query`)
+
+> This project is not affiliated with NIST. Use at your own risk and subject to upstream terms/disclaimers.
 
 ---
 
 ## What this repository provides today
 
 ### Atomic (NIST ASD)
-- **Energy levels** per spectrum (e.g. `Fe II`): Configuration / Term / J, level energy, uncertainty, and optional fields such as **Landé g-factor** and **leading percentages** when present.
-- **Spectral lines** per spectrum: Observed/Ritz wavelengths + uncertainties, intensity/probability fields when available (Aki, f, log(gf), accuracy codes), endpoint energies (Ei/Ek), and lower/upper level designations.
-- **Bibliographic reference handling**
-  - Store the *reference codes* (e.g. `L8672c99`, `T6892c83`)
-  - Capture **reference URLs** when present in ASD HTML (`onclick="popded('...get_ASBib_ref.cgi?...')"`).
-  - Optional **enrichment pass** to fetch citation/DOI from those URLs.
+
+#### Energy levels (`energy1.pl`)
+- Configuration, Term, J
+- Level energy and uncertainty
+- Landé g-factor and leading percentages when present
+- **References**: supports **multiple references per level** (comma-separated in ASD tables)
+
+#### Spectral lines (`lines1.pl`)
+- Observed and Ritz wavelengths + uncertainties
+- Relative intensity, Aki, accuracy (when present)
+- Endpoint energies (Ei/Ek) and lower/upper level designations
+- **References**: supports **multiple refs per line** for both:
+  - **TP Ref** (transition probabilities; `type=T`)
+  - **Line Ref** (line classification; `type=L`)
+
+#### Bibliographic reference pipeline
+- ASD table cells often contain **comma-separated** reference codes.
+- We preserve:
+  - the raw **reference codes** (as shown in ASD tables)
+  - **reference keys** with an explicit kind prefix: `E:<code>`, `L:<code>`, `T:<code>`
+  - **reference URLs** when present in HTML (`onclick="popded('...get_ASBib_ref.cgi?...')"`), or reconstructed
+- `enrich_refs.py` (optional) fetches each unique ASBib page and extracts DOI + citation metadata.
 
 ### Future (planned)
-- **Molecular** spectroscopy ingestion (NIST molecular SRDs and/or other sources): rotational/vibrational constants, rovibrational coupling, hyperfine, electronic levels.
-- Statistical mechanics / thermo calculations from exact level sums (partition functions, Cp/Cv, etc.).
-- Better lineage: link transitions to level IDs where possible.
+- broader sources (molecules, HITRAN, ExoMol, etc.)
+- better indexing and higher-level query primitives
+- richer exports (BibTeX, citation bundles, etc.)
 
 ---
 
-## Repository layout
+## Repository layout (high level)
 
-```
-src/spectra_db/          # installable package: schema + query + export helpers
-tools/scrapers/          # ingestion tools (NOT part of installable package)
-scripts/                 # CLI utilities (bootstrap + query)
-data/raw/                # cached raw HTTP responses (HTML/text)
-data/normalized/         # canonical NDJSON (levels, lines, refs, etc.)
-data/db/                 # generated DuckDB database file(s)
-examples/                # example Python scripts
-tests/                   # unit tests (offline; no network)
-```
+- `tools/scrapers/nist_asd/` — ASD scrapers + parsers + enrichment
+- `data/raw/` — cached HTML responses (traceability)
+- `data/normalized/` — canonical NDJSON (resumable, diffable)
+- `src/spectra_db/` — DuckDB schema + query API
+- `scripts/query.py` — CLI querying / verification
+- `examples/` — small Python examples
 
 ---
 
 ## Install
 
-Create and activate a venv:
+From repo root (Python 3.10+ recommended):
 
 ```bash
-python3 -m venv .venv
+python -m venv .venv
 source .venv/bin/activate
-python -m pip install --upgrade pip setuptools wheel
+pip install -U pip
+pip install -e .
 ```
-
-Install editable + extras:
-
-```bash
-pip install -e ".[dev,scrape,docs]"
-```
-
-Extras:
-- `dev`: pytest, ruff, mypy, pre-commit
-- `scrape`: requests, beautifulsoup4, lxml (scrapers + tests that import scrapers)
-- `docs`: mkdocs + mkdocstrings
 
 ---
 
 ## NIST traceability and provenance
 
-The guiding rule: **all reported values should be traceable back to NIST outputs**.
-
 ### How traceability is preserved
-- Raw responses are cached under `data/raw/` with request metadata and hashes.
-- Normalized records include:
-  - `source` tags (e.g., `NIST_ASD_LINES`)
-  - reference codes (`TP Ref`, `Line Ref`) and (when available) a NIST ASBib URL
-  - for lines, the scraper stores the **exact observed/ritz column header** strings and the **requested** wavelength convention.
+- Each fetch stores raw response bytes in `data/raw/nist_asd/.../*.body` plus request metadata in `*.meta`.
+- Normalized rows preserve:
+  - requested wavelength medium and header strings (lines)
+  - original table fields not explicitly mapped are retained in `extra_json` / `payload`
 
 ### Vacuum vs air wavelengths
-- ASD may report **vacuum** or **air** wavelengths depending on the option used and/or wavelength region.
-- The scraper records:
-  - `wavelength_medium_requested` (`vacuum` or `vac+air`)
-  - `wavelength_medium_inferred` (from header text like “Vac”/“Air”)
-  - `observed_wavelength_header` / `ritz_wavelength_header`
-- **Default recommendation for physics work:** scrape and store wavelengths in **vacuum** (`--wavelength-type vacuum`), and use `wavenumber_cm-1` when available for conversions.
-- **Database Convention:** the included database files (pre-scraped) report all transition wavelengths in vacuum.
+When scraping lines you specify the requested wavelength type:
 
-> The pipeline does **not** silently convert air↔vacuum during scraping. Any conversions you do later should be explicit and documented.
+- `--wavelength-type vacuum` (vacuum)
+- `--wavelength-type vac+air` (ASD’s mixed mode where ASD may return air wavelengths where appropriate)
+
+We store the requested medium and header strings for later verification.
 
 ---
 
 ## Data formats
 
-### Canonical normalized NDJSON (human-readable, diffable)
-Files live in `data/normalized/`:
+### Canonical normalized NDJSON
+Written to `data/normalized/`:
 
 - `species.ndjson`
 - `isotopologues.ndjson`
-- `states.ndjson` (levels)
-- `transitions.ndjson` (lines)
-- `refs.ndjson`
-- `parameters.ndjson` (reserved for molecular/constants work later)
+- `states.ndjson` (atomic levels)
+- `transitions.ndjson` (spectral lines)
+- `refs.ndjson` (bibliography)
 
-Each line is a JSON object. This layer is the long-term archive.
+Notes:
+- `states.extra_json` may include:
+  - `ref_codes`, `ref_keys`, `ref_urls` (lists)
+- `transitions.intensity_json` is a JSON-serialized payload that may include:
+  - `tp_ref_codes`, `line_ref_codes` (lists)
+  - `tp_ref_keys`, `line_ref_keys` (lists)
+  - `tp_ref_urls`, `line_ref_urls` (lists)
 
 ### DuckDB (fast query layer)
-`data/db/spectra.duckdb` is generated from `data/normalized/` using:
+After loading NDJSON into DuckDB, query via:
+- CLI (`scripts/query.py`)
+- Python API (`spectra_db.query`)
 
+---
+
+## End-to-end ingestion workflow
+
+### 0) (Optional) Start fresh
 ```bash
-python scripts/bootstrap_db.py --truncate-all
-```
-
-You can regenerate at any time; DuckDB is considered a build artifact.
-
----
-
-## Levels: what we store
-
-In `states.ndjson` / `states` table:
-- `configuration`, `term`, `j_value`, `g_value` (degeneracy = 2J+1 for ASD atomic levels)
-- `energy_value`, `energy_unit` (typically `cm-1`), `energy_uncertainty`
-- Optional when present: `lande_g`, `leading_percentages`
-- `ref_id` and `ref_url` (via join to `refs.url`)
-- `extra_json`: **all other columns** the ASD table provides for that spectrum (so nothing is lost)
-
----
-
-## Lines: what we store
-
-In `transitions.ndjson` / `transitions` table:
-- `quantity_value` + `quantity_unit` (the chosen wavelength for sorting/filtering)
-- `quantity_uncertainty` (best-available uncertainty corresponding to chosen wavelength)
-- `selection_rules` (Type when available)
-- `ref_id` chosen preferentially from **Line Ref** (else TP Ref)
-
-Additionally:
-- `intensity_json` (structured physics payload):
-  - observed/ritz wavelengths + uncertainties
-  - Ei/Ek (parsed even if shown as a combined “Ei - Ek” cell)
-  - lower/upper level triplets: configuration / term / J
-  - Aki, accuracy code, relative intensity
-  - TP Ref / Line Ref codes
-  - medium traceability fields (`wavelength_medium_requested`, inferred medium, header strings)
-- `extra_json`: **all other columns** returned by ASD for that spectrum/range.
-
----
-
-## End-to-end ingestion workflow (fresh start)
-
-If you want a clean run:
-
-```bash
-rm -rf data/db/*
 rm -f data/normalized/*.ndjson
-# Optional: clear cache if you want to re-download everything
-# rm -rf data/raw/nist_asd
 ```
 
-### Spectrum lists
-If you already have the spectrum lists, you can reuse them:
-- `data/normalized/asd_spectra_levels.txt`
-- `data/normalized/asd_spectra_lines.txt`
-
-If you need to regenerate from holdings pages:
-
+### 1) Ingest levels for a spectrum
 ```bash
-python -m tools.scrapers.nist_asd.list_spectra --kind levels --out data/normalized/asd_spectra_levels.txt
-python -m tools.scrapers.nist_asd.list_spectra --kind lines  --out data/normalized/asd_spectra_lines.txt
+python -m tools.scrapers.nist_asd.fetch_levels --spectrum "Fe II"
 ```
 
-### Ingest all levels
+### 2) Ingest lines for a spectrum (small window)
 ```bash
-python -m tools.scrapers.nist_asd.bulk_ingest \
-  --mode levels \
-  --spectra-file data/normalized/asd_spectra_levels.txt \
-  --units-levels cm-1
+python -m tools.scrapers.nist_asd.fetch_lines --spectrum "Fe II" --min-wav 380 --max-wav 381 --unit nm --wavelength-type vacuum
 ```
 
-### Ingest all lines (adaptive splitting + resume)
-Recommended defaults for “all lines”:
-- wavelength range: `0 → 200000 nm` (ASD coverage)
-- start with a large `--initial-bin` and let adaptive splitting handle dense spectra
+Notes:
+- The fetchers are **resumable** and prefer cached responses in `data/raw/`.
+- Add `--force` to re-download instead of using cache.
 
-```bash
-python -m tools.scrapers.nist_asd.bulk_ingest \
-  --mode lines \
-  --spectra-file data/normalized/asd_spectra_lines.txt \
-  --wav-min 0 \
-  --wav-max 200000 \
-  --initial-bin 200000 \
-  --min-bin 0.5 \
-  --line-unit nm \
-  --wavelength-type vacuum
-```
-
-### Build the DB
+### 3) Build the DB
 ```bash
 python scripts/bootstrap_db.py --truncate-all
 ```
@@ -198,38 +144,80 @@ python scripts/bootstrap_db.py --truncate-all
 
 ## Reference enrichment (optional, recommended)
 
-After ingest, you can enrich `refs.ndjson` by fetching ASBib pages for refs that have URLs:
+Once you have `refs.ndjson`, enrich DOI + citation metadata:
 
 ```bash
 python -m tools.scrapers.nist_asd.enrich_refs
-python scripts/bootstrap_db.py --truncate-all
+```
+
+For a quick test run (if supported by your script):
+```bash
+python -m tools.scrapers.nist_asd.enrich_refs --max 200
 ```
 
 ---
 
 ## Query from the command line
 
+All CLI commands are run from repo root:
+
+```bash
+python scripts/query.py --help
+```
+
 ### Search species
 ```bash
-python scripts/query.py species Fe
+python scripts/query.py species He
+python scripts/query.py species Iron
 ```
 
 ### Levels
+Default columns include **degeneracy** `g = 2J + 1` next to `J`.
+
 ```bash
-python scripts/query.py levels "Fe II" --limit 20
+python scripts/query.py levels "Fe II" --limit 30
+python scripts/query.py levels "Fe II" --max-energy 90000 --limit 50
 ```
 
-### Lines (visible)
+Hide reference URLs:
 ```bash
-python scripts/query.py lines "Fe II" --min-wav 380 --max-wav 780 --unit nm --limit 40
+python scripts/query.py levels "Fe II" --no-refs
+```
+
+Compact view (hides Unit/Unc/Landé g/Refs):
+```bash
+python scripts/query.py levels "Fe II" --compact
+```
+
+Explicit columns (overrides compact/no-refs):
+```bash
+python scripts/query.py levels "Fe II" --columns "Energy,J,g,Configuration,Term"
+```
+
+### Lines
+```bash
+python scripts/query.py lines "Fe II" --min-wav 380 --max-wav 381 --unit nm --limit 30
+python scripts/query.py lines "H I" --min-wav 400 --max-wav 700 --unit nm --limit 30
+```
+
+Hide reference URLs:
+```bash
+python scripts/query.py lines "Fe II" --min-wav 380 --max-wav 381 --unit nm --no-refs
+```
+
+Compact view (hides uncertainties/Acc/Refs):
+```bash
+python scripts/query.py lines "Fe II" --min-wav 380 --max-wav 381 --unit nm --compact
+```
+
+Explicit columns:
+```bash
+python scripts/query.py lines "Fe II" --min-wav 380 --max-wav 381 --unit nm --columns "Obs,Ritz,Ei,Ek,Lower,Upper,Type"
 ```
 
 ### Export a machine-friendly JSON bundle
 ```bash
-python scripts/query.py export "H I" \
-  --levels-max-energy 90000 \
-  --lines-min-wav 400 --lines-max-wav 700 --lines-unit nm \
-  --out h_i_bundle.json
+python scripts/query.py export "H I" --levels-max-energy 90000 --lines-min-wav 400 --lines-max-wav 700 --lines-unit nm --out examples/h_i_bundle.json
 ```
 
 ---
@@ -239,58 +227,48 @@ python scripts/query.py export "H I" \
 ```python
 from spectra_db.query import open_default_api
 from spectra_db.query.export import export_species_bundle
+from spectra_db.util.asd_spectrum import parse_spectrum_label
 
 api = open_default_api()
 
-# Find species:
-print(api.find_species("Fe"))
+# Resolve a human-friendly ASD label (e.g., "H I") to species_id
+ps = parse_spectrum_label("H I")
+species_id = f"ASD:{ps.element}:{ps.charge:+d}"
 
-# Get isotopologue id:
-iso_id = api.isotopologues_for_species("ASD:Fe:+1")[0]["iso_id"]
+# Pick an isotopologue (usually one per species for atomic ASD)
+isos = api.isotopologues_for_species(species_id)
+iso_id = isos[0]["iso_id"]
 
-# Levels:
-levels = api.atomic_levels(iso_id, limit=50, max_energy=100000)
-print(levels[0])
+# Levels
+levels = api.atomic_levels(iso_id=iso_id, limit=20, max_energy=100000.0)
 
-# Lines:
-lines = api.lines(iso_id, unit="nm", min_wav=380, max_wav=780, limit=100, parse_payload=True)
-print(lines[0]["payload"])
+# Lines (payload parsed)
+lines = api.lines(
+    iso_id=iso_id,
+    unit="nm",
+    min_wav=400.0,
+    max_wav=700.0,
+    limit=20,
+    parse_payload=True,
+)
 
-# Export:
-bundle = export_species_bundle(query="Fe II", lines_min_wav=380, lines_max_wav=780, lines_unit="nm")
+# Export a bundle (JSON-serializable)
+bundle = export_species_bundle(
+    query="H I",
+    levels_max_energy=90000,
+    lines_min_wav=400,
+    lines_max_wav=700,
+    lines_unit="nm",
+    levels_limit=2000,
+    lines_limit=2000,
+)
 ```
 
 ---
 
 ## Examples
 
-See:
-- `examples/asd_demo.py` — end-to-end usage after you have ingested + bootstrapped.
-
-Run:
-```bash
-python examples/asd_demo.py
-```
-
----
-
-## Development
-
-Format / lint:
-```bash
-ruff check .
-ruff format .
-```
-
-Tests:
-```bash
-python -m pytest -q
-```
-
-Docs preview:
-```bash
-mkdocs serve
-```
+- `examples/asd_demo.py` — programmatic usage walkthrough (levels, lines, export)
 
 ---
 
@@ -301,7 +279,7 @@ Full ASD mirrors are large. Consider:
 - tracking large artifacts using Git LFS, or
 - publishing DB snapshots as release assets.
 
-DuckDB is always rebuildable from normalized NDJSON.
+DuckDB is rebuildable from normalized NDJSON.
 
 ---
 
