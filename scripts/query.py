@@ -147,9 +147,7 @@ def main() -> None:
     lv.add_argument(
         "--columns",
         default=None,
-        help=(
-            "Comma-separated column keys to show (overrides --no-refs/--compact). Levels keys: Energy,Unit,Unc,J,g,LandeG,Configuration,Term,RefURL"
-        ),
+        help=("Comma-separated column keys to show (overrides --no-refs/--compact). Levels keys: Energy,Unit,Unc,J,g,LandeG,Configuration,Term,RefURL"),
     )
 
     ln = sub.add_parser("lines", help="List spectral lines for a species/spectrum.")
@@ -163,10 +161,7 @@ def main() -> None:
     ln.add_argument(
         "--columns",
         default=None,
-        help=(
-            "Comma-separated column keys to show (overrides --no-refs/--compact). "
-            "Lines keys: Obs,ObsUnc,Ritz,RitzUnc,RelInt,Aki,Acc,Ei,Ek,Lower,Upper,Type,TPRefURL,LineRefURL"
-        ),
+        help=("Comma-separated column keys to show (overrides --no-refs/--compact). Lines keys: Obs,ObsUnc,Ritz,RitzUnc,RelInt,Aki,Acc,Ei,Ek,Lower,Upper,Type,TPRefURL,LineRefURL"),
     )
 
     ex = sub.add_parser("export", help="Export a machine-friendly JSON bundle.")

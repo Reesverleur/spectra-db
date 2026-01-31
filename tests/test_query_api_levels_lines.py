@@ -13,13 +13,9 @@ def test_query_api_levels_and_lines(tmp_path: Path) -> None:
     with store.connect() as con:
         # Minimal refs/species/iso
         con.execute("INSERT INTO refs(ref_id, citation, doi, url, notes) VALUES ('L1','c',NULL,'https://example.com/ref','n')")
+        con.execute("INSERT INTO species(species_id, formula, name, charge, multiplicity, inchi_key, tags, notes) VALUES ('ASD:H:+0','H','H I',0,NULL,NULL,'atomic',NULL)")
         con.execute(
-            "INSERT INTO species(species_id, formula, name, charge, multiplicity, inchi_key, tags, notes) VALUES "
-            "('ASD:H:+0','H','H I',0,NULL,NULL,'atomic',NULL)"
-        )
-        con.execute(
-            "INSERT INTO isotopologues(iso_id, species_id, label, composition_json, nuclear_spins_json, mass_amu, abundance, notes) VALUES "
-            "('ASD:H:+0/main','ASD:H:+0',NULL,NULL,NULL,NULL,NULL,NULL)"
+            "INSERT INTO isotopologues(iso_id, species_id, label, composition_json, nuclear_spins_json, mass_amu, abundance, notes) VALUES ('ASD:H:+0/main','ASD:H:+0',NULL,NULL,NULL,NULL,NULL,NULL)"
         )
         con.execute(
             "INSERT INTO states(state_id, iso_id, state_type, electronic_label, vibrational_json, rotational_json, parity,"
