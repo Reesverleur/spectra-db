@@ -1,0 +1,5634 @@
+{
+  "query": "CO",
+  "species_id": "MOL:CO:+0",
+  "iso_id": "iso_49644055467acfec",
+  "model": "webbook_diatomic_constants",
+  "states": {
+    "D": {
+      "State": "D",
+      "Te": 153271.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "D ← X",
+      "Trans_ref_ids": [
+        "WB:C630080:Dia8"
+      ],
+      "Trans_ref_targets": [
+        "Dia8"
+      ],
+      "params": {
+        "Te": {
+          "value": 153271.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(153271)",
+          "context_json": {
+            "state_id": "state_c2dc9027663d01cf",
+            "state_label": "D",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(153271)",
+            "clean_cell": "(153271)",
+            "cell_flags": {
+              "raw": "(153271)",
+              "brackets": "()",
+              "token": "153271"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 153037.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "153037",
+          "context_json": {
+            "state_id": "state_c2dc9027663d01cf",
+            "state_label": "D",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "153037",
+            "clean_cell": "153037",
+            "cell_flags": {
+              "raw": "153037",
+              "token": "153037"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "we": {
+          "value": 1705.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(1705)",
+          "context_json": {
+            "state_id": "state_c2dc9027663d01cf",
+            "state_label": "D",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(1705)",
+            "clean_cell": "(1705)",
+            "cell_flags": {
+              "raw": "(1705)",
+              "brackets": "()",
+              "token": "1705"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 18.5,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(18.5)",
+          "context_json": {
+            "state_id": "state_c2dc9027663d01cf",
+            "state_label": "D",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(18.5)",
+            "clean_cell": "(18.5)",
+            "cell_flags": {
+              "raw": "(18.5)",
+              "brackets": "()",
+              "token": "18.5",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "U": {
+      "State": "U",
+      "Te": 153199.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "U ← X",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Te": {
+          "value": 153199.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(153199)",
+          "context_json": {
+            "state_id": "state_a76886859fc6524a",
+            "state_label": "U",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(153199)",
+            "clean_cell": "(153199)",
+            "cell_flags": {
+              "raw": "(153199)",
+              "brackets": "()",
+              "token": "153199"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 152955.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "152955",
+          "context_json": {
+            "state_id": "state_a76886859fc6524a",
+            "state_label": "U",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "152955",
+            "clean_cell": "152955",
+            "cell_flags": {
+              "raw": "152955",
+              "token": "152955"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "we": {
+          "value": 1676.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1676]",
+          "context_json": {
+            "state_id": "state_a76886859fc6524a",
+            "state_label": "U",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1676]",
+            "clean_cell": "[1676]",
+            "cell_flags": {
+              "raw": "[1676]",
+              "brackets": "[]",
+              "token": "1676"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "S": {
+      "State": "S",
+      "Te": 148929.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "S ← X",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Te": {
+          "value": 148929.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(148929)",
+          "context_json": {
+            "state_id": "state_689aa605874f741a",
+            "state_label": "S",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(148929)",
+            "clean_cell": "(148929)",
+            "cell_flags": {
+              "raw": "(148929)",
+              "brackets": "()",
+              "token": "148929"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 148715.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "148715",
+          "context_json": {
+            "state_id": "state_689aa605874f741a",
+            "state_label": "S",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "148715",
+            "clean_cell": "148715",
+            "cell_flags": {
+              "raw": "148715",
+              "token": "148715"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "we": {
+          "value": 1750.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(1750)",
+          "context_json": {
+            "state_id": "state_689aa605874f741a",
+            "state_label": "S",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(1750)",
+            "clean_cell": "(1750)",
+            "cell_flags": {
+              "raw": "(1750)",
+              "brackets": "()",
+              "token": "1750"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 30.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(30)",
+          "context_json": {
+            "state_id": "state_689aa605874f741a",
+            "state_label": "S",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(30)",
+            "clean_cell": "(30)",
+            "cell_flags": {
+              "raw": "(30)",
+              "brackets": "()",
+              "token": "30"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "T": {
+      "State": "T",
+      "Te": 147065.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "T ← X",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Te": {
+          "value": 147065.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(147065)",
+          "context_json": {
+            "state_id": "state_3ab196c3e88d472a",
+            "state_label": "T",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(147065)",
+            "clean_cell": "(147065)",
+            "cell_flags": {
+              "raw": "(147065)",
+              "brackets": "()",
+              "token": "147065"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 146810.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "146810",
+          "context_json": {
+            "state_id": "state_3ab196c3e88d472a",
+            "state_label": "T",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "146810",
+            "clean_cell": "146810",
+            "cell_flags": {
+              "raw": "146810",
+              "token": "146810"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "we": {
+          "value": 1658.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(1658)",
+          "context_json": {
+            "state_id": "state_3ab196c3e88d472a",
+            "state_label": "T",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(1658)",
+            "clean_cell": "(1658)",
+            "cell_flags": {
+              "raw": "(1658)",
+              "brackets": "()",
+              "token": "1658"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 11.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(11)",
+          "context_json": {
+            "state_id": "state_3ab196c3e88d472a",
+            "state_label": "T",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(11)",
+            "clean_cell": "(11)",
+            "cell_flags": {
+              "raw": "(11)",
+              "brackets": "()",
+              "token": "11"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "R": {
+      "State": "R",
+      "Te": 144939.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "R ← X",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Te": {
+          "value": 144939.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(144939)",
+          "context_json": {
+            "state_id": "state_ac5fc73bc7c2aada",
+            "state_label": "R",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(144939)",
+            "clean_cell": "(144939)",
+            "cell_flags": {
+              "raw": "(144939)",
+              "brackets": "()",
+              "token": "144939"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 144718.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "144718",
+          "context_json": {
+            "state_id": "state_ac5fc73bc7c2aada",
+            "state_label": "R",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "144718",
+            "clean_cell": "144718",
+            "cell_flags": {
+              "raw": "144718",
+              "token": "144718"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "we": {
+          "value": 1735.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(1735)",
+          "context_json": {
+            "state_id": "state_ac5fc73bc7c2aada",
+            "state_label": "R",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(1735)",
+            "clean_cell": "(1735)",
+            "cell_flags": {
+              "raw": "(1735)",
+              "brackets": "()",
+              "token": "1735"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 28.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(28)",
+          "context_json": {
+            "state_id": "state_ac5fc73bc7c2aada",
+            "state_label": "R",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(28)",
+            "clean_cell": "(28)",
+            "cell_flags": {
+              "raw": "(28)",
+              "brackets": "()",
+              "token": "28"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "Q": {
+      "State": "Q",
+      "Te": 129043.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "Q ← X R",
+      "Trans_ref_ids": [
+        "WB:C630080:Dia10"
+      ],
+      "Trans_ref_targets": [
+        "Dia10"
+      ],
+      "params": {
+        "Te": {
+          "value": 129043.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "129043",
+          "context_json": {
+            "state_id": "state_0df81736099c44a2",
+            "state_label": "Q",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "129043",
+            "clean_cell": "129043",
+            "cell_flags": {
+              "raw": "129043",
+              "token": "129043"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 128738.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "128738",
+          "context_json": {
+            "state_id": "state_0df81736099c44a2",
+            "state_label": "Q",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "128738",
+            "clean_cell": "128738",
+            "cell_flags": {
+              "raw": "128738",
+              "token": "128738"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "we": {
+          "value": 1558.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1558",
+          "context_json": {
+            "state_id": "state_0df81736099c44a2",
+            "state_label": "Q",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1558",
+            "clean_cell": "1558",
+            "cell_flags": {
+              "raw": "1558",
+              "token": "1558"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 10.6,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "10.6",
+          "context_json": {
+            "state_id": "state_0df81736099c44a2",
+            "state_label": "Q",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "10.6",
+            "clean_cell": "10.6",
+            "cell_flags": {
+              "raw": "10.6",
+              "token": "10.6",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "O(1Π)": {
+      "State": "O(1Π)",
+      "Te": 126729.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "O ← X R",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Te": {
+          "value": 126729.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "126729",
+          "context_json": {
+            "state_id": "state_0afd8e24b24c052a",
+            "state_label": "O(1Π)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "126729",
+            "clean_cell": "126729",
+            "cell_flags": {
+              "raw": "126729",
+              "token": "126729"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 126424.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "126424",
+          "context_json": {
+            "state_id": "state_0afd8e24b24c052a",
+            "state_label": "O(1Π)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "126424",
+            "clean_cell": "126424",
+            "cell_flags": {
+              "raw": "126424",
+              "token": "126424"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "we": {
+          "value": 1560.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1560",
+          "context_json": {
+            "state_id": "state_0afd8e24b24c052a",
+            "state_label": "O(1Π)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1560",
+            "clean_cell": "1560",
+            "cell_flags": {
+              "raw": "1560",
+              "token": "1560"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 13.3,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "13.3",
+          "context_json": {
+            "state_id": "state_0afd8e24b24c052a",
+            "state_label": "O(1Π)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "13.3",
+            "clean_cell": "13.3",
+            "cell_flags": {
+              "raw": "13.3",
+              "token": "13.3",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "P": {
+      "State": "P",
+      "Te": 123656.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "P ← X R",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Te": {
+          "value": 123656.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "123656",
+          "context_json": {
+            "state_id": "state_218b82e1d6734dd4",
+            "state_label": "P",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "123656",
+            "clean_cell": "123656",
+            "cell_flags": {
+              "raw": "123656",
+              "token": "123656"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 123335.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "123335",
+          "context_json": {
+            "state_id": "state_218b82e1d6734dd4",
+            "state_label": "P",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "123335",
+            "clean_cell": "123335",
+            "cell_flags": {
+              "raw": "123335",
+              "token": "123335"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "we": {
+          "value": 1521.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1521]",
+          "context_json": {
+            "state_id": "state_218b82e1d6734dd4",
+            "state_label": "P",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1521]",
+            "clean_cell": "[1521]",
+            "cell_flags": {
+              "raw": "[1521]",
+              "brackets": "[]",
+              "token": "1521"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "N": {
+      "State": "N",
+      "Te": 119882.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "N ← X",
+      "Trans_ref_ids": [
+        "WB:C630080:Dia10"
+      ],
+      "Trans_ref_targets": [
+        "Dia10"
+      ],
+      "params": {
+        "Te": {
+          "value": 119882.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(119882)",
+          "context_json": {
+            "state_id": "state_a5efe38de89eae24",
+            "state_label": "N",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(119882)",
+            "clean_cell": "(119882)",
+            "cell_flags": {
+              "raw": "(119882)",
+              "brackets": "()",
+              "token": "119882"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 119600.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(119600)",
+          "context_json": {
+            "state_id": "state_a5efe38de89eae24",
+            "state_label": "N",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(119600)",
+            "clean_cell": "(119600)",
+            "cell_flags": {
+              "raw": "(119600)",
+              "brackets": "()",
+              "token": "119600"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "we": {
+          "value": 1600.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(1600)",
+          "context_json": {
+            "state_id": "state_a5efe38de89eae24",
+            "state_label": "N",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(1600)",
+            "clean_cell": "(1600)",
+            "cell_flags": {
+              "raw": "(1600)",
+              "brackets": "()",
+              "token": "1600"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "I'(5sσ)": {
+      "State": "I'(5sσ)",
+      "Te": null,
+      "Te_unit": null,
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "I' ← X",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "nu00": {
+          "value": 106383.0,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia12",
+          "source": "webbook:C630080",
+          "raw_text": "106383",
+          "context_json": {
+            "state_id": "state_0ad0abff4fb7fe9b",
+            "state_label": "I'(5sσ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "106383 12",
+            "clean_cell": "106383",
+            "cell_flags": {
+              "raw": "106383",
+              "token": "106383"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia12"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia12"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia12"
+          ],
+          "suffix": null
+        }
+      }
+    },
+    "Z1Σ+": {
+      "State": "Z1Σ+",
+      "Te": null,
+      "Te_unit": null,
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "Z ↔ X R",
+      "Trans_ref_ids": [
+        "WB:C630080:Dia10"
+      ],
+      "Trans_ref_targets": [
+        "Dia10"
+      ],
+      "params": {
+        "Be": {
+          "value": 1.9,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[(1.9)]",
+          "context_json": {
+            "state_id": "state_2c7eecf92386accc",
+            "state_label": "Z1Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[(1.9)]",
+            "clean_cell": "[(1.9)]",
+            "cell_flags": {
+              "raw": "[(1.9)]",
+              "brackets": "[]",
+              "token": "1.9",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 105724.0,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia13",
+          "source": "webbook:C630080",
+          "raw_text": "(105724) (Z)",
+          "context_json": {
+            "state_id": "state_2c7eecf92386accc",
+            "state_label": "Z1Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(105724) 13 (Z)",
+            "clean_cell": "(105724) (Z)",
+            "cell_flags": {
+              "raw": "(105724) (Z)",
+              "brackets": "()",
+              "token": "105724"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia13"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia13"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia13"
+          ],
+          "suffix": null
+        },
+        "re": {
+          "value": 1.14,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[(1.14)]",
+          "context_json": {
+            "state_id": "state_2c7eecf92386accc",
+            "state_label": "Z1Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[(1.14)]",
+            "clean_cell": "[(1.14)]",
+            "cell_flags": {
+              "raw": "[(1.14)]",
+              "brackets": "[]",
+              "token": "1.14",
+              "decimals": 2
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "H(1Π)": {
+      "State": "H(1Π)",
+      "Te": 105811.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "H ← X R",
+      "Trans_ref_ids": [
+        "WB:C630080:Dia10",
+        "WB:C630080:Dia14"
+      ],
+      "Trans_ref_targets": [
+        "Dia10",
+        "Dia14"
+      ],
+      "params": {
+        "Te": {
+          "value": 105811.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(105811)",
+          "context_json": {
+            "state_id": "state_29c65eb8ed8e4565",
+            "state_label": "H(1Π)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(105811)",
+            "clean_cell": "(105811)",
+            "cell_flags": {
+              "raw": "(105811)",
+              "brackets": "()",
+              "token": "105811"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 105266.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "105266",
+          "context_json": {
+            "state_id": "state_29c65eb8ed8e4565",
+            "state_label": "H(1Π)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "105266",
+            "clean_cell": "105266",
+            "cell_flags": {
+              "raw": "105266",
+              "token": "105266"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "we": {
+          "value": 1097.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(1097)",
+          "context_json": {
+            "state_id": "state_29c65eb8ed8e4565",
+            "state_label": "H(1Π)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(1097)",
+            "clean_cell": "(1097)",
+            "cell_flags": {
+              "raw": "(1097)",
+              "brackets": "()",
+              "token": "1097"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 47.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(47)",
+          "context_json": {
+            "state_id": "state_29c65eb8ed8e4565",
+            "state_label": "H(1Π)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(47)",
+            "clean_cell": "(47)",
+            "cell_flags": {
+              "raw": "(47)",
+              "brackets": "()",
+              "token": "47"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "H'1Π": {
+      "State": "H'1Π",
+      "Te": null,
+      "Te_unit": null,
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "H' ← X R",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Be": {
+          "value": 1.415,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.415]",
+          "context_json": {
+            "state_id": "state_ae13d3441f1bdc87",
+            "state_label": "H'1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.415]",
+            "clean_cell": "[1.415]",
+            "cell_flags": {
+              "raw": "[1.415]",
+              "brackets": "[]",
+              "token": "1.415",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 104119.6,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "104119.6 Z",
+          "context_json": {
+            "state_id": "state_ae13d3441f1bdc87",
+            "state_label": "H'1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "104119.6 Z",
+            "clean_cell": "104119.6 Z",
+            "cell_flags": {
+              "raw": "104119.6 Z",
+              "token": "104119.6",
+              "decimals": 1,
+              "suffix": "Z"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": [],
+            "value_suffix": "Z"
+          },
+          "ref_ids": [],
+          "suffix": "Z"
+        },
+        "re": {
+          "value": 1.318,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.318]",
+          "context_json": {
+            "state_id": "state_ae13d3441f1bdc87",
+            "state_label": "H'1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.318]",
+            "clean_cell": "[1.318]",
+            "cell_flags": {
+              "raw": "[1.318]",
+              "brackets": "[]",
+              "token": "1.318",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "L1Π4pπ": {
+      "State": "L1Π4pπ",
+      "Te": 103251.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "L ← X V",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Be": {
+          "value": 1.9812,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.9812]",
+          "context_json": {
+            "state_id": "state_084c74a2dd93842e",
+            "state_label": "L1Π4pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.9812]",
+            "clean_cell": "[1.9812]",
+            "cell_flags": {
+              "raw": "[1.9812]",
+              "brackets": "[]",
+              "token": "1.9812",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "De": {
+          "value": 1.4e-05,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[0.000014]",
+          "context_json": {
+            "state_id": "state_084c74a2dd93842e",
+            "state_label": "L1Π4pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[0.000014]",
+            "clean_cell": "[0.000014]",
+            "cell_flags": {
+              "raw": "[0.000014]",
+              "brackets": "[]",
+              "token": "0.000014",
+              "decimals": 6
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "Te": {
+          "value": 103251.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "103251",
+          "context_json": {
+            "state_id": "state_084c74a2dd93842e",
+            "state_label": "L1Π4pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "103251",
+            "clean_cell": "103251",
+            "cell_flags": {
+              "raw": "103251",
+              "token": "103251"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 103271.5,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "103271.5 Z",
+          "context_json": {
+            "state_id": "state_084c74a2dd93842e",
+            "state_label": "L1Π4pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "103271.5 Z",
+            "clean_cell": "103271.5 Z",
+            "cell_flags": {
+              "raw": "103271.5 Z",
+              "token": "103271.5",
+              "decimals": 1,
+              "suffix": "Z"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": [],
+            "value_suffix": "Z"
+          },
+          "ref_ids": [],
+          "suffix": "Z"
+        },
+        "re": {
+          "value": 1.114,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.114]",
+          "context_json": {
+            "state_id": "state_084c74a2dd93842e",
+            "state_label": "L1Π4pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.114]",
+            "clean_cell": "[1.114]",
+            "cell_flags": {
+              "raw": "[1.114]",
+              "brackets": "[]",
+              "token": "1.114",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "we": {
+          "value": 2181.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "2181 Z",
+          "context_json": {
+            "state_id": "state_084c74a2dd93842e",
+            "state_label": "L1Π4pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "2181 Z",
+            "clean_cell": "2181 Z",
+            "cell_flags": {
+              "raw": "2181 Z",
+              "token": "2181"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 15.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(15)",
+          "context_json": {
+            "state_id": "state_084c74a2dd93842e",
+            "state_label": "L1Π4pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(15)",
+            "clean_cell": "(15)",
+            "cell_flags": {
+              "raw": "(15)",
+              "brackets": "()",
+              "token": "15"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "L'(1Π)": {
+      "State": "L'(1Π)",
+      "Te": null,
+      "Te_unit": null,
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "L' ← X R",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "nu00": {
+          "value": 103215.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "103215 HQ",
+          "context_json": {
+            "state_id": "state_96ff06da5f45cd26",
+            "state_label": "L'(1Π)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "103215 HQ",
+            "clean_cell": "103215 HQ",
+            "cell_flags": {
+              "raw": "103215 HQ",
+              "token": "103215",
+              "suffix": "HQ"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": [],
+            "value_suffix": "HQ"
+          },
+          "ref_ids": [],
+          "suffix": "HQ"
+        }
+      }
+    },
+    "K1Σ+4pσ": {
+      "State": "K1Σ+4pσ",
+      "Te": null,
+      "Te_unit": null,
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "K ← X R",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Be": {
+          "value": 1.9189,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.9189]",
+          "context_json": {
+            "state_id": "state_08d419462ab6a23d",
+            "state_label": "K1Σ+4pσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.9189]",
+            "clean_cell": "[1.9189]",
+            "cell_flags": {
+              "raw": "[1.9189]",
+              "brackets": "[]",
+              "token": "1.9189",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "De": {
+          "value": 6.6e-05,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[0.000066]",
+          "context_json": {
+            "state_id": "state_08d419462ab6a23d",
+            "state_label": "K1Σ+4pσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[0.000066]",
+            "clean_cell": "[0.000066]",
+            "cell_flags": {
+              "raw": "[0.000066]",
+              "brackets": "[]",
+              "token": "0.000066",
+              "decimals": 6
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 103054.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "103054. Z",
+          "context_json": {
+            "state_id": "state_08d419462ab6a23d",
+            "state_label": "K1Σ+4pσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "103054. 3 Z",
+            "clean_cell": "103054. Z",
+            "cell_flags": {
+              "raw": "103054. Z",
+              "token": "103054"
+            },
+            "cell_markers": [
+              "3"
+            ],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "re": {
+          "value": 1.132,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.132]",
+          "context_json": {
+            "state_id": "state_08d419462ab6a23d",
+            "state_label": "K1Σ+4pσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.132]",
+            "clean_cell": "[1.132]",
+            "cell_flags": {
+              "raw": "[1.132]",
+              "brackets": "[]",
+              "token": "1.132",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "W1Π": {
+      "State": "W1Π",
+      "Te": null,
+      "Te_unit": null,
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "W ↔ X R",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Be": {
+          "value": 1.5585,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.5585]",
+          "context_json": {
+            "state_id": "state_28e7170ef01c194a",
+            "state_label": "W1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.5585]",
+            "clean_cell": "[1.5585]",
+            "cell_flags": {
+              "raw": "[1.5585]",
+              "brackets": "[]",
+              "token": "1.5585",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "De": {
+          "value": 6.5e-05,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[0.000065]",
+          "context_json": {
+            "state_id": "state_28e7170ef01c194a",
+            "state_label": "W1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[0.000065]",
+            "clean_cell": "[0.000065]",
+            "cell_flags": {
+              "raw": "[0.000065]",
+              "brackets": "[]",
+              "token": "0.000065",
+              "decimals": 6
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 102807.1,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "102807.1 Z",
+          "context_json": {
+            "state_id": "state_28e7170ef01c194a",
+            "state_label": "W1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "102807.1 Z",
+            "clean_cell": "102807.1 Z",
+            "cell_flags": {
+              "raw": "102807.1 Z",
+              "token": "102807.1",
+              "decimals": 1,
+              "suffix": "Z"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": [],
+            "value_suffix": "Z"
+          },
+          "ref_ids": [],
+          "suffix": "Z"
+        },
+        "re": {
+          "value": 1.256,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.256]",
+          "context_json": {
+            "state_id": "state_28e7170ef01c194a",
+            "state_label": "W1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.256]",
+            "clean_cell": "[1.256]",
+            "cell_flags": {
+              "raw": "[1.256]",
+              "brackets": "[]",
+              "token": "1.256",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "W'1Π": {
+      "State": "W'1Π",
+      "Te": null,
+      "Te_unit": null,
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "W' ← X R",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Be": {
+          "value": 1.536,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.536]",
+          "context_json": {
+            "state_id": "state_56a30201c840b283",
+            "state_label": "W'1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.536]",
+            "clean_cell": "[1.536]",
+            "cell_flags": {
+              "raw": "[1.536]",
+              "brackets": "[]",
+              "token": "1.536",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 102310.6,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "102310.6 Z",
+          "context_json": {
+            "state_id": "state_56a30201c840b283",
+            "state_label": "W'1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "102310.6 Z",
+            "clean_cell": "102310.6 Z",
+            "cell_flags": {
+              "raw": "102310.6 Z",
+              "token": "102310.6",
+              "decimals": 1,
+              "suffix": "Z"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": [],
+            "value_suffix": "Z"
+          },
+          "ref_ids": [],
+          "suffix": "Z"
+        },
+        "re": {
+          "value": 1.265,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.265]",
+          "context_json": {
+            "state_id": "state_56a30201c840b283",
+            "state_label": "W'1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.265]",
+            "clean_cell": "[1.265]",
+            "cell_flags": {
+              "raw": "[1.265]",
+              "brackets": "[]",
+              "token": "1.265",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "J1Σ+4sσ": {
+      "State": "J1Σ+4sσ",
+      "Te": 101409.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "J ← X R",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Be": {
+          "value": 1.9203,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia16",
+          "source": "webbook:C630080",
+          "raw_text": "[1.9203]",
+          "context_json": {
+            "state_id": "state_ca5361c02cdc7810",
+            "state_label": "J1Σ+4sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.9203] 16",
+            "clean_cell": "[1.9203]",
+            "cell_flags": {
+              "raw": "[1.9203]",
+              "brackets": "[]",
+              "token": "1.9203",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia16"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia16"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia16"
+          ]
+        },
+        "De": {
+          "value": 5.8e-06,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia16",
+          "source": "webbook:C630080",
+          "raw_text": "[0.0000058]",
+          "context_json": {
+            "state_id": "state_ca5361c02cdc7810",
+            "state_label": "J1Σ+4sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[0.0000058] 16",
+            "clean_cell": "[0.0000058]",
+            "cell_flags": {
+              "raw": "[0.0000058]",
+              "brackets": "[]",
+              "token": "0.0000058",
+              "decimals": 7
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia16"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia16"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia16"
+          ]
+        },
+        "Te": {
+          "value": 101409.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(101409)",
+          "context_json": {
+            "state_id": "state_ca5361c02cdc7810",
+            "state_label": "J1Σ+4sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(101409)",
+            "clean_cell": "(101409)",
+            "cell_flags": {
+              "raw": "(101409)",
+              "brackets": "()",
+              "token": "101409"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 101456.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(101456) (Z)",
+          "context_json": {
+            "state_id": "state_ca5361c02cdc7810",
+            "state_label": "J1Σ+4sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(101456) (Z)",
+            "clean_cell": "(101456) (Z)",
+            "cell_flags": {
+              "raw": "(101456) (Z)",
+              "brackets": "()",
+              "token": "101456"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "re": {
+          "value": 1.1315,
+          "unit": "A",
+          "ref_id": "WB:C630080:Dia16",
+          "source": "webbook:C630080",
+          "raw_text": "[1.1315]",
+          "context_json": {
+            "state_id": "state_ca5361c02cdc7810",
+            "state_label": "J1Σ+4sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.1315] 16",
+            "clean_cell": "[1.1315]",
+            "cell_flags": {
+              "raw": "[1.1315]",
+              "brackets": "[]",
+              "token": "1.1315",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia16"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia16"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia16"
+          ]
+        },
+        "we": {
+          "value": 2235.3,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[2235.3] Z",
+          "context_json": {
+            "state_id": "state_ca5361c02cdc7810",
+            "state_label": "J1Σ+4sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[2235.3] Z",
+            "clean_cell": "[2235.3] Z",
+            "cell_flags": {
+              "raw": "[2235.3] Z",
+              "token": "2235.3",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 15.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(15)",
+          "context_json": {
+            "state_id": "state_ca5361c02cdc7810",
+            "state_label": "J1Σ+4sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(15)",
+            "clean_cell": "(15)",
+            "cell_flags": {
+              "raw": "(15)",
+              "brackets": "()",
+              "token": "15"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "G1Π(3dπ)": {
+      "State": "G1Π(3dπ)",
+      "Te": null,
+      "Te_unit": null,
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "G ← X V",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Be": {
+          "value": 1.9625,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.9625]",
+          "context_json": {
+            "state_id": "state_96d612248187d027",
+            "state_label": "G1Π(3dπ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.9625]",
+            "clean_cell": "[1.9625]",
+            "cell_flags": {
+              "raw": "[1.9625]",
+              "brackets": "[]",
+              "token": "1.9625",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "De": {
+          "value": 7e-06,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[0.000007]",
+          "context_json": {
+            "state_id": "state_96d612248187d027",
+            "state_label": "G1Π(3dπ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[0.000007]",
+            "clean_cell": "[0.000007]",
+            "cell_flags": {
+              "raw": "[0.000007]",
+              "brackets": "[]",
+              "token": "0.000007",
+              "decimals": 6
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 101031.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "101031 Z",
+          "context_json": {
+            "state_id": "state_96d612248187d027",
+            "state_label": "G1Π(3dπ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "101031 Z",
+            "clean_cell": "101031 Z",
+            "cell_flags": {
+              "raw": "101031 Z",
+              "token": "101031",
+              "suffix": "Z"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": [],
+            "value_suffix": "Z"
+          },
+          "ref_ids": [],
+          "suffix": "Z"
+        },
+        "re": {
+          "value": 1.1193,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.1193]",
+          "context_json": {
+            "state_id": "state_96d612248187d027",
+            "state_label": "G1Π(3dπ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.1193]",
+            "clean_cell": "[1.1193]",
+            "cell_flags": {
+              "raw": "[1.1193]",
+              "brackets": "[]",
+              "token": "1.1193",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "G'1Π": {
+      "State": "G'1Π",
+      "Te": null,
+      "Te_unit": null,
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "G' ← X R",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Be": {
+          "value": 1.59,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[(1.59)]",
+          "context_json": {
+            "state_id": "state_b90ecd47bb356af9",
+            "state_label": "G'1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[(1.59)]",
+            "clean_cell": "[(1.59)]",
+            "cell_flags": {
+              "raw": "[(1.59)]",
+              "brackets": "[]",
+              "token": "1.59",
+              "decimals": 2
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 100651.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "100651",
+          "context_json": {
+            "state_id": "state_b90ecd47bb356af9",
+            "state_label": "G'1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "100651",
+            "clean_cell": "100651",
+            "cell_flags": {
+              "raw": "100651",
+              "token": "100651"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "re": {
+          "value": 1.24,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.24]",
+          "context_json": {
+            "state_id": "state_b90ecd47bb356af9",
+            "state_label": "G'1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.24]",
+            "clean_cell": "[1.24]",
+            "cell_flags": {
+              "raw": "[1.24]",
+              "brackets": "[]",
+              "token": "1.24",
+              "decimals": 2
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "h(3Σ+,4sσ)": {
+      "State": "h(3Σ+,4sσ)",
+      "Te": null,
+      "Te_unit": null,
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "h ← X R",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "nu00": {
+          "value": 100392.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(100392) (Z)",
+          "context_json": {
+            "state_id": "state_74accbb64fba9be8",
+            "state_label": "h(3Σ+,4sσ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(100392) (Z)",
+            "clean_cell": "(100392) (Z)",
+            "cell_flags": {
+              "raw": "(100392) (Z)",
+              "brackets": "()",
+              "token": "100392"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        }
+      }
+    },
+    "Y1Σ+": {
+      "State": "Y1Σ+",
+      "Te": null,
+      "Te_unit": null,
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "Y → X R",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Be": {
+          "value": 1.83,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[(1.83)]",
+          "context_json": {
+            "state_id": "state_d0be2b2ef780e68c",
+            "state_label": "Y1Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[(1.83)]",
+            "clean_cell": "[(1.83)]",
+            "cell_flags": {
+              "raw": "[(1.83)]",
+              "brackets": "[]",
+              "token": "1.83",
+              "decimals": 2
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 99963.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(99963) (Z)",
+          "context_json": {
+            "state_id": "state_d0be2b2ef780e68c",
+            "state_label": "Y1Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(99963) (Z)",
+            "clean_cell": "(99963) (Z)",
+            "cell_flags": {
+              "raw": "(99963) (Z)",
+              "brackets": "()",
+              "token": "99963"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "re": {
+          "value": 1.16,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.16]",
+          "context_json": {
+            "state_id": "state_d0be2b2ef780e68c",
+            "state_label": "Y1Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.16]",
+            "clean_cell": "[1.16]",
+            "cell_flags": {
+              "raw": "[1.16]",
+              "brackets": "[]",
+              "token": "1.16",
+              "decimals": 2
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "F1Σ+(3dσ)": {
+      "State": "F1Σ+(3dσ)",
+      "Te": 99803.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "F ← X R",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Be": {
+          "value": 1.86,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.86]",
+          "context_json": {
+            "state_id": "state_8c36ada042d8ed5c",
+            "state_label": "F1Σ+(3dσ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.86]",
+            "clean_cell": "[1.86]",
+            "cell_flags": {
+              "raw": "[1.86]",
+              "brackets": "[]",
+              "token": "1.86",
+              "decimals": 2
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "De": {
+          "value": 8e-05,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia18",
+          "source": "webbook:C630080",
+          "raw_text": "[0.00008]",
+          "context_json": {
+            "state_id": "state_8c36ada042d8ed5c",
+            "state_label": "F1Σ+(3dσ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[0.00008] 18",
+            "clean_cell": "[0.00008]",
+            "cell_flags": {
+              "raw": "[0.00008]",
+              "brackets": "[]",
+              "token": "0.00008",
+              "decimals": 5
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia18"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia18"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia18"
+          ]
+        },
+        "Te": {
+          "value": 99803.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(99803)",
+          "context_json": {
+            "state_id": "state_8c36ada042d8ed5c",
+            "state_label": "F1Σ+(3dσ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(99803)",
+            "clean_cell": "(99803)",
+            "cell_flags": {
+              "raw": "(99803)",
+              "brackets": "()",
+              "token": "99803"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 99739.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "99739 Z",
+          "context_json": {
+            "state_id": "state_8c36ada042d8ed5c",
+            "state_label": "F1Σ+(3dσ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "99739 Z",
+            "clean_cell": "99739 Z",
+            "cell_flags": {
+              "raw": "99739 Z",
+              "token": "99739",
+              "suffix": "Z"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": [],
+            "value_suffix": "Z"
+          },
+          "ref_ids": [],
+          "suffix": "Z"
+        },
+        "re": {
+          "value": 1.15,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.15]",
+          "context_json": {
+            "state_id": "state_8c36ada042d8ed5c",
+            "state_label": "F1Σ+(3dσ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.15]",
+            "clean_cell": "[1.15]",
+            "cell_flags": {
+              "raw": "[1.15]",
+              "brackets": "[]",
+              "token": "1.15",
+              "decimals": 2
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "we": {
+          "value": 2034.4,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[2034.4] Z",
+          "context_json": {
+            "state_id": "state_8c36ada042d8ed5c",
+            "state_label": "F1Σ+(3dσ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[2034.4] Z",
+            "clean_cell": "[2034.4] Z",
+            "cell_flags": {
+              "raw": "[2034.4] Z",
+              "token": "2034.4",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "V1Π": {
+      "State": "V1Π",
+      "Te": null,
+      "Te_unit": null,
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "V ↔ → X R",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Be": {
+          "value": 1.7,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.7]",
+          "context_json": {
+            "state_id": "state_a200ce3d0c6dcc60",
+            "state_label": "V1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.7]",
+            "clean_cell": "[1.7]",
+            "cell_flags": {
+              "raw": "[1.7]",
+              "brackets": "[]",
+              "token": "1.7",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 98919.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "98919 HQ",
+          "context_json": {
+            "state_id": "state_a200ce3d0c6dcc60",
+            "state_label": "V1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "98919 HQ",
+            "clean_cell": "98919 HQ",
+            "cell_flags": {
+              "raw": "98919 HQ",
+              "token": "98919",
+              "suffix": "HQ"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": [],
+            "value_suffix": "HQ"
+          },
+          "ref_ids": [],
+          "suffix": "HQ"
+        },
+        "re": {
+          "value": 1.2,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.2]",
+          "context_json": {
+            "state_id": "state_a200ce3d0c6dcc60",
+            "state_label": "V1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.2]",
+            "clean_cell": "[1.2]",
+            "cell_flags": {
+              "raw": "[1.2]",
+              "brackets": "[]",
+              "token": "1.2",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "g3Σ+": {
+      "State": "g3Σ+",
+      "Te": null,
+      "Te_unit": null,
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "g ← X R",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "nu00": {
+          "value": 98129.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(98129. ) (Z)",
+          "context_json": {
+            "state_id": "state_97ae4f470bd61ed0",
+            "state_label": "g3Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(98129. 1 ) (Z)",
+            "clean_cell": "(98129. ) (Z)",
+            "cell_flags": {
+              "raw": "(98129. ) (Z)",
+              "brackets": "()",
+              "token": "98129"
+            },
+            "cell_markers": [
+              "1"
+            ],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        }
+      }
+    },
+    "E1Π3pπ": {
+      "State": "E1Π3pπ",
+      "Te": 92903.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "E → A V",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Be": {
+          "value": 1.9771,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia19",
+          "source": "webbook:C630080",
+          "raw_text": "1.9771",
+          "context_json": {
+            "state_id": "state_026aa6d230a6c8d3",
+            "state_label": "E1Π3pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.9771 19",
+            "clean_cell": "1.9771",
+            "cell_flags": {
+              "raw": "1.9771",
+              "token": "1.9771",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia19"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia19"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia19"
+          ]
+        },
+        "De": {
+          "value": 6.5e-06,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[0.0000065]",
+          "context_json": {
+            "state_id": "state_026aa6d230a6c8d3",
+            "state_label": "E1Π3pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[0.0000065]",
+            "clean_cell": "[0.0000065]",
+            "cell_flags": {
+              "raw": "[0.0000065]",
+              "brackets": "[]",
+              "token": "0.0000065",
+              "decimals": 7
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "Te": {
+          "value": 92903.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(92903)",
+          "context_json": {
+            "state_id": "state_026aa6d230a6c8d3",
+            "state_label": "E1Π3pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(92903)",
+            "clean_cell": "(92903)",
+            "cell_flags": {
+              "raw": "(92903)",
+              "brackets": "()",
+              "token": "92903"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "ae": {
+          "value": 0.0254,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "0.0254",
+          "context_json": {
+            "state_id": "state_026aa6d230a6c8d3",
+            "state_label": "E1Π3pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.0254",
+            "clean_cell": "0.0254",
+            "cell_flags": {
+              "raw": "0.0254",
+              "token": "0.0254",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 28185.18,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia20",
+          "source": "webbook:C630080",
+          "raw_text": "28185.18 Z",
+          "context_json": {
+            "state_id": "state_026aa6d230a6c8d3",
+            "state_label": "E1Π3pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "28185.18 20 Z",
+            "clean_cell": "28185.18 Z",
+            "cell_flags": {
+              "raw": "28185.18 Z",
+              "token": "28185.18",
+              "decimals": 2,
+              "suffix": "Z"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia20"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia20"
+            ],
+            "value_suffix": "Z"
+          },
+          "ref_ids": [
+            "WB:C630080:Dia20"
+          ],
+          "suffix": "Z"
+        },
+        "re": {
+          "value": 1.1152,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1.1152",
+          "context_json": {
+            "state_id": "state_026aa6d230a6c8d3",
+            "state_label": "E1Π3pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.1152",
+            "clean_cell": "1.1152",
+            "cell_flags": {
+              "raw": "1.1152",
+              "token": "1.1152",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "we": {
+          "value": 2153.8,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[2153.8] Z",
+          "context_json": {
+            "state_id": "state_026aa6d230a6c8d3",
+            "state_label": "E1Π3pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[2153.8] Z",
+            "clean_cell": "[2153.8] Z",
+            "cell_flags": {
+              "raw": "[2153.8] Z",
+              "token": "2153.8",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 42.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(42)",
+          "context_json": {
+            "state_id": "state_026aa6d230a6c8d3",
+            "state_label": "E1Π3pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(42)",
+            "clean_cell": "(42)",
+            "cell_flags": {
+              "raw": "(42)",
+              "brackets": "()",
+              "token": "42"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "c3Π3pπ": {
+      "State": "c3Π3pπ",
+      "Te": 93158.5,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "c → a V",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Be": {
+          "value": 1.935,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia22",
+          "source": "webbook:C630080",
+          "raw_text": "[1.935]",
+          "context_json": {
+            "state_id": "state_3c40bda121e19d4f",
+            "state_label": "c3Π3pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.935] 22",
+            "clean_cell": "[1.935]",
+            "cell_flags": {
+              "raw": "[1.935]",
+              "brackets": "[]",
+              "token": "1.935",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia22"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia22"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia22"
+          ]
+        },
+        "De": {
+          "value": -0.000131,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia23",
+          "source": "webbook:C630080",
+          "raw_text": "[-0.000131]",
+          "context_json": {
+            "state_id": "state_3c40bda121e19d4f",
+            "state_label": "c3Π3pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[-0.000131] 23",
+            "clean_cell": "[-0.000131]",
+            "cell_flags": {
+              "raw": "[-0.000131]",
+              "brackets": "[]",
+              "token": "-0.000131",
+              "decimals": 6
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia23"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia23"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia23"
+          ]
+        },
+        "Te": {
+          "value": 93158.5,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[93158.5]",
+          "context_json": {
+            "state_id": "state_3c40bda121e19d4f",
+            "state_label": "c3Π3pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[93158.5]",
+            "clean_cell": "[93158.5]",
+            "cell_flags": {
+              "raw": "[93158.5]",
+              "brackets": "[]",
+              "token": "93158.5",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 43603.7,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "43603.7",
+          "context_json": {
+            "state_id": "state_3c40bda121e19d4f",
+            "state_label": "c3Π3pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "43603.7",
+            "clean_cell": "43603.7",
+            "cell_flags": {
+              "raw": "43603.7",
+              "token": "43603.7",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "re": {
+          "value": 1.127,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.127]",
+          "context_json": {
+            "state_id": "state_3c40bda121e19d4f",
+            "state_label": "c3Π3pπ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.127]",
+            "clean_cell": "[1.127]",
+            "cell_flags": {
+              "raw": "[1.127]",
+              "brackets": "[]",
+              "token": "1.127",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "C1Σ+3pσ": {
+      "State": "C1Σ+3pσ",
+      "Te": 91916.5,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "C → A V",
+      "Trans_ref_ids": [
+        "WB:C630080:Dia26",
+        "WB:C630080:Dia27"
+      ],
+      "Trans_ref_targets": [
+        "Dia26",
+        "Dia27"
+      ],
+      "params": {
+        "Be": {
+          "value": 1.9533,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia25",
+          "source": "webbook:C630080",
+          "raw_text": "1.9533",
+          "context_json": {
+            "state_id": "state_28e71f4d1b529b38",
+            "state_label": "C1Σ+3pσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.9533 25",
+            "clean_cell": "1.9533",
+            "cell_flags": {
+              "raw": "1.9533",
+              "token": "1.9533",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia25"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia25"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia25"
+          ]
+        },
+        "De": {
+          "value": 6.2e-06,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "0.0000062",
+          "context_json": {
+            "state_id": "state_28e71f4d1b529b38",
+            "state_label": "C1Σ+3pσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.0000062",
+            "clean_cell": "0.0000062",
+            "cell_flags": {
+              "raw": "0.0000062",
+              "token": "0.0000062",
+              "decimals": 7
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "Te": {
+          "value": 91916.5,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "91916.5",
+          "context_json": {
+            "state_id": "state_28e71f4d1b529b38",
+            "state_label": "C1Σ+3pσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "91916.5",
+            "clean_cell": "91916.5",
+            "cell_flags": {
+              "raw": "91916.5",
+              "token": "91916.5",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "ae": {
+          "value": 0.0196,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "0.0196",
+          "context_json": {
+            "state_id": "state_28e71f4d1b529b38",
+            "state_label": "C1Σ+3pσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.0196",
+            "clean_cell": "0.0196",
+            "cell_flags": {
+              "raw": "0.0196",
+              "token": "0.0196",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 27174.4,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia20",
+          "source": "webbook:C630080",
+          "raw_text": "27174.4 Z",
+          "context_json": {
+            "state_id": "state_28e71f4d1b529b38",
+            "state_label": "C1Σ+3pσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "27174.4 20 Z",
+            "clean_cell": "27174.4 Z",
+            "cell_flags": {
+              "raw": "27174.4 Z",
+              "token": "27174.4",
+              "decimals": 1,
+              "suffix": "Z"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia20"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia20"
+            ],
+            "value_suffix": "Z"
+          },
+          "ref_ids": [
+            "WB:C630080:Dia20"
+          ],
+          "suffix": "Z"
+        },
+        "re": {
+          "value": 1.1219,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1.1219",
+          "context_json": {
+            "state_id": "state_28e71f4d1b529b38",
+            "state_label": "C1Σ+3pσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.1219",
+            "clean_cell": "1.1219",
+            "cell_flags": {
+              "raw": "1.1219",
+              "token": "1.1219",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "we": {
+          "value": 2175.92,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "2175.92 Z",
+          "context_json": {
+            "state_id": "state_28e71f4d1b529b38",
+            "state_label": "C1Σ+3pσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "2175.92 Z",
+            "clean_cell": "2175.92 Z",
+            "cell_flags": {
+              "raw": "2175.92 Z",
+              "token": "2175.92",
+              "decimals": 2
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 14.76,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia24",
+          "source": "webbook:C630080",
+          "raw_text": "14.76",
+          "context_json": {
+            "state_id": "state_28e71f4d1b529b38",
+            "state_label": "C1Σ+3pσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "14.76 24",
+            "clean_cell": "14.76",
+            "cell_flags": {
+              "raw": "14.76",
+              "token": "14.76",
+              "decimals": 2
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia24"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia24"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia24"
+          ]
+        }
+      }
+    },
+    "j(3Σ+3pσ)": {
+      "State": "j(3Σ+3pσ)",
+      "Te": 90975.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "j ← X R",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Be": {
+          "value": 1.8785,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia29",
+          "source": "webbook:C630080",
+          "raw_text": "[1.8785]",
+          "context_json": {
+            "state_id": "state_583a4df2da4274cf",
+            "state_label": "j(3Σ+3pσ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.8785] 29",
+            "clean_cell": "[1.8785]",
+            "cell_flags": {
+              "raw": "[1.8785]",
+              "brackets": "[]",
+              "token": "1.8785",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia29"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia29"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia29"
+          ]
+        },
+        "De": {
+          "value": 7.9e-06,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[0.0000079]",
+          "context_json": {
+            "state_id": "state_583a4df2da4274cf",
+            "state_label": "j(3Σ+3pσ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[0.0000079]",
+            "clean_cell": "[0.0000079]",
+            "cell_flags": {
+              "raw": "[0.0000079]",
+              "brackets": "[]",
+              "token": "0.0000079",
+              "decimals": 7
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "Te": {
+          "value": 90975.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "90975",
+          "context_json": {
+            "state_id": "state_583a4df2da4274cf",
+            "state_label": "j(3Σ+3pσ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "90975",
+            "clean_cell": "90975",
+            "cell_flags": {
+              "raw": "90975",
+              "token": "90975"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "ae": {
+          "value": 0.02,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(0.02)",
+          "context_json": {
+            "state_id": "state_583a4df2da4274cf",
+            "state_label": "j(3Σ+3pσ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(0.02)",
+            "clean_cell": "(0.02)",
+            "cell_flags": {
+              "raw": "(0.02)",
+              "brackets": "()",
+              "token": "0.02",
+              "decimals": 2
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 90988.04,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "90988.04 Z",
+          "context_json": {
+            "state_id": "state_583a4df2da4274cf",
+            "state_label": "j(3Σ+3pσ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "90988.04 Z",
+            "clean_cell": "90988.04 Z",
+            "cell_flags": {
+              "raw": "90988.04 Z",
+              "token": "90988.04",
+              "decimals": 2,
+              "suffix": "Z"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": [],
+            "value_suffix": "Z"
+          },
+          "ref_ids": [],
+          "suffix": "Z"
+        },
+        "re": {
+          "value": 1.1441,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[1.1441]",
+          "context_json": {
+            "state_id": "state_583a4df2da4274cf",
+            "state_label": "j(3Σ+3pσ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[1.1441]",
+            "clean_cell": "[1.1441]",
+            "cell_flags": {
+              "raw": "[1.1441]",
+              "brackets": "[]",
+              "token": "1.1441",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "we": {
+          "value": 2166.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "[2166] Z",
+          "context_json": {
+            "state_id": "state_583a4df2da4274cf",
+            "state_label": "j(3Σ+3pσ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[2166] Z",
+            "clean_cell": "[2166] Z",
+            "cell_flags": {
+              "raw": "[2166] Z",
+              "token": "2166"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 15.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(15)",
+          "context_json": {
+            "state_id": "state_583a4df2da4274cf",
+            "state_label": "j(3Σ+3pσ)",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(15)",
+            "clean_cell": "(15)",
+            "cell_flags": {
+              "raw": "(15)",
+              "brackets": "()",
+              "token": "15"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "k": {
+      "State": "k",
+      "Te": 90972.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": "WB:C630080:Dia31",
+      "Te_ref_ids": [
+        "WB:C630080:Dia31"
+      ],
+      "Te_ref_targets": [
+        "Dia31"
+      ],
+      "Trans": "k → a V",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Te": {
+          "value": 90972.0,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia31",
+          "source": "webbook:C630080",
+          "raw_text": "[90972]",
+          "context_json": {
+            "state_id": "state_63adee96885f5765",
+            "state_label": "k",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "[90972] 31",
+            "clean_cell": "[90972]",
+            "cell_flags": {
+              "raw": "[90972]",
+              "brackets": "[]",
+              "token": "90972"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia31"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia31"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia31"
+          ]
+        },
+        "nu00": {
+          "value": 41417.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "41417 H",
+          "context_json": {
+            "state_id": "state_63adee96885f5765",
+            "state_label": "k",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "41417 H",
+            "clean_cell": "41417 H",
+            "cell_flags": {
+              "raw": "41417 H",
+              "token": "41417",
+              "suffix": "H"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": [],
+            "value_suffix": "H"
+          },
+          "ref_ids": [],
+          "suffix": "H"
+        }
+      }
+    },
+    "B1Σ+3sσ": {
+      "State": "B1Σ+3sσ",
+      "Te": 86945.2,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "B → A V",
+      "Trans_ref_ids": [
+        "WB:C630080:Dia34",
+        "WB:C630080:Dia35"
+      ],
+      "Trans_ref_targets": [
+        "Dia34",
+        "Dia35"
+      ],
+      "params": {
+        "Be": {
+          "value": 1.9612,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia33",
+          "source": "webbook:C630080",
+          "raw_text": "1.9612",
+          "context_json": {
+            "state_id": "state_ce69ba1c552f38c6",
+            "state_label": "B1Σ+3sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.9612 33",
+            "clean_cell": "1.9612",
+            "cell_flags": {
+              "raw": "1.9612",
+              "token": "1.9612",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia33"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia33"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia33"
+          ]
+        },
+        "De": {
+          "value": 7.1e-06,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "0.0000071",
+          "context_json": {
+            "state_id": "state_ce69ba1c552f38c6",
+            "state_label": "B1Σ+3sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.0000071",
+            "clean_cell": "0.0000071",
+            "cell_flags": {
+              "raw": "0.0000071",
+              "token": "0.0000071",
+              "decimals": 7
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "Te": {
+          "value": 86945.2,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "86945.2",
+          "context_json": {
+            "state_id": "state_ce69ba1c552f38c6",
+            "state_label": "B1Σ+3sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "86945.2",
+            "clean_cell": "86945.2",
+            "cell_flags": {
+              "raw": "86945.2",
+              "token": "86945.2",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "ae": {
+          "value": 0.0261,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "0.0261",
+          "context_json": {
+            "state_id": "state_ce69ba1c552f38c6",
+            "state_label": "B1Σ+3sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.0261",
+            "clean_cell": "0.0261",
+            "cell_flags": {
+              "raw": "0.0261",
+              "token": "0.0261",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 22171.3,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia20",
+          "source": "webbook:C630080",
+          "raw_text": "22171.3 Z",
+          "context_json": {
+            "state_id": "state_ce69ba1c552f38c6",
+            "state_label": "B1Σ+3sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "22171.3 5 20 Z",
+            "clean_cell": "22171.3 Z",
+            "cell_flags": {
+              "raw": "22171.3 Z",
+              "token": "22171.3",
+              "decimals": 1,
+              "suffix": "Z"
+            },
+            "cell_markers": [
+              "5"
+            ],
+            "cell_ref_targets": [
+              "Dia20"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia20"
+            ],
+            "value_suffix": "Z"
+          },
+          "ref_ids": [
+            "WB:C630080:Dia20"
+          ],
+          "suffix": "Z"
+        },
+        "re": {
+          "value": 1.1197,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1.1197",
+          "context_json": {
+            "state_id": "state_ce69ba1c552f38c6",
+            "state_label": "B1Σ+3sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.1197",
+            "clean_cell": "1.1197",
+            "cell_flags": {
+              "raw": "1.1197",
+              "token": "1.1197",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "we": {
+          "value": 2112.7,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "2112.7 Z",
+          "context_json": {
+            "state_id": "state_ce69ba1c552f38c6",
+            "state_label": "B1Σ+3sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "2112.7 Z",
+            "clean_cell": "2112.7 Z",
+            "cell_flags": {
+              "raw": "2112.7 Z",
+              "token": "2112.7",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 15.22,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia32",
+          "source": "webbook:C630080",
+          "raw_text": "15.22",
+          "context_json": {
+            "state_id": "state_ce69ba1c552f38c6",
+            "state_label": "B1Σ+3sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "15.22 32",
+            "clean_cell": "15.22",
+            "cell_flags": {
+              "raw": "15.22",
+              "token": "15.22",
+              "decimals": 2
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia32"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia32"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia32"
+          ]
+        }
+      }
+    },
+    "b3Σ+3sσ": {
+      "State": "b3Σ+3sσ",
+      "Te": 83814.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "b → a V",
+      "Trans_ref_ids": [
+        "WB:C630080:Dia39",
+        "WB:C630080:Dia40"
+      ],
+      "Trans_ref_targets": [
+        "Dia39",
+        "Dia40"
+      ],
+      "params": {
+        "Be": {
+          "value": 1.986,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia37",
+          "source": "webbook:C630080",
+          "raw_text": "1.986",
+          "context_json": {
+            "state_id": "state_7c5102973914a01b",
+            "state_label": "b3Σ+3sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.986 37 38",
+            "clean_cell": "1.986",
+            "cell_flags": {
+              "raw": "1.986",
+              "token": "1.986",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia37",
+              "Dia38"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia37",
+              "WB:C630080:Dia38"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia37",
+            "WB:C630080:Dia38"
+          ]
+        },
+        "Te": {
+          "value": 83814.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "(83814)",
+          "context_json": {
+            "state_id": "state_7c5102973914a01b",
+            "state_label": "b3Σ+3sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "(83814)",
+            "clean_cell": "(83814)",
+            "cell_flags": {
+              "raw": "(83814)",
+              "brackets": "()",
+              "token": "83814"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "ae": {
+          "value": 0.042,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "0.042",
+          "context_json": {
+            "state_id": "state_7c5102973914a01b",
+            "state_label": "b3Σ+3sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.042",
+            "clean_cell": "0.042",
+            "cell_flags": {
+              "raw": "0.042",
+              "token": "0.042",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 35358.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "35358. Z",
+          "context_json": {
+            "state_id": "state_7c5102973914a01b",
+            "state_label": "b3Σ+3sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "35358. 5 Z",
+            "clean_cell": "35358. Z",
+            "cell_flags": {
+              "raw": "35358. Z",
+              "token": "35358"
+            },
+            "cell_markers": [
+              "5"
+            ],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "re": {
+          "value": 1.113,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1.113",
+          "context_json": {
+            "state_id": "state_7c5102973914a01b",
+            "state_label": "b3Σ+3sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.113",
+            "clean_cell": "1.113",
+            "cell_flags": {
+              "raw": "1.113",
+              "token": "1.113",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "we": {
+          "value": 2199.3,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "2199.3 Z",
+          "context_json": {
+            "state_id": "state_7c5102973914a01b",
+            "state_label": "b3Σ+3sσ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "2199.3 Z",
+            "clean_cell": "2199.3 Z",
+            "cell_flags": {
+              "raw": "2199.3 Z",
+              "token": "2199.3",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "D1Δ": {
+      "State": "D1Δ",
+      "Te": 65928.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "D ← X R",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Be": {
+          "value": 1.257,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1.257",
+          "context_json": {
+            "state_id": "state_b1868790898d5181",
+            "state_label": "D1Δ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.257",
+            "clean_cell": "1.257",
+            "cell_flags": {
+              "raw": "1.257",
+              "token": "1.257",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "Te": {
+          "value": 65928.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "65928",
+          "context_json": {
+            "state_id": "state_b1868790898d5181",
+            "state_label": "D1Δ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "65928",
+            "clean_cell": "65928",
+            "cell_flags": {
+              "raw": "65928",
+              "token": "65928"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "ae": {
+          "value": 0.017,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "0.017",
+          "context_json": {
+            "state_id": "state_b1868790898d5181",
+            "state_label": "D1Δ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.017",
+            "clean_cell": "0.017",
+            "cell_flags": {
+              "raw": "0.017",
+              "token": "0.017",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "nu00": {
+          "value": 65391.0,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia42",
+          "source": "webbook:C630080",
+          "raw_text": "65391",
+          "context_json": {
+            "state_id": "state_b1868790898d5181",
+            "state_label": "D1Δ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "65391 42",
+            "clean_cell": "65391",
+            "cell_flags": {
+              "raw": "65391",
+              "token": "65391"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia42"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia42"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia42"
+          ],
+          "suffix": null
+        },
+        "re": {
+          "value": 1.399,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1.399",
+          "context_json": {
+            "state_id": "state_b1868790898d5181",
+            "state_label": "D1Δ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.399",
+            "clean_cell": "1.399",
+            "cell_flags": {
+              "raw": "1.399",
+              "token": "1.399",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "we": {
+          "value": 1094.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1094",
+          "context_json": {
+            "state_id": "state_b1868790898d5181",
+            "state_label": "D1Δ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1094",
+            "clean_cell": "1094",
+            "cell_flags": {
+              "raw": "1094",
+              "token": "1094"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 10.2,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "10.2",
+          "context_json": {
+            "state_id": "state_b1868790898d5181",
+            "state_label": "D1Δ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "10.2",
+            "clean_cell": "10.2",
+            "cell_flags": {
+              "raw": "10.2",
+              "token": "10.2",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        }
+      }
+    },
+    "I1Σ-": {
+      "State": "I1Σ-",
+      "Te": 65084.4,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "I ← X R",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Be": {
+          "value": 1.2705,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia44",
+          "source": "webbook:C630080",
+          "raw_text": "1.2705",
+          "context_json": {
+            "state_id": "state_c8565d0e4ab2ea58",
+            "state_label": "I1Σ-",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.2705 44",
+            "clean_cell": "1.2705",
+            "cell_flags": {
+              "raw": "1.2705",
+              "token": "1.2705",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia44"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia44"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia44"
+          ]
+        },
+        "De": {
+          "value": 9e-06,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "D = 9.0E-6",
+          "context_json": {
+            "state_id": "state_c8565d0e4ab2ea58",
+            "state_label": "I1Σ-",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "D 2 = 9.0E-6",
+            "clean_cell": "D = 9.0E-6",
+            "cell_flags": {
+              "raw": "D = 9.0E-6",
+              "token": "9.0E-6"
+            },
+            "cell_markers": [
+              "2"
+            ],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "Te": {
+          "value": 65084.4,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "65084.4",
+          "context_json": {
+            "state_id": "state_c8565d0e4ab2ea58",
+            "state_label": "I1Σ-",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "65084.4 0",
+            "clean_cell": "65084.4",
+            "cell_flags": {
+              "raw": "65084.4",
+              "token": "65084.4",
+              "decimals": 1
+            },
+            "cell_markers": [
+              "0"
+            ],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "ae": {
+          "value": 0.01848,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia45",
+          "source": "webbook:C630080",
+          "raw_text": "0.01848",
+          "context_json": {
+            "state_id": "state_c8565d0e4ab2ea58",
+            "state_label": "I1Σ-",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.01848 45",
+            "clean_cell": "0.01848",
+            "cell_flags": {
+              "raw": "0.01848",
+              "token": "0.01848",
+              "decimals": 5
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia45"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia45"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia45"
+          ]
+        },
+        "nu00": {
+          "value": 64546.26,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "64546.26 Z",
+          "context_json": {
+            "state_id": "state_c8565d0e4ab2ea58",
+            "state_label": "I1Σ-",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "64546.26 Z",
+            "clean_cell": "64546.26 Z",
+            "cell_flags": {
+              "raw": "64546.26 Z",
+              "token": "64546.26",
+              "decimals": 2,
+              "suffix": "Z"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": [],
+            "value_suffix": "Z"
+          },
+          "ref_ids": [],
+          "suffix": "Z"
+        },
+        "re": {
+          "value": 1.3911,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1.3911",
+          "context_json": {
+            "state_id": "state_c8565d0e4ab2ea58",
+            "state_label": "I1Σ-",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.3911",
+            "clean_cell": "1.3911",
+            "cell_flags": {
+              "raw": "1.3911",
+              "token": "1.3911",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "we": {
+          "value": 1092.22,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1092.22",
+          "context_json": {
+            "state_id": "state_c8565d0e4ab2ea58",
+            "state_label": "I1Σ-",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1092.22",
+            "clean_cell": "1092.22",
+            "cell_flags": {
+              "raw": "1092.22",
+              "token": "1092.22",
+              "decimals": 2
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 10.704,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia43",
+          "source": "webbook:C630080",
+          "raw_text": "10.704",
+          "context_json": {
+            "state_id": "state_c8565d0e4ab2ea58",
+            "state_label": "I1Σ-",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "10.704 43",
+            "clean_cell": "10.704",
+            "cell_flags": {
+              "raw": "10.704",
+              "token": "10.704",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia43"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia43"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia43"
+          ]
+        }
+      }
+    },
+    "A1Π": {
+      "State": "A1Π",
+      "Te": 65075.7,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "A ↔ X R",
+      "Trans_ref_ids": [
+        "WB:C630080:Dia50",
+        "WB:C630080:Dia51",
+        "WB:C630080:Dia52"
+      ],
+      "Trans_ref_targets": [
+        "Dia50",
+        "Dia51",
+        "Dia52"
+      ],
+      "params": {
+        "Be": {
+          "value": 1.6115,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia47",
+          "source": "webbook:C630080",
+          "raw_text": "1.6115",
+          "context_json": {
+            "state_id": "state_3777c692f92097ff",
+            "state_label": "A1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.6115 47",
+            "clean_cell": "1.6115",
+            "cell_flags": {
+              "raw": "1.6115",
+              "token": "1.6115",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia47"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia47"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia47"
+          ]
+        },
+        "De": {
+          "value": 7.33e-06,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia49",
+          "source": "webbook:C630080",
+          "raw_text": "0.00000733",
+          "context_json": {
+            "state_id": "state_3777c692f92097ff",
+            "state_label": "A1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.00000733 49",
+            "clean_cell": "0.00000733",
+            "cell_flags": {
+              "raw": "0.00000733",
+              "token": "0.00000733",
+              "decimals": 8
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia49"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia49"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia49"
+          ]
+        },
+        "Te": {
+          "value": 65075.7,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "65075.7",
+          "context_json": {
+            "state_id": "state_3777c692f92097ff",
+            "state_label": "A1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "65075.7 7",
+            "clean_cell": "65075.7",
+            "cell_flags": {
+              "raw": "65075.7",
+              "token": "65075.7",
+              "decimals": 1
+            },
+            "cell_markers": [
+              "7"
+            ],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "ae": {
+          "value": 0.02325,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia48",
+          "source": "webbook:C630080",
+          "raw_text": "0.02325",
+          "context_json": {
+            "state_id": "state_3777c692f92097ff",
+            "state_label": "A1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.02325 48",
+            "clean_cell": "0.02325",
+            "cell_flags": {
+              "raw": "0.02325",
+              "token": "0.02325",
+              "decimals": 5
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia48"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia48"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia48"
+          ]
+        },
+        "nu00": {
+          "value": 64748.48,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia53",
+          "source": "webbook:C630080",
+          "raw_text": "64748.48 Z",
+          "context_json": {
+            "state_id": "state_3777c692f92097ff",
+            "state_label": "A1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "64748.48 53 Z",
+            "clean_cell": "64748.48 Z",
+            "cell_flags": {
+              "raw": "64748.48 Z",
+              "token": "64748.48",
+              "decimals": 2,
+              "suffix": "Z"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia53"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia53"
+            ],
+            "value_suffix": "Z"
+          },
+          "ref_ids": [
+            "WB:C630080:Dia53"
+          ],
+          "suffix": "Z"
+        },
+        "re": {
+          "value": 1.2353,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1.2353",
+          "context_json": {
+            "state_id": "state_3777c692f92097ff",
+            "state_label": "A1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.2353",
+            "clean_cell": "1.2353",
+            "cell_flags": {
+              "raw": "1.2353",
+              "token": "1.2353",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "we": {
+          "value": 1518.2,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1518.2",
+          "context_json": {
+            "state_id": "state_3777c692f92097ff",
+            "state_label": "A1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1518.2 4",
+            "clean_cell": "1518.2",
+            "cell_flags": {
+              "raw": "1518.2",
+              "token": "1518.2",
+              "decimals": 1
+            },
+            "cell_markers": [
+              "4"
+            ],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 19.4,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia46",
+          "source": "webbook:C630080",
+          "raw_text": "19.4",
+          "context_json": {
+            "state_id": "state_3777c692f92097ff",
+            "state_label": "A1Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "19.4 46",
+            "clean_cell": "19.4",
+            "cell_flags": {
+              "raw": "19.4",
+              "token": "19.4",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia46"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia46"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia46"
+          ]
+        }
+      }
+    },
+    "e3Σ-": {
+      "State": "e3Σ-",
+      "Te": 64230.2,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "e → a R",
+      "Trans_ref_ids": [
+        "WB:C630080:Dia58"
+      ],
+      "Trans_ref_targets": [
+        "Dia58"
+      ],
+      "params": {
+        "Be": {
+          "value": 1.2836,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia55",
+          "source": "webbook:C630080",
+          "raw_text": "1.2836",
+          "context_json": {
+            "state_id": "state_ab873ef6c6b3f73c",
+            "state_label": "e3Σ-",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.2836 55",
+            "clean_cell": "1.2836",
+            "cell_flags": {
+              "raw": "1.2836",
+              "token": "1.2836",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia55"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia55"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia55"
+          ]
+        },
+        "De": {
+          "value": 6.77e-06,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia57",
+          "source": "webbook:C630080",
+          "raw_text": "0.00000677",
+          "context_json": {
+            "state_id": "state_ab873ef6c6b3f73c",
+            "state_label": "e3Σ-",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.00000677 57",
+            "clean_cell": "0.00000677",
+            "cell_flags": {
+              "raw": "0.00000677",
+              "token": "0.00000677",
+              "decimals": 8
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia57"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia57"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia57"
+          ]
+        },
+        "Te": {
+          "value": 64230.2,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "64230.2",
+          "context_json": {
+            "state_id": "state_ab873ef6c6b3f73c",
+            "state_label": "e3Σ-",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "64230.2 4",
+            "clean_cell": "64230.2",
+            "cell_flags": {
+              "raw": "64230.2",
+              "token": "64230.2",
+              "decimals": 1
+            },
+            "cell_markers": [
+              "4"
+            ],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "ae": {
+          "value": 0.01753,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia56",
+          "source": "webbook:C630080",
+          "raw_text": "0.01753",
+          "context_json": {
+            "state_id": "state_ab873ef6c6b3f73c",
+            "state_label": "e3Σ-",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.01753 56",
+            "clean_cell": "0.01753",
+            "cell_flags": {
+              "raw": "0.01753",
+              "token": "0.01753",
+              "decimals": 5
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia56"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia56"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia56"
+          ]
+        },
+        "nu00": {
+          "value": 15231.6,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "15231.6",
+          "context_json": {
+            "state_id": "state_ab873ef6c6b3f73c",
+            "state_label": "e3Σ-",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "15231.6",
+            "clean_cell": "15231.6",
+            "cell_flags": {
+              "raw": "15231.6",
+              "token": "15231.6",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "re": {
+          "value": 1.384,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1.384",
+          "context_json": {
+            "state_id": "state_ab873ef6c6b3f73c",
+            "state_label": "e3Σ-",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.384",
+            "clean_cell": "1.384",
+            "cell_flags": {
+              "raw": "1.384",
+              "token": "1.384",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "we": {
+          "value": 1117.7,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1117.7",
+          "context_json": {
+            "state_id": "state_ab873ef6c6b3f73c",
+            "state_label": "e3Σ-",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1117.7 2",
+            "clean_cell": "1117.7",
+            "cell_flags": {
+              "raw": "1117.7",
+              "token": "1117.7",
+              "decimals": 1
+            },
+            "cell_markers": [
+              "2"
+            ],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 10.686,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia54",
+          "source": "webbook:C630080",
+          "raw_text": "10.686",
+          "context_json": {
+            "state_id": "state_ab873ef6c6b3f73c",
+            "state_label": "e3Σ-",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "10.686 54",
+            "clean_cell": "10.686",
+            "cell_flags": {
+              "raw": "10.686",
+              "token": "10.686",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia54"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia54"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia54"
+          ]
+        }
+      }
+    },
+    "d3Δ": {
+      "State": "d3Δ",
+      "Te": 61120.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": "WB:C630080:Dia59",
+      "Te_ref_ids": [
+        "WB:C630080:Dia59"
+      ],
+      "Te_ref_targets": [
+        "Dia59"
+      ],
+      "Trans": "d → a R",
+      "Trans_ref_ids": [
+        "WB:C630080:Dia63",
+        "WB:C630080:Dia58"
+      ],
+      "Trans_ref_targets": [
+        "Dia63",
+        "Dia58"
+      ],
+      "params": {
+        "Be": {
+          "value": 1.3108,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia61",
+          "source": "webbook:C630080",
+          "raw_text": "1.3108",
+          "context_json": {
+            "state_id": "state_158cb348a51f6122",
+            "state_label": "d3Δ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.3108 61",
+            "clean_cell": "1.3108",
+            "cell_flags": {
+              "raw": "1.3108",
+              "token": "1.3108",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia61"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia61"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia61"
+          ]
+        },
+        "De": {
+          "value": 6.59e-06,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia57",
+          "source": "webbook:C630080",
+          "raw_text": "0.00000659",
+          "context_json": {
+            "state_id": "state_158cb348a51f6122",
+            "state_label": "d3Δ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.00000659 57",
+            "clean_cell": "0.00000659",
+            "cell_flags": {
+              "raw": "0.00000659",
+              "token": "0.00000659",
+              "decimals": 8
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia57"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia57"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia57"
+          ]
+        },
+        "Te": {
+          "value": 61120.0,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia59",
+          "source": "webbook:C630080",
+          "raw_text": "61120",
+          "context_json": {
+            "state_id": "state_158cb348a51f6122",
+            "state_label": "d3Δ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "61120 59",
+            "clean_cell": "61120",
+            "cell_flags": {
+              "raw": "61120",
+              "token": "61120"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia59"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia59"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia59"
+          ]
+        },
+        "ae": {
+          "value": 0.01782,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia62",
+          "source": "webbook:C630080",
+          "raw_text": "0.01782",
+          "context_json": {
+            "state_id": "state_158cb348a51f6122",
+            "state_label": "d3Δ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.01782 62",
+            "clean_cell": "0.01782",
+            "cell_flags": {
+              "raw": "0.01782",
+              "token": "0.01782",
+              "decimals": 5
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia62"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia62"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia62"
+          ]
+        },
+        "nu00": {
+          "value": 12148.7,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "12148.7",
+          "context_json": {
+            "state_id": "state_158cb348a51f6122",
+            "state_label": "d3Δ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "12148.7",
+            "clean_cell": "12148.7",
+            "cell_flags": {
+              "raw": "12148.7",
+              "token": "12148.7",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "re": {
+          "value": 1.3696,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1.3696",
+          "context_json": {
+            "state_id": "state_158cb348a51f6122",
+            "state_label": "d3Δ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.3696",
+            "clean_cell": "1.3696",
+            "cell_flags": {
+              "raw": "1.3696",
+              "token": "1.3696",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "we": {
+          "value": 1171.94,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1171.94",
+          "context_json": {
+            "state_id": "state_158cb348a51f6122",
+            "state_label": "d3Δ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1171.94",
+            "clean_cell": "1171.94",
+            "cell_flags": {
+              "raw": "1171.94",
+              "token": "1171.94",
+              "decimals": 2
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 10.635,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia60",
+          "source": "webbook:C630080",
+          "raw_text": "10.635",
+          "context_json": {
+            "state_id": "state_158cb348a51f6122",
+            "state_label": "d3Δ",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "10.635 60",
+            "clean_cell": "10.635",
+            "cell_flags": {
+              "raw": "10.635",
+              "token": "10.635",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia60"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia60"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia60"
+          ]
+        }
+      }
+    },
+    "a'3Σ+": {
+      "State": "a'3Σ+",
+      "Te": 55825.49,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "a' → a R",
+      "Trans_ref_ids": [
+        "WB:C630080:Dia67",
+        "WB:C630080:Dia68"
+      ],
+      "Trans_ref_targets": [
+        "Dia67",
+        "Dia68"
+      ],
+      "params": {
+        "Be": {
+          "value": 1.3446,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia65",
+          "source": "webbook:C630080",
+          "raw_text": "1.3446",
+          "context_json": {
+            "state_id": "state_c99491b5a1755318",
+            "state_label": "a'3Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.3446 65",
+            "clean_cell": "1.3446",
+            "cell_flags": {
+              "raw": "1.3446",
+              "token": "1.3446",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia65"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia65"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia65"
+          ]
+        },
+        "De": {
+          "value": 6.41e-06,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia57",
+          "source": "webbook:C630080",
+          "raw_text": "0.00000641",
+          "context_json": {
+            "state_id": "state_c99491b5a1755318",
+            "state_label": "a'3Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.00000641 57",
+            "clean_cell": "0.00000641",
+            "cell_flags": {
+              "raw": "0.00000641",
+              "token": "0.00000641",
+              "decimals": 8
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia57"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia57"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia57"
+          ]
+        },
+        "Te": {
+          "value": 55825.49,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "55825.49",
+          "context_json": {
+            "state_id": "state_c99491b5a1755318",
+            "state_label": "a'3Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "55825.49",
+            "clean_cell": "55825.49",
+            "cell_flags": {
+              "raw": "55825.49",
+              "token": "55825.49",
+              "decimals": 2
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "ae": {
+          "value": 0.01892,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia66",
+          "source": "webbook:C630080",
+          "raw_text": "0.01892",
+          "context_json": {
+            "state_id": "state_c99491b5a1755318",
+            "state_label": "a'3Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.01892 66",
+            "clean_cell": "0.01892",
+            "cell_flags": {
+              "raw": "0.01892",
+              "token": "0.01892",
+              "decimals": 5
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia66"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia66"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia66"
+          ]
+        },
+        "nu00": {
+          "value": 6882.4,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "6882.4",
+          "context_json": {
+            "state_id": "state_c99491b5a1755318",
+            "state_label": "a'3Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "6882.4",
+            "clean_cell": "6882.4",
+            "cell_flags": {
+              "raw": "6882.4",
+              "token": "6882.4",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": [],
+          "suffix": null
+        },
+        "re": {
+          "value": 1.3523,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1.3523",
+          "context_json": {
+            "state_id": "state_c99491b5a1755318",
+            "state_label": "a'3Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.3523",
+            "clean_cell": "1.3523",
+            "cell_flags": {
+              "raw": "1.3523",
+              "token": "1.3523",
+              "decimals": 4
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "we": {
+          "value": 1228.6,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1228.6",
+          "context_json": {
+            "state_id": "state_c99491b5a1755318",
+            "state_label": "a'3Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1228.6",
+            "clean_cell": "1228.6",
+            "cell_flags": {
+              "raw": "1228.6",
+              "token": "1228.6",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 10.468,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia64",
+          "source": "webbook:C630080",
+          "raw_text": "10.468",
+          "context_json": {
+            "state_id": "state_c99491b5a1755318",
+            "state_label": "a'3Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "10.468 64",
+            "clean_cell": "10.468",
+            "cell_flags": {
+              "raw": "10.468",
+              "token": "10.468",
+              "decimals": 3
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia64"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia64"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia64"
+          ]
+        }
+      }
+    },
+    "a3Π": {
+      "State": "a3Π",
+      "Te": 48686.7,
+      "Te_unit": "cm-1",
+      "Te_ref_id": "WB:C630080:Dia69",
+      "Te_ref_ids": [
+        "WB:C630080:Dia69"
+      ],
+      "Te_ref_targets": [
+        "Dia69"
+      ],
+      "Trans": "a ↔ X R",
+      "Trans_ref_ids": [
+        "WB:C630080:Dia74",
+        "WB:C630080:Dia75"
+      ],
+      "Trans_ref_targets": [
+        "Dia74",
+        "Dia75"
+      ],
+      "params": {
+        "Be": {
+          "value": 1.69124,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia71",
+          "source": "webbook:C630080",
+          "raw_text": "1.69124",
+          "context_json": {
+            "state_id": "state_204fdecb8d8db101",
+            "state_label": "a3Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.69124 71",
+            "clean_cell": "1.69124",
+            "cell_flags": {
+              "raw": "1.69124",
+              "token": "1.69124",
+              "decimals": 5
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia71"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia71"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia71"
+          ]
+        },
+        "De": {
+          "value": 6.36e-06,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia73",
+          "source": "webbook:C630080",
+          "raw_text": "0.00000636",
+          "context_json": {
+            "state_id": "state_204fdecb8d8db101",
+            "state_label": "a3Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.00000636 73",
+            "clean_cell": "0.00000636",
+            "cell_flags": {
+              "raw": "0.00000636",
+              "token": "0.00000636",
+              "decimals": 8
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia73"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia73"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia73"
+          ]
+        },
+        "Te": {
+          "value": 48686.7,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia69",
+          "source": "webbook:C630080",
+          "raw_text": "48686.7",
+          "context_json": {
+            "state_id": "state_204fdecb8d8db101",
+            "state_label": "a3Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "48686.7 69",
+            "clean_cell": "48686.7",
+            "cell_flags": {
+              "raw": "48686.7",
+              "token": "48686.7",
+              "decimals": 1
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia69"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia69"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia69"
+          ]
+        },
+        "ae": {
+          "value": 0.01904,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia72",
+          "source": "webbook:C630080",
+          "raw_text": "0.01904",
+          "context_json": {
+            "state_id": "state_204fdecb8d8db101",
+            "state_label": "a3Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.01904 72",
+            "clean_cell": "0.01904",
+            "cell_flags": {
+              "raw": "0.01904",
+              "token": "0.01904",
+              "decimals": 5
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia72"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia72"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia72"
+          ]
+        },
+        "nu00": {
+          "value": 48473.22,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia70",
+          "source": "webbook:C630080",
+          "raw_text": "48473.22",
+          "context_json": {
+            "state_id": "state_204fdecb8d8db101",
+            "state_label": "a3Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "48473.22 70",
+            "clean_cell": "48473.22",
+            "cell_flags": {
+              "raw": "48473.22",
+              "token": "48473.22",
+              "decimals": 2
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia70"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia70"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia70"
+          ],
+          "suffix": null
+        },
+        "re": {
+          "value": 1.20574,
+          "unit": "A",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1.20574",
+          "context_json": {
+            "state_id": "state_204fdecb8d8db101",
+            "state_label": "a3Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.20574",
+            "clean_cell": "1.20574",
+            "cell_flags": {
+              "raw": "1.20574",
+              "token": "1.20574",
+              "decimals": 5
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "we": {
+          "value": 1743.41,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "1743.41",
+          "context_json": {
+            "state_id": "state_204fdecb8d8db101",
+            "state_label": "a3Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1743.41",
+            "clean_cell": "1743.41",
+            "cell_flags": {
+              "raw": "1743.41",
+              "token": "1743.41",
+              "decimals": 2
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 14.36,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia70",
+          "source": "webbook:C630080",
+          "raw_text": "14.36",
+          "context_json": {
+            "state_id": "state_204fdecb8d8db101",
+            "state_label": "a3Π",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "14.36 70",
+            "clean_cell": "14.36",
+            "cell_flags": {
+              "raw": "14.36",
+              "token": "14.36",
+              "decimals": 2
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia70"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia70"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia70"
+          ]
+        }
+      }
+    },
+    "X1Σ+": {
+      "State": "X1Σ+",
+      "Te": 0.0,
+      "Te_unit": "cm-1",
+      "Te_ref_id": null,
+      "Te_ref_ids": [],
+      "Te_ref_targets": [],
+      "Trans": "",
+      "Trans_ref_ids": [],
+      "Trans_ref_targets": [],
+      "params": {
+        "Be": {
+          "value": 1.93128087,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia77",
+          "source": "webbook:C630080",
+          "raw_text": "1.93128087",
+          "context_json": {
+            "state_id": "state_e6b707ee56278589",
+            "state_label": "X1Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.93128087 77",
+            "clean_cell": "1.93128087",
+            "cell_flags": {
+              "raw": "1.93128087",
+              "token": "1.93128087",
+              "decimals": 8
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia77"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia77"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia77"
+          ]
+        },
+        "De": {
+          "value": 6.12147e-06,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia79",
+          "source": "webbook:C630080",
+          "raw_text": "6.12147E-06",
+          "context_json": {
+            "state_id": "state_e6b707ee56278589",
+            "state_label": "X1Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "6.12147E-06 79",
+            "clean_cell": "6.12147E-06",
+            "cell_flags": {
+              "raw": "6.12147E-06",
+              "token": "6.12147E-06"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia79"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia79"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia79"
+          ]
+        },
+        "Te": {
+          "value": 0.0,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "0",
+          "context_json": {
+            "state_id": "state_e6b707ee56278589",
+            "state_label": "X1Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0",
+            "clean_cell": "0",
+            "cell_flags": {
+              "raw": "0",
+              "token": "0"
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "ae": {
+          "value": 0.01750441,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia78",
+          "source": "webbook:C630080",
+          "raw_text": "0.01750441",
+          "context_json": {
+            "state_id": "state_e6b707ee56278589",
+            "state_label": "X1Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "0.01750441 78",
+            "clean_cell": "0.01750441",
+            "cell_flags": {
+              "raw": "0.01750441",
+              "token": "0.01750441",
+              "decimals": 8
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia78"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia78"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia78"
+          ]
+        },
+        "re": {
+          "value": 1.128323,
+          "unit": "A",
+          "ref_id": "WB:C630080:Dia80",
+          "source": "webbook:C630080",
+          "raw_text": "1.128323",
+          "context_json": {
+            "state_id": "state_e6b707ee56278589",
+            "state_label": "X1Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "1.128323 80 81",
+            "clean_cell": "1.128323",
+            "cell_flags": {
+              "raw": "1.128323",
+              "token": "1.128323",
+              "decimals": 6
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia80",
+              "Dia81"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia80",
+              "WB:C630080:Dia81"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia80",
+            "WB:C630080:Dia81"
+          ]
+        },
+        "we": {
+          "value": 2169.81358,
+          "unit": "cm-1",
+          "ref_id": null,
+          "source": "webbook:C630080",
+          "raw_text": "2169.81358",
+          "context_json": {
+            "state_id": "state_e6b707ee56278589",
+            "state_label": "X1Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "2169.81358",
+            "clean_cell": "2169.81358",
+            "cell_flags": {
+              "raw": "2169.81358",
+              "token": "2169.81358",
+              "decimals": 5
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [],
+            "cell_ref_ids": []
+          },
+          "ref_ids": []
+        },
+        "wexe": {
+          "value": 13.28831,
+          "unit": "cm-1",
+          "ref_id": "WB:C630080:Dia76",
+          "source": "webbook:C630080",
+          "raw_text": "13.28831",
+          "context_json": {
+            "state_id": "state_e6b707ee56278589",
+            "state_label": "X1Σ+",
+            "table_caption": "Diatomic constants for 12 C 16 O",
+            "raw_cell": "13.28831 76",
+            "clean_cell": "13.28831",
+            "cell_flags": {
+              "raw": "13.28831",
+              "token": "13.28831",
+              "decimals": 5
+            },
+            "cell_markers": [],
+            "cell_ref_targets": [
+              "Dia76"
+            ],
+            "cell_ref_ids": [
+              "WB:C630080:Dia76"
+            ]
+          },
+          "ref_ids": [
+            "WB:C630080:Dia76"
+          ]
+        }
+      }
+    }
+  },
+  "state_order_by_Te": [
+    "X1Σ+",
+    "a3Π",
+    "a'3Σ+",
+    "d3Δ",
+    "e3Σ-",
+    "A1Π",
+    "I1Σ-",
+    "D1Δ",
+    "b3Σ+3sσ",
+    "B1Σ+3sσ",
+    "k",
+    "j(3Σ+3pσ)",
+    "C1Σ+3pσ",
+    "E1Π3pπ",
+    "c3Π3pπ",
+    "F1Σ+(3dσ)",
+    "J1Σ+4sσ",
+    "L1Π4pπ",
+    "H(1Π)",
+    "N",
+    "P",
+    "O(1Π)",
+    "Q",
+    "R",
+    "T",
+    "S",
+    "U",
+    "D",
+    "G'1Π",
+    "G1Π(3dπ)",
+    "g3Σ+",
+    "H'1Π",
+    "h(3Σ+,4sσ)",
+    "I'(5sσ)",
+    "K1Σ+4pσ",
+    "L'(1Π)",
+    "V1Π",
+    "W'1Π",
+    "W1Π",
+    "Y1Σ+",
+    "Z1Σ+"
+  ]
+}

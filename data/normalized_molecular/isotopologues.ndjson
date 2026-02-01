@@ -1,0 +1,4 @@
+{"iso_id": "iso_c4cae4877e66b1da", "species_id": "MOL:CN+:+0", "label": "12 C 14 N +", "composition_json": "{\"raw_caption\": \"Diatomic constants for 12 C 14 N +\"}", "nuclear_spins_json": null, "mass_amu": null, "abundance": null, "notes": null}
+{"iso_id": "iso_4d044ad464727aa5", "species_id": "MOL:CS:+0", "label": "12 C 32 S", "composition_json": "{\"raw_caption\": \"Diatomic constants for 12 C 32 S\"}", "nuclear_spins_json": null, "mass_amu": null, "abundance": null, "notes": null}
+{"iso_id": "iso_49644055467acfec", "species_id": "MOL:CO:+0", "label": "12 C 16 O", "composition_json": "{\"raw_caption\": \"Diatomic constants for 12 C 16 O\"}", "nuclear_spins_json": null, "mass_amu": null, "abundance": null, "notes": null}
+{"iso_id": "iso_a3a170236dd60451", "species_id": "MOL:H2:+0", "label": "H 2", "composition_json": "{\"raw_caption\": \"Diatomic constants for H 2\"}", "nuclear_spins_json": null, "mass_amu": null, "abundance": null, "notes": null}

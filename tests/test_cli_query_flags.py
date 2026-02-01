@@ -77,7 +77,7 @@ def _parse_header_cols(line: str) -> list[str]:
 
 def test_cli_levels_flags(monkeypatch, tmp_path: Path, capsys) -> None:
     api = _install_minimal_fixture_db(tmp_path)
-    monkeypatch.setattr(cli, "open_default_api", lambda: api)
+    monkeypatch.setattr(cli, "open_default_api", lambda *args, **kwargs: api)
 
     monkeypatch.setattr(sys, "argv", ["query.py", "levels", "H I", "--limit", "5", "--no-refs"])
     cli.main()
@@ -98,7 +98,7 @@ def test_cli_levels_flags(monkeypatch, tmp_path: Path, capsys) -> None:
 
 def test_cli_lines_flags(monkeypatch, tmp_path: Path, capsys) -> None:
     api = _install_minimal_fixture_db(tmp_path)
-    monkeypatch.setattr(cli, "open_default_api", lambda: api)
+    monkeypatch.setattr(cli, "open_default_api", lambda *args, **kwargs: api)
 
     monkeypatch.setattr(sys, "argv", ["query.py", "lines", "H I", "--limit", "5", "--no-refs"])
     cli.main()

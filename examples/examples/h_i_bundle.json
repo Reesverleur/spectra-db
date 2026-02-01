@@ -99,7 +99,7 @@
       {
         "wavelength": 410.285985517,
         "unit": "nm",
-        "unc": 2.2000000000000002e-08,
+        "unc": 2.2e-08,
         "selection_rules": "",
         "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
         "extra_json": "{\"Transition Wavenumber\": \"24373.2429403\", \"gi gk\": \"2 - 4\"}",
@@ -220,7 +220,7 @@
       {
         "wavelength": 410.286503488,
         "unit": "nm",
-        "unc": 6.000000000000001e-09,
+        "unc": 6e-09,
         "selection_rules": "E2",
         "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=11759&type=L&element=H&spectr_charge=0",
         "extra_json": "{\"Transition Wavenumber\": \"24373.2121704\", \"gi gk\": \"2 - 6\"}",
@@ -265,7 +265,7 @@
       {
         "wavelength": 410.286579132,
         "unit": "nm",
-        "unc": 2.2000000000000002e-08,
+        "unc": 2.2e-08,
         "selection_rules": "",
         "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
         "extra_json": "{\"Transition Wavenumber\": \"24373.2076763\", \"gi gk\": \"2 - 4\"}",
@@ -400,7 +400,7 @@
       {
         "wavelength": 410.2892,
         "unit": "nm",
-        "unc": 0.0006000000000000001,
+        "unc": 0.0006,
         "selection_rules": "",
         "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7436&type=L&comment_code=c29&element=H&spectr_charge=0",
         "extra_json": "{\"Transition Wavenumber\": \"24373.05\", \"gi gk\": \"8 - 72\"}",
@@ -527,7 +527,7 @@
       {
         "wavelength": 410.29208,
         "unit": "nm",
-        "unc": 3.0000000000000004e-05,
+        "unc": 3e-05,
         "selection_rules": "",
         "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=59&type=L&element=H&spectr_charge=0",
         "extra_json": "{\"Transition Wavenumber\": \"24372.8810\"}",
@@ -558,7 +558,7 @@
       {
         "wavelength": 410.292144772,
         "unit": "nm",
-        "unc": 2.2000000000000002e-08,
+        "unc": 2.2e-08,
         "selection_rules": "",
         "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
         "extra_json": "{\"Transition Wavenumber\": \"24372.8770522\", \"gi gk\": \"4 - 4\"}",
@@ -926,7 +926,7 @@
       {
         "wavelength": 434.1692,
         "unit": "nm",
-        "unc": 0.0006000000000000001,
+        "unc": 0.0006,
         "selection_rules": "",
         "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7436&type=L&comment_code=c29&element=H&spectr_charge=0",
         "extra_json": "{\"Transition Wavenumber\": \"23032.49\", \"gi gk\": \"8 - 50\"}",
@@ -1233,7 +1233,7 @@
       {
         "wavelength": 486.2642,
         "unit": "nm",
-        "unc": 0.00014000000000000001,
+        "unc": 0.00014,
         "selection_rules": "",
         "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=63&type=L&element=H&spectr_charge=0",
         "extra_json": "{\"Transition Wavenumber\": \"20564.952\"}",
@@ -1318,7 +1318,7 @@
       {
         "wavelength": 486.264631087,
         "unit": "nm",
-        "unc": 9.000000000000001e-09,
+        "unc": 9e-09,
         "selection_rules": "",
         "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=7771&type=T&element=Ac&spectr_charge=88",
         "extra_json": "{\"Transition Wavenumber\": \"20564.9339078\", \"gi gk\": \"2 - 2\"}",
@@ -1462,7 +1462,7 @@
       {
         "wavelength": 486.2683,
         "unit": "nm",
-        "unc": 0.00014000000000000001,
+        "unc": 0.00014,
         "selection_rules": "",
         "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=64&type=L&element=H&spectr_charge=0",
         "extra_json": "{\"Transition Wavenumber\": \"20564.779\"}",
@@ -1795,7 +1795,7 @@
       {
         "wavelength": 656.4535,
         "unit": "nm",
-        "unc": 0.0009000000000000001,
+        "unc": 0.0009,
         "selection_rules": "",
         "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=68&type=L&element=H&spectr_charge=0",
         "extra_json": "{\"Transition Wavenumber\": \"15233.372\"}",
@@ -1961,7 +1961,7 @@
       {
         "wavelength": 656.4583,
         "unit": "nm",
-        "unc": 0.0006000000000000001,
+        "unc": 0.0006,
         "selection_rules": "",
         "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=66&type=L&element=H&spectr_charge=0",
         "extra_json": "{\"Transition Wavenumber\": \"15233.260\"}",
@@ -2097,7 +2097,7 @@
       {
         "wavelength": 656.4608,
         "unit": "nm",
-        "unc": 0.0009000000000000001,
+        "unc": 0.0009,
         "selection_rules": "",
         "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=69&type=L&element=H&spectr_charge=0",
         "extra_json": "{\"Transition Wavenumber\": \"15233.202\"}",
@@ -2182,7 +2182,7 @@
       {
         "wavelength": 656.46662,
         "unit": "nm",
-        "unc": 3.0000000000000004e-05,
+        "unc": 3e-05,
         "selection_rules": "",
         "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=71&type=L&element=H&spectr_charge=0",
         "extra_json": "{\"Transition Wavenumber\": \"15233.0670\"}",
@@ -2213,7 +2213,7 @@
       {
         "wavelength": 656.4667,
         "unit": "nm",
-        "unc": 0.00030000000000000003,
+        "unc": 0.0003,
         "selection_rules": "",
         "ref_url": "https://physics.nist.gov/cgi-bin/ASBib1/get_ASBib_ref.cgi?db=el&db_id=70&type=L&element=H&spectr_charge=0",
         "extra_json": "{\"Transition Wavenumber\": \"15233.065\"}",

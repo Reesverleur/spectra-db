@@ -119,3 +119,72 @@ def test_bootstrap_truncate_all_is_idempotent_and_aligns_columns(tmp_path: Path)
         assert con.execute("SELECT COUNT(*) FROM states").fetchone()[0] == 1
         assert con.execute("SELECT COUNT(*) FROM transitions").fetchone()[0] == 1
         assert con.execute("SELECT COUNT(*) FROM spectroscopic_parameters").fetchone()[0] == 1
+
+
+def test_bootstrap_molecular_refs_allows_missing_ref_type_via_default(tmp_path: Path) -> None:
+    normalized = tmp_path / "normalized_molecular"
+
+    # Intentionally omit ref_type to simulate older molecular refs.ndjson.
+    _write_ndjson(
+        normalized / "refs.ndjson",
+        [{"ref_id": "WB:C630080:Dia53", "citation": "Ref 53 citation.", "url": "https://example.com/ref53"}],
+    )
+    _write_ndjson(
+        normalized / "species.ndjson",
+        [{"species_id": "MOL:CO:+0", "formula": "CO", "name": "Carbon monoxide", "charge": 0, "multiplicity": None, "inchi_key": None, "tags": "webbook", "notes": None}],
+    )
+    _write_ndjson(
+        normalized / "isotopologues.ndjson",
+        [{"iso_id": "ISO:CO:12C16O", "species_id": "MOL:CO:+0", "label": "12C16O", "composition_json": None, "nuclear_spins_json": None, "mass_amu": None, "abundance": None, "notes": None}],
+    )
+    _write_ndjson(
+        normalized / "states.ndjson",
+        [
+            {
+                "state_id": "ST:CO:X",
+                "iso_id": "ISO:CO:12C16O",
+                "state_type": "molecular",
+                "electronic_label": "X1Sigma+",
+                "extra_json": json.dumps({"Trans_clean": "A ↔ X R"}, ensure_ascii=False),
+                "energy_value": 0.0,
+                "energy_unit": "cm-1",
+                "energy_uncertainty": None,
+                "ref_id": "WB:C630080:Dia53",
+                "notes": None,
+            }
+        ],
+    )
+    _write_ndjson(
+        normalized / "parameters.ndjson",
+        [
+            {
+                "param_id": "P:CO:we",
+                "iso_id": "ISO:CO:12C16O",
+                "model": "webbook_diatomic_constants",
+                "name": "we",
+                "value": 2169.813,
+                "unit": "cm-1",
+                "uncertainty": None,
+                "context_json": None,
+                "convention": None,
+                "ref_id": "WB:C630080:Dia53",
+                "source": "webbook:C630080",
+                "notes": None,
+            }
+        ],
+    )
+
+    db_path = tmp_path / "spectra_molecular.duckdb"
+    store = DuckDBStore(db_path)
+
+    counts = store.bootstrap_from_normalized_dir(normalized, truncate_all=True, profile="molecular")
+    assert counts["refs"] == 1
+    assert counts["species"] == 1
+    assert counts["isotopologues"] == 1
+    assert counts["states"] == 1
+    assert counts["spectroscopic_parameters"] == 1
+
+    with store.connect() as con:
+        # The default should have filled ref_type
+        ref_type = con.execute("SELECT ref_type FROM refs WHERE ref_id = ?", ["WB:C630080:Dia53"]).fetchone()[0]
+        assert ref_type == "unknown"

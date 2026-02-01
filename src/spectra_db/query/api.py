@@ -1,3 +1,4 @@
+# src/spectra_db/query/api.py
 from __future__ import annotations
 
 import json
@@ -16,9 +17,9 @@ class QueryAPI:
     """High-level query helpers for the local spectroscopic database."""
 
     con: duckdb.DuckDBPyConnection
+    profile: str = "atomic"
 
     def find_species(self, text: str, limit: int = 20) -> list[dict[str, Any]]:
-        """Search species by formula or name."""
         q = """
         SELECT species_id, formula, name, charge, multiplicity, tags
         FROM species
@@ -32,7 +33,6 @@ class QueryAPI:
         return [dict(zip(cols, r, strict=True)) for r in rows]
 
     def isotopologues_for_species(self, species_id: str) -> list[dict[str, Any]]:
-        """List isotopologues for a given species."""
         q = """
         SELECT iso_id, label, mass_amu, abundance, notes
         FROM isotopologues
@@ -51,7 +51,12 @@ class QueryAPI:
         model: str | None = None,
         limit: int = 200,
     ) -> list[dict[str, Any]]:
-        """Fetch spectroscopic parameters for an isotopologue."""
+        """
+        Fetch spectroscopic parameters for an isotopologue.
+
+        Atomic profile returns numeric-focused columns.
+        Molecular profile includes optional text/suffix/refs columns (if present in schema_molecular).
+        """
         clauses = ["iso_id = ?"]
         args: list[Any] = [iso_id]
 
@@ -63,26 +68,57 @@ class QueryAPI:
             args.append(model)
 
         where = " AND ".join(clauses)
-        q = f"""
-        SELECT param_id, model, name, value, unit, uncertainty, convention, ref_id, source
-        FROM spectroscopic_parameters
-        WHERE {where}
-        ORDER BY model, name
-        LIMIT ?
-        """
+
+        if self.profile == "molecular":
+            q = f"""
+            SELECT param_id, model, name,
+                   value, unit, uncertainty,
+                   text_value, value_suffix, markers_json, ref_ids_json, context_json, raw_text,
+                   convention, ref_id, source
+            FROM spectroscopic_parameters
+            WHERE {where}
+            ORDER BY model, name
+            LIMIT ?
+            """
+            cols = [
+                "param_id",
+                "model",
+                "name",
+                "value",
+                "unit",
+                "uncertainty",
+                "text_value",
+                "value_suffix",
+                "markers_json",
+                "ref_ids_json",
+                "context_json",
+                "raw_text",
+                "convention",
+                "ref_id",
+                "source",
+            ]
+        else:
+            q = f"""
+            SELECT param_id, model, name, value, unit, uncertainty, convention, ref_id, source
+            FROM spectroscopic_parameters
+            WHERE {where}
+            ORDER BY model, name
+            LIMIT ?
+            """
+            cols = [
+                "param_id",
+                "model",
+                "name",
+                "value",
+                "unit",
+                "uncertainty",
+                "convention",
+                "ref_id",
+                "source",
+            ]
+
         args.append(limit)
         rows = self.con.execute(q, args).fetchall()
-        cols = [
-            "param_id",
-            "model",
-            "name",
-            "value",
-            "unit",
-            "uncertainty",
-            "convention",
-            "ref_id",
-            "source",
-        ]
         return [dict(zip(cols, r, strict=True)) for r in rows]
 
     def lines(
@@ -95,11 +131,9 @@ class QueryAPI:
         limit: int = 100,
         parse_payload: bool = True,
     ) -> list[dict[str, Any]]:
-        """Fetch spectral lines for an isotopologue within an optional wavelength range.
+        if self.profile != "atomic":
+            raise ValueError("lines() is only available on the atomic profile for now.")
 
-        Returns a list of dicts. If parse_payload=True, `payload` is a dict parsed from
-        transitions.intensity_json (best-effort).
-        """
         clauses = ["t.iso_id = ?", "t.quantity_unit = ?"]
         args: list[Any] = [iso_id, unit]
 
@@ -151,7 +185,9 @@ class QueryAPI:
         limit: int = 50,
         max_energy: float | None = None,
     ) -> list[dict[str, Any]]:
-        """Fetch atomic levels (with ref URL and extra columns) for an isotopologue."""
+        if self.profile != "atomic":
+            raise ValueError("atomic_levels() is only available on the atomic profile.")
+
         clauses = ["s.iso_id = ?", "s.state_type = 'atomic'"]
         args: list[Any] = [iso_id]
 
@@ -168,7 +204,7 @@ class QueryAPI:
         FROM states s
         LEFT JOIN refs r ON s.ref_id = r.ref_id
         WHERE {where}
-        ORDER BY s.energy_value
+        ORDER BY s.energy_value, s.j_value
         LIMIT ?
         """
         args.append(limit)
@@ -191,16 +227,19 @@ class QueryAPI:
         return [dict(zip(cols, r, strict=True)) for r in rows]
 
 
-def open_default_api(db_path: Path | None = None) -> QueryAPI:
-    """Open the default database and return a QueryAPI instance."""
+def open_default_api(*, profile: str = "atomic", db_path: Path | None = None) -> QueryAPI:
+    """
+    Open the default local DB for a profile.
+
+    - atomic: data/spectra.duckdb
+    - molecular: data/spectra_molecular.duckdb
+    """
     paths = get_paths()
-    db = db_path or paths.default_duckdb_path
-    store = DuckDBStore(db)
-    store.init_schema()
+    if db_path is None:
+        db_path = paths.default_duckdb_path if profile == "atomic" else paths.default_molecular_duckdb_path
+
+    store = DuckDBStore(db_path=db_path)
+    store.init_schema(profile=profile)
+
     con = store.connect()
-    return QueryAPI(con=con)
-
-
-if __name__ == "__main__":
-    api = open_default_api()
-    print("Species search for 'CO':", api.find_species("CO"))
+    return QueryAPI(con=con, profile=profile)

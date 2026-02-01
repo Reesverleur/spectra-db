@@ -1,7 +1,7 @@
+# scripts/bootstrap_db.py
 from __future__ import annotations
 
 import argparse
-import json
 from pathlib import Path
 
 from spectra_db.db.duckdb_store import DuckDBStore
@@ -9,33 +9,44 @@ from spectra_db.util.paths import get_paths
 
 
 def main() -> None:
-    """Build or refresh the local DuckDB database from canonical normalized datasets."""
-    paths = get_paths()
-
-    parser = argparse.ArgumentParser(description="Bootstrap DuckDB from data/normalized.")
-    parser.add_argument(
-        "--db",
-        type=Path,
-        default=paths.default_duckdb_path,
-        help="Path to DuckDB file (default: data/db/spectra.duckdb).",
+    ap = argparse.ArgumentParser(description="Bootstrap Spectra DB from normalized NDJSON.")
+    ap.add_argument(
+        "--profile",
+        choices=["atomic", "molecular"],
+        default="atomic",
+        help="Which DB profile to bootstrap.",
     )
-    parser.add_argument(
+    ap.add_argument(
         "--normalized",
         type=Path,
-        default=paths.normalized_dir,
-        help="Path to normalized dataset directory (default: data/normalized).",
+        default=None,
+        help="Override normalized directory. Defaults depend on profile.",
     )
-    parser.add_argument(
-        "--truncate-all",
-        action="store_true",
-        help="If set, clears existing tables before inserting.",
+    ap.add_argument(
+        "--db-path",
+        type=Path,
+        default=None,
+        help="Override output DuckDB path. Defaults depend on profile.",
     )
-    args = parser.parse_args()
+    ap.add_argument("--truncate-all", action="store_true", help="Delete existing rows before loading.")
 
-    store = DuckDBStore(args.db)
-    store.init_schema()
-    counts = store.bootstrap_from_normalized_dir(args.normalized, truncate_all=args.truncate_all)
-    print(json.dumps({"db": str(args.db), "inserted": counts}, indent=2))
+    args = ap.parse_args()
+    paths = get_paths()
+
+    norm_dir = args.normalized
+    if norm_dir is None:
+        norm_dir = paths.normalized_dir if args.profile == "atomic" else paths.normalized_molecular_dir
+
+    db_path = args.db_path
+    if db_path is None:
+        db_path = paths.default_duckdb_path if args.profile == "atomic" else paths.default_molecular_duckdb_path
+
+    store = DuckDBStore(db_path=db_path)
+    counts = store.bootstrap_from_normalized_dir(norm_dir, truncate_all=args.truncate_all, profile=args.profile)
+
+    print(f"Bootstrapped profile={args.profile}")
+    for k, v in counts.items():
+        print(f"{k:26} {v:8}")
 
 
 if __name__ == "__main__":

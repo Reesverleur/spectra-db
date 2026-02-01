@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
@@ -43,10 +44,67 @@ def _first_url_ellipsis(urls: object) -> str:
     return str(urls)
 
 
+def _fmt_number(x: float) -> str:
+    """
+    Formatting rules:
+      - Round to 12 decimal places first
+      - Strip trailing zeros (and trailing decimal point)
+      - After rounding: any non-zero |x| < 0.001 uses scientific notation
+      - Scientific notation mantissa also strips trailing zeros
+    """
+    if x is None:
+        return ""
+
+    try:
+        if math.isnan(x):
+            return "nan"
+        if math.isinf(x):
+            return "inf" if x > 0 else "-inf"
+    except Exception:
+        return str(x)
+
+    # ROUND FIRST (this is the behavior change you requested)
+    y = round(float(x), 12)
+    ay = abs(y)
+
+    # Scientific notation for very small non-zero values (AFTER rounding)
+    if ay != 0.0 and ay < 1e-3:
+        s = f"{y:.6e}"
+        mantissa, exp = s.split("e", 1)
+
+        mantissa = mantissa.rstrip("0").rstrip(".")
+        if mantissa in {"-0", ""}:
+            mantissa = "0"
+
+        sign = exp[0]  # '+' or '-'
+        digits = exp[1:].lstrip("0") or "0"
+        exp_compact = (sign + digits) if sign == "-" else digits
+
+        return f"{mantissa}e{exp_compact}"
+
+    # Regular fixed-point formatting (AFTER rounding)
+    s = f"{y:.6f}".rstrip("0").rstrip(".")
+    if s == "-0":
+        s = "0"
+    return s if s else "0"
+
+
+def _fmt_cell(v: Any) -> str:
+    if v is None:
+        return ""
+    if isinstance(v, bool):
+        return "true" if v else "false"
+    if isinstance(v, int):
+        return str(v)
+    if isinstance(v, float):
+        return _fmt_number(v)
+    return str(v)
+
+
 def _format_table(rows: list[dict[str, Any]], columns: list[tuple[str, str]]) -> str:
-    table = []
+    table: list[list[str]] = []
     for r in rows:
-        table.append([("" if r.get(k) is None else str(r.get(k))) for k, _ in columns])
+        table.append([_fmt_cell(r.get(k)) for k, _ in columns])
 
     headers = [h for _, h in columns]
 
@@ -105,10 +163,6 @@ def _apply_column_filter(
     include_keys: list[str] | None,
     exclude_keys: set[str],
 ) -> list[tuple[str, str]]:
-    """
-    - If include_keys is provided, it overrides exclude_keys and returns columns in that order.
-    - Otherwise returns columns_full minus excluded keys.
-    """
     col_map = {k: h for k, h in columns_full}
     if include_keys:
         out: list[tuple[str, str]] = []
@@ -120,9 +174,6 @@ def _apply_column_filter(
 
 
 def _degeneracy_g_from_j(j: object) -> float | None:
-    """
-    Degeneracy (2J+1). Works for integer/half-integer J.
-    """
     if j is None:
         return None
     try:
@@ -133,6 +184,13 @@ def _degeneracy_g_from_j(j: object) -> float | None:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description="Query local Spectra DB.")
+    ap.add_argument(
+        "--profile",
+        choices=["atomic", "molecular"],
+        default="atomic",
+        help="Which database profile to query (atomic default; molecular is separate DB).",
+    )
+
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     sp = sub.add_parser("species", help="Search species by text.")
@@ -164,6 +222,13 @@ def main() -> None:
         help=("Comma-separated column keys to show (overrides --no-refs/--compact). Lines keys: Obs,ObsUnc,Ritz,RitzUnc,RelInt,Aki,Acc,Ei,Ek,Lower,Upper,Type,TPRefURL,LineRefURL"),
     )
 
+    dc = sub.add_parser("diatomic", help="Show WebBook diatomic constants (pivoted by electronic state).")
+    dc.add_argument("q", help='e.g. "CO" or "Carbon monoxide"')
+    dc.add_argument("--limit", type=int, default=5000)
+    dc.add_argument("--model", default="webbook_diatomic_constants")
+    dc.add_argument("--footnotes", action="store_true", help="Print referenced DiaNN footnotes for the displayed table.")
+    dc.add_argument("--citations", action="store_true", help="Print bibliographic references (WebBook 'References' section).")
+
     ex = sub.add_parser("export", help="Export a machine-friendly JSON bundle.")
     ex.add_argument("q", help='e.g. "H I" or "H"')
     ex.add_argument("--levels-max-energy", type=float, default=None)
@@ -175,7 +240,10 @@ def main() -> None:
     ex.add_argument("--out", type=Path, default=None)
 
     args = ap.parse_args()
-    api = open_default_api()
+    profile = args.profile
+    if args.cmd == "diatomic":
+        profile = "molecular"
+    api = open_default_api(profile=profile)
 
     if args.cmd == "species":
         rows = api.find_species(args.q, limit=50)
@@ -210,13 +278,12 @@ def main() -> None:
 
                 disp.append(
                     {
-                        "energy_value": r["energy_value"],  # helper for sorting only
-                        # display keys (stable identifiers for column selection)
+                        "energy_value": r["energy_value"],
                         "Energy": r["energy_value"],
                         "Unit": r["energy_unit"],
                         "Unc": r["energy_uncertainty"],
                         "J": jv,
-                        "g": gdeg,  # degeneracy 2J+1
+                        "g": gdeg,
                         "LandeG": r.get("lande_g"),
                         "Configuration": r["configuration"],
                         "Term": r["term"],
@@ -233,7 +300,7 @@ def main() -> None:
                 ("Unit", "Unit"),
                 ("Unc", "Unc"),
                 ("J", "J"),
-                ("g", "g"),  # immediately to the right of J
+                ("g", "g"),
                 ("LandeG", "Landé g"),
                 ("Configuration", "Configuration"),
                 ("Term", "Term"),
@@ -242,8 +309,6 @@ def main() -> None:
 
             exclude: set[str] = set()
             if args.compact:
-                # Keep the most-used columns for quick inspection
-                # (Energy, J, g, Configuration, Term)
                 exclude |= {"Unit", "Unc", "LandeG", "RefURL"}
             if args.no_refs:
                 exclude |= {"RefURL"}
@@ -312,7 +377,6 @@ def main() -> None:
 
                 disp.append(
                     {
-                        # stable keys for column selection
                         "Obs": obs,
                         "ObsUnc": obs_unc,
                         "Ritz": ritz,
@@ -349,7 +413,6 @@ def main() -> None:
 
             exclude: set[str] = set()
             if args.compact:
-                # typical "fast scan" view
                 exclude |= {"ObsUnc", "RitzUnc", "Acc", "TPRefURL", "LineRefURL"}
             if args.no_refs:
                 exclude |= {"TPRefURL", "LineRefURL"}
@@ -360,13 +423,171 @@ def main() -> None:
             print(_format_table(disp, columns))
         return
 
+    if args.cmd == "diatomic":
+        rows = api.find_species(args.q, limit=50)
+        if not rows:
+            print("No species found.")
+            return
+
+        sid = rows[0]["species_id"]
+        iso = api.isotopologues_for_species(sid)
+        if not iso:
+            print(f"{sid}: no isotopologues")
+            return
+        iso_id = iso[0]["iso_id"]
+
+        # Species-level metadata (webbook_id + footnotes)
+        sx_row = api.con.execute("SELECT extra_json FROM species WHERE species_id = ?", [sid]).fetchone()
+        sx = _json_load_maybe(sx_row[0] if sx_row else None)
+        webbook_id = sx.get("webbook_id")
+
+        raw_foot = sx.get("webbook_footnotes_by_id") or {}
+
+        def _foot_entry(v):
+            # backward compatible: string or dict
+            if v is None:
+                return {"text": "", "ref_targets": [], "dia_targets": []}
+            if isinstance(v, str):
+                return {"text": v, "ref_targets": [], "dia_targets": []}
+            if isinstance(v, dict):
+                return {"text": v.get("text") or "", "ref_targets": v.get("ref_targets") or [], "dia_targets": v.get("dia_targets") or []}
+            return {"text": str(v), "ref_targets": [], "dia_targets": []}
+
+        footnotes_by_id = {k: _foot_entry(v) for k, v in raw_foot.items()}
+
+        referenced_note_targets: set[str] = set()
+
+        def _markers(targets: list[str] | None) -> str:
+            if not targets:
+                return ""
+            # stable display: [Dia3] [Dia12]
+            uniq = list(dict.fromkeys([str(t) for t in targets]))
+            for t in uniq:
+                referenced_note_targets.add(t)
+            return " " + " ".join([f"[{t}]" for t in uniq])
+
+        # Pull diatomic parameters and molecular states
+        params = api.parameters(iso_id=iso_id, model=args.model, limit=args.limit)
+
+        state_rows = api.con.execute(
+            "SELECT electronic_label, energy_value, extra_json FROM states WHERE iso_id = ? AND state_type = 'molecular'",
+            [iso_id],
+        ).fetchall()
+
+        by_state: dict[str, dict[str, Any]] = {}
+
+        # Initialize with states (Te + Trans)
+        for st_label, te, extra_json in state_rows:
+            st = (st_label or "").strip() or "(unknown)"
+            extra = _json_load_maybe(extra_json)
+            trans = (extra.get("Trans_clean") or "").strip()
+            trans_marks = _markers(extra.get("Trans_note_targets") or [])
+            te_marks = _markers(extra.get("Te_note_targets") or [])
+
+            by_state.setdefault(st, {"State": st})
+            by_state[st]["Te"] = te if te is not None else None
+            by_state[st]["Te_disp"] = f"{_fmt_cell(te)}{te_marks}" if te is not None else ""
+            by_state[st]["Trans"] = (trans + trans_marks).strip()
+
+        # Fill parameters (append markers to display)
+        for p in params:
+            ctx = _json_load_maybe(p.get("context_json"))
+            st = (ctx.get("state_label") or "").strip() or "(unknown)"
+            rec = by_state.setdefault(st, {"State": st, "Te": None, "Te_disp": "", "Trans": ""})
+
+            marks = _markers(ctx.get("cell_note_targets") or [])
+
+            if p["name"] == "nu00":
+                suf = (ctx.get("value_suffix") or "").strip()
+                base = f"{_fmt_cell(p['value'])} {suf}".strip()
+                rec["nu00"] = f"{base}{marks}".strip()
+            elif p["name"] == "Te":
+                # If Te also appears as a parameter row, keep numeric Te sort key as-is
+                rec["Te"] = p.get("value")
+                rec["Te_disp"] = f"{_fmt_cell(p['value'])}{marks}".strip()
+            else:
+                rec[p["name"]] = f"{_fmt_cell(p['value'])}{marks}".strip()
+
+        columns_full = [
+            ("State", "State"),
+            ("Te_disp", "Te"),
+            ("we", "ωe"),
+            ("wexe", "ωexe"),
+            ("weye", "ωeye"),
+            ("Be", "Be"),
+            ("ae", "αe"),
+            ("ge", "γe"),
+            ("De", "De"),
+            ("be", "βe"),
+            ("re", "re"),
+            ("Trans", "Trans."),
+            ("nu00", "ν00"),
+        ]
+
+        # Sort by Te numeric (ground first); missing Te last alphabetical
+        def _sort_key(rec: dict[str, Any]) -> tuple[int, float, str]:
+            te = rec.get("Te", None)
+            state = str(rec.get("State", "") or "")
+            if te is None:
+                return (1, float("inf"), state.lower())
+            try:
+                return (0, float(te), state.lower())
+            except Exception:
+                return (1, float("inf"), state.lower())
+
+        out_rows = sorted(by_state.values(), key=_sort_key)
+
+        print(f"\n== {sid} (iso: {iso_id}) ==")
+        print(_format_table(out_rows, columns_full))
+
+        if args.footnotes:
+            targets = sorted(
+                referenced_note_targets,
+                key=lambda x: (int(x[3:]) if x.startswith("Dia") and x[3:].isdigit() else 10**9, x),
+            )
+            print("\n--- Footnotes referenced by table markers ---")
+            if not targets:
+                print("(none)")
+            else:
+                for t in targets:
+                    ent = footnotes_by_id.get(t)
+                    if not ent or not ent.get("text"):
+                        print(f"[{t}] (missing)")
+                        continue
+                    text = ent["text"]
+                    preview = text if len(text) <= 500 else text[:500] + "..."
+                    line = f"[{t}] {preview}"
+                    # also show citation markers if present
+                    refs = ent.get("ref_targets") or []
+                    if refs:
+                        line += "  cites: " + " ".join([f"[{r}]" for r in refs])
+                    print(line)
+
+        if args.citations:
+            print("\n--- Citations (WebBook References section) ---")
+            if not webbook_id:
+                print("(no webbook_id on species.extra_json)")
+            else:
+                ref_rows = api.con.execute(
+                    "SELECT ref_id, doi, citation, url FROM refs WHERE ref_id LIKE ? ORDER BY ref_id",
+                    [f"WB:{webbook_id}:ref-%"],
+                ).fetchall()
+                if not ref_rows:
+                    print("(none)")
+                else:
+                    for ref_id, doi, citation, url in ref_rows:
+                        short = ref_id.split(":")[-1]  # ref-1
+                        print({"tag": f"[{short}]", "doi": doi, "citation": citation, "url": url})
+
+        return
+
     if args.cmd == "export":
         bundle = export_species_bundle(
             query=args.q,
             levels_max_energy=args.levels_max_energy,
             levels_limit=args.levels_limit,
             lines_min_wav=args.lines_min_wav,
-            lines_max_wav=args.lines_max_wav,
+            lines_max_wav=args.lines_max_wav,  # fixed typo
             lines_unit=args.lines_unit,
             lines_limit=args.lines_limit,
         )
