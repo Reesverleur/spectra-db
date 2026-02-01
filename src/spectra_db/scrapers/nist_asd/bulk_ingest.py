@@ -8,9 +8,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from tools.scrapers.nist_asd.fetch_levels import run as run_levels
-from tools.scrapers.nist_asd.fetch_lines import run as run_lines
-from tools.scrapers.nist_asd.parse_lines import parse_lines_response
+from spectra_db.scrapers.nist_asd.fetch_levels import run as run_levels
+from spectra_db.scrapers.nist_asd.fetch_lines import run as run_lines
+from spectra_db.scrapers.nist_asd.parse_lines import parse_lines_response
 
 
 @dataclass(frozen=True)

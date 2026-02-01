@@ -1,5 +1,5 @@
-from tools.scrapers.nist_asd.fetch_levels import extract_ref_urls_from_html as extract_levels
-from tools.scrapers.nist_asd.fetch_lines import extract_ref_urls_from_html as extract_lines
+from spectra_db.scrapers.nist_asd.fetch_levels import extract_ref_urls_from_html as extract_levels
+from spectra_db.scrapers.nist_asd.fetch_lines import extract_ref_urls_from_html as extract_lines
 
 
 def test_extract_ref_urls_from_html_popded() -> None:

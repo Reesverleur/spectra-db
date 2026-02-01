@@ -8,7 +8,7 @@ from textwrap import dedent
 
 import pytest
 
-import tools.scrapers.nist_asd.fetch_lines as fetch_lines
+import spectra_db.scrapers.nist_asd.fetch_lines as fetch_lines
 from spectra_db.util.paths import RepoPaths
 
 

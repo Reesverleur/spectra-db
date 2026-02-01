@@ -7,9 +7,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from spectra_db.scrapers.common.ndjson import append_ndjson_dedupe
+from spectra_db.scrapers.nist_webbook.normalize_diatomic_constants import run as normalize_diatomic
 from spectra_db.util.paths import get_paths
-from tools.scrapers.common.ndjson import append_ndjson_dedupe
-from tools.scrapers.nist_webbook.normalize_diatomic_constants import run as normalize_diatomic
 
 
 @dataclass(frozen=True)

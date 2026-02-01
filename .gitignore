@@ -14,6 +14,8 @@ data/db/*.tmp
 .idea/
 *.iml
 out/
+src/spectra_db.egg-info
+
 
 # Raw HTML Files
 data/raw/nist_asd/levels/**

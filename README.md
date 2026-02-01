@@ -122,13 +122,13 @@ rm -f data/db/spectra.duckdb
 Fetch levels:
 
 ```bash
-python -m tools.scrapers.nist_asd.fetch_levels --spectrum "Fe II"
+python -m spectra_db.scrapers.nist_asd.fetch_levels --spectrum "Fe II"
 ```
 
 Fetch lines (small window):
 
 ```bash
-python -m tools.scrapers.nist_asd.fetch_lines --spectrum "Fe II" --min-wav 380 --max-wav 381 --unit nm --wavelength-type vacuum
+python -m spectra_db.scrapers.nist_asd.fetch_lines --spectrum "Fe II" --min-wav 380 --max-wav 381 --unit nm --wavelength-type vacuum
 ```
 
 Bootstrap atomic DB:
@@ -142,13 +142,13 @@ python scripts/bootstrap_db.py --profile atomic --truncate-all
 Fetch a single species page (example: CO WebBook ID `C630080`), `Mask=1000`:
 
 ```bash
-python -m tools.scrapers.nist_webbook.fetch_webbook --id C630080 --mask 1000
+python -m spectra_db.scrapers.nist_webbook.fetch_webbook --id C630080 --mask 1000
 ```
 
 Normalize cached pages → NDJSON:
 
 ```bash
-python -m tools.scrapers.nist_webbook.normalize_cache
+python -m spectra_db.scrapers.nist_webbook.normalize_cache
 ```
 
 Bootstrap molecular DB:
@@ -165,13 +165,13 @@ This performs:
 2) fetch of each discovered WebBook ID via the canonical `fetch_webbook` cache layer
 
 ```bash
-python -m tools.scrapers.nist_webbook.bulk_ingest_diatomics --sleep 0.5
+python -m spectra_db.scrapers.nist_webbook.bulk_ingest_diatomics --sleep 0.5
 ```
 
 Then normalize + bootstrap:
 
 ```bash
-python -m tools.scrapers.nist_webbook.normalize_cache
+python -m spectra_db.scrapers.nist_webbook.normalize_cache
 python scripts/bootstrap_db.py --profile molecular --truncate-all
 ```
 

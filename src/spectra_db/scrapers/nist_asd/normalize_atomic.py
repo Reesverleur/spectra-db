@@ -4,7 +4,7 @@ import re
 from dataclasses import dataclass
 from typing import Any
 
-from tools.scrapers.common.ids import make_id
+from spectra_db.scrapers.common.ids import make_id
 
 # Roman numeral parser supporting large values (e.g. LXVII, XXXVII, etc.)
 _ROMAN_VALUES = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}

@@ -8,9 +8,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from spectra_db.scrapers.common.ids import make_id
+from spectra_db.scrapers.common.ndjson import write_ndjson_row
 from spectra_db.util.paths import get_paths
-from tools.scrapers.common.ids import make_id
-from tools.scrapers.common.ndjson import write_ndjson_row
 
 
 @dataclass(frozen=True)

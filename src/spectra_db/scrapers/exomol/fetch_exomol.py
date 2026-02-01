@@ -6,8 +6,8 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
+from spectra_db.scrapers.common.http import fetch_cached
 from spectra_db.util.paths import get_paths
-from tools.scrapers.common.http import fetch_cached
 
 EXOMOL_API_BASE = "https://exomol.com/api"
 

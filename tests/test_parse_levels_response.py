@@ -1,5 +1,5 @@
-from tools.scrapers.nist_asd.fetch_levels import _safe_float  # type: ignore
-from tools.scrapers.nist_asd.parse_levels import parse_levels_response
+from spectra_db.scrapers.nist_asd.fetch_levels import _safe_float  # type: ignore
+from spectra_db.scrapers.nist_asd.parse_levels import parse_levels_response
 
 
 def test_parse_levels_selects_levels_table() -> None:

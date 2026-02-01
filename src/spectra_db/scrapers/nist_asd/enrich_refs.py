@@ -11,8 +11,8 @@ from urllib.parse import urlencode
 
 from bs4 import BeautifulSoup
 
+from spectra_db.scrapers.common.http import fetch_cached
 from spectra_db.util.paths import get_paths
-from tools.scrapers.common.http import fetch_cached
 
 DOI_RE = re.compile(r"\b10\.\d{4,9}/[-._;()/:A-Z0-9]+\b", re.IGNORECASE)
 

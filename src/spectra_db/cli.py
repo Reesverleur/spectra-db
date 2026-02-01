@@ -1,3 +1,4 @@
+# src/spectra_db/cli.py
 from __future__ import annotations
 
 import argparse
@@ -7,9 +8,11 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
+from spectra_db.db.duckdb_store import DuckDBStore
 from spectra_db.query import open_default_api
 from spectra_db.query.export import export_species_bundle
 from spectra_db.util.asd_spectrum import parse_spectrum_label
+from spectra_db.util.paths import get_paths
 
 
 def resolve_species_ids_atomic(api, query: str) -> list[str]:
@@ -184,7 +187,7 @@ def _degeneracy_g_from_j(j: object) -> float | None:
         return None
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
     ap = argparse.ArgumentParser(description="Query local Spectra DB.")
     ap.add_argument(
         "--profile",
@@ -243,7 +246,31 @@ def main() -> None:
     ex.add_argument("--lines-limit", type=int, default=10000)
     ex.add_argument("--out", type=Path, default=None)
 
-    args = ap.parse_args()
+    bs = sub.add_parser("bootstrap", help="Bootstrap DuckDB from normalized NDJSON.")
+    bs.add_argument("--normalized", type=Path, default=None, help="Override normalized NDJSON directory. Defaults depend on profile.")
+    bs.add_argument("--db-path", type=Path, default=None, help="Override output DuckDB path. Defaults depend on profile.")
+    bs.add_argument("--truncate-all", action="store_true", help="Delete existing rows before loading.")
+
+    args = ap.parse_args(argv)
+
+    if args.cmd == "bootstrap":
+        paths = get_paths()
+
+        norm_dir = args.normalized
+        if norm_dir is None:
+            norm_dir = paths.normalized_dir if args.profile == "atomic" else paths.normalized_molecular_dir
+
+        db_path = args.db_path
+        if db_path is None:
+            db_path = paths.default_duckdb_path if args.profile == "atomic" else paths.default_molecular_duckdb_path
+
+        store = DuckDBStore(db_path=db_path)
+        counts = store.bootstrap_from_normalized_dir(norm_dir, truncate_all=args.truncate_all, profile=args.profile)
+
+        print(f"Bootstrapped profile={args.profile}")
+        for k, v in counts.items():
+            print(f"{k:26} {v:8}")
+        return
 
     # diatomic is always molecular profile
     profile = args.profile
@@ -436,7 +463,6 @@ def main() -> None:
             sid = args.species_id.strip()
 
         if sid is None and args.exact:
-            # exact-only first
             sid = api.resolve_species_id(args.q, exact_first=True, fuzzy_fallback=True, fuzzy_limit=50)
             if sid is None:
                 print(f"[diatomic] Exact match failed for {args.q!r}; falling back to fuzzy search…")

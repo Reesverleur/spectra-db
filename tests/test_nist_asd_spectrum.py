@@ -1,6 +1,6 @@
 import pytest
 
-from tools.scrapers.nist_asd.normalize_atomic import parse_spectrum_label
+from spectra_db.scrapers.nist_asd.normalize_atomic import parse_spectrum_label
 
 
 @pytest.mark.parametrize(

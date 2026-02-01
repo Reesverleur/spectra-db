@@ -4,38 +4,42 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spectra-db"
-version = "0.0.1"
-description = "Local spectroscopic database + query API (NIST ingestors + normalized canonical datasets)."
+version = "0.0.2"
+description = "Local-first spectroscopy database + query API backed by DuckDB."
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "MIT"}
 authors = [{name = "Rees Verleur"}]
+
 dependencies = [
   "duckdb>=0.10",
   "pandas>=2.1",
+  "platformdirs>=4.2",
 ]
 
 [project.optional-dependencies]
-dev = [
-  "pytest>=8",
-  "ruff>=0.6",
-  "mypy>=1.10",
-  "pre-commit>=3.7",
-]
-docs = [
-  "mkdocs>=1.6",
-  "mkdocs-material>=9.5",
-  "mkdocstrings[python]>=0.25",
-]
+# Dependencies required for the ingestion/scraping pipeline (NIST ASD, NIST WebBook, etc.)
 scrape = [
-  "requests>=2.32",
+  "requests>=2.31",
   "beautifulsoup4>=4.12",
-  "lxml>=5.2",
-  "mechanicalsoup>=1.3",
 ]
+
+# Dev / CI helpers
+dev = [
+  "pytest>=7.4",
+  "ruff>=0.4",
+  "types-requests>=2.31",
+]
+
+[project.scripts]
+spectra-db = "spectra_db.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["spectra_db*"]
 
 [tool.ruff]
 line-length = 200

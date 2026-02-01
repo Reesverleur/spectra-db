@@ -12,9 +12,9 @@ from urllib.parse import unquote
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
+from spectra_db.scrapers.common.ids import make_id
+from spectra_db.scrapers.common.ndjson import append_ndjson_dedupe
 from spectra_db.util.paths import get_paths
-from tools.scrapers.common.ids import make_id
-from tools.scrapers.common.ndjson import append_ndjson_dedupe
 
 WEBBOOK_CBOOK_URL = "https://webbook.nist.gov/cgi/cbook.cgi"
 

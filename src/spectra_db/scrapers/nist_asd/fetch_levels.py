@@ -10,19 +10,19 @@ from typing import Any
 import pandas as pd
 from bs4 import BeautifulSoup
 
-from spectra_db.util.paths import get_paths
-from tools.scrapers.common.http import fetch_cached
-from tools.scrapers.common.ids import make_id
-from tools.scrapers.common.ndjson import append_ndjson_dedupe
-from tools.scrapers.nist_asd.asd_client import LEVELS_URL, LevelsQuery, build_levels_params
-from tools.scrapers.nist_asd.normalize_atomic import (
+from spectra_db.scrapers.common.http import fetch_cached
+from spectra_db.scrapers.common.ids import make_id
+from spectra_db.scrapers.common.ndjson import append_ndjson_dedupe
+from spectra_db.scrapers.nist_asd.asd_client import LEVELS_URL, LevelsQuery, build_levels_params
+from spectra_db.scrapers.nist_asd.normalize_atomic import (
     iso_id_for,
     make_isotopologue_record,
     make_species_record,
     parse_spectrum_label,
     species_id_for,
 )
-from tools.scrapers.nist_asd.parse_levels import parse_levels_response
+from spectra_db.scrapers.nist_asd.parse_levels import parse_levels_response
+from spectra_db.util.paths import get_paths
 
 _FLOAT_RE = re.compile(r"[-+]?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?")
 _POPDED_RE = re.compile(r"popded\('([^']+)'\)")

@@ -1,4 +1,4 @@
-from tools.scrapers.nist_asd.parse_lines import parse_lines_response
+from spectra_db.scrapers.nist_asd.parse_lines import parse_lines_response
 
 
 def test_parse_lines_multiline_header_pre() -> None:

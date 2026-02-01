@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
+from spectra_db.scrapers.nist_webbook import normalize_diatomic_constants as norm
 from spectra_db.util.paths import RepoPaths
-from tools.scrapers.nist_webbook import normalize_diatomic_constants as norm
 
 
 def _read_ndjson(path: Path) -> list[dict]:

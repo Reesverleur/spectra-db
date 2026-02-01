@@ -5,7 +5,7 @@ import json
 import sys
 from pathlib import Path
 
-import scripts.query as cli
+import spectra_db.cli as cli
 from spectra_db.db.duckdb_store import DuckDBStore
 from spectra_db.query.api import QueryAPI
 

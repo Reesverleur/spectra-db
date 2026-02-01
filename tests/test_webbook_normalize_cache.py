@@ -3,8 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from spectra_db.scrapers.nist_webbook import normalize_cache
 from spectra_db.util.paths import RepoPaths
-from tools.scrapers.nist_webbook import normalize_cache
 
 
 def _read_ndjson(path: Path) -> list[dict]:
@@ -36,7 +36,7 @@ def test_normalize_cache_dir_ingests_once_and_is_idempotent(monkeypatch, tmp_pat
     monkeypatch.setattr(normalize_cache, "get_paths", lambda: paths)
 
     # Also ensure the underlying normalizer uses the same get_paths() (it imports it from its module)
-    from tools.scrapers.nist_webbook import normalize_diatomic_constants as norm
+    from spectra_db.scrapers.nist_webbook import normalize_diatomic_constants as norm
 
     monkeypatch.setattr(norm, "get_paths", lambda: paths)
 

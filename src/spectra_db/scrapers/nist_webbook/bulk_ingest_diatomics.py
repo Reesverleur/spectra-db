@@ -14,8 +14,8 @@ from urllib.request import Request, urlopen
 
 from bs4 import BeautifulSoup
 
+from spectra_db.scrapers.nist_webbook.fetch_webbook import run as fetch_webbook_run
 from spectra_db.util.paths import get_paths
-from tools.scrapers.nist_webbook.fetch_webbook import run as fetch_webbook_run
 
 WEBBOOK_BASE = "https://webbook.nist.gov"
 CBOOK_URL = f"{WEBBOOK_BASE}/cgi/cbook.cgi"
@@ -321,7 +321,7 @@ def main() -> None:
 
     print(f"Fetch complete. attempted={attempted} ok={fetched_ok} fail={fetched_fail}")
     print("Next steps:")
-    print("  python -m tools.scrapers.nist_webbook.normalize_cache")
+    print("  python -m spectra_db.scrapers.nist_webbook.normalize_cache")
     print("  python scripts/bootstrap_db.py --profile molecular --truncate-all")
 
 

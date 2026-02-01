@@ -2,7 +2,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-import tools.scrapers.nist_asd.bulk_ingest as bi
+import spectra_db.scrapers.nist_asd.bulk_ingest as bi
 
 
 @dataclass

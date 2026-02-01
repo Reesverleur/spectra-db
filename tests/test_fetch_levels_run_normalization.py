@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-import tools.scrapers.nist_asd.fetch_levels as fetch_levels
+import spectra_db.scrapers.nist_asd.fetch_levels as fetch_levels
 from spectra_db.util.paths import RepoPaths
 
 

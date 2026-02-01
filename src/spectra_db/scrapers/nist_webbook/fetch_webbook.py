@@ -5,8 +5,8 @@ import argparse
 from dataclasses import dataclass
 from typing import Any
 
+from spectra_db.scrapers.common.http import FetchResult, fetch_cached
 from spectra_db.util.paths import get_paths
-from tools.scrapers.common.http import FetchResult, fetch_cached
 
 WEBBOOK_CBOOK_URL = "https://webbook.nist.gov/cgi/cbook.cgi"
 
