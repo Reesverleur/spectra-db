@@ -20,3 +20,4 @@ data/raw/nist_asd/levels/**
 data/raw/nist_asd/lines/**
 data/raw/nist_asd/bulk_checkpoint.jsonl
 data/raw/nist_asd/refs/**
+data/raw/**
