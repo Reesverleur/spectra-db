@@ -164,7 +164,6 @@ class QueryAPI:
         sql = " UNION ".join(clauses) + " LIMIT ?"
         params.append(int(limit))
 
-        # You should already have _fetch_dicts; if not, add it (same as earlier).
         return self._fetch_dicts(sql, params)
 
     def resolve_species_id(
@@ -469,8 +468,8 @@ def open_default_api(*, profile: str = "atomic", db_path: Path | None = None) ->
     """
     Open the default local DB for a profile.
 
-    - atomic: data/spectra.duckdb
-    - molecular: data/spectra_molecular.duckdb
+    - atomic: data/db/spectra.duckdb
+    - molecular: data/db/spectra_molecular.duckdb
     """
     paths = get_paths()
     if db_path is None:

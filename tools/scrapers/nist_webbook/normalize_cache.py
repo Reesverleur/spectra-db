@@ -22,6 +22,7 @@ class NormalizeCacheResult:
     skipped_incomplete_pair: int
     skipped_non_200: int
     skipped_non_diatomic_mask: int
+    skipped_no_diatomic_table: int
     errors: int
     message: str
 
@@ -51,6 +52,17 @@ def _load_meta(meta_path: Path) -> dict[str, Any] | None:
         return None
 
 
+def _is_expected_no_data(message: str) -> bool:
+    """
+    Some pages discovered via cDI=on genuinely have no diatomic constants table.
+    That is an expected "no data" case and should not be counted as an error.
+
+    The underlying normalizer returns:
+      "No 'Diatomic constants for ...' tables found in HTML."
+    """
+    return "no 'diatomic constants" in (message or "").lower()
+
+
 def run(*, cache_dir: Path | None = None) -> NormalizeCacheResult:
     """
     Scan the WebBook cache directory and normalize all *new* diatomic-constants pages (Mask=1000)
@@ -59,6 +71,10 @@ def run(*, cache_dir: Path | None = None) -> NormalizeCacheResult:
     Dedupe:
       - Per-cache-entry: ingestion log keyed by cache_key (<basename> of <key>.meta.json)
       - Per-row: append_ndjson_dedupe() in the underlying normalizer
+
+    Notes:
+      - Some discovered pages are legitimate "no data" cases (no diatomic constants table).
+        These are logged as ingested with no_data=true and do not count as errors.
     """
     paths = get_paths()
     cache_dir = cache_dir or (paths.raw_dir / "nist_webbook" / "cbook")
@@ -75,6 +91,7 @@ def run(*, cache_dir: Path | None = None) -> NormalizeCacheResult:
     skipped_pair = 0
     skipped_non200 = 0
     skipped_mask = 0
+    skipped_no_table = 0
     errors = 0
 
     if not cache_dir.exists():
@@ -87,6 +104,7 @@ def run(*, cache_dir: Path | None = None) -> NormalizeCacheResult:
             skipped_incomplete_pair=0,
             skipped_non_200=0,
             skipped_non_diatomic_mask=0,
+            skipped_no_diatomic_table=0,
             errors=0,
             message=f"Cache directory not found: {cache_dir}",
         )
@@ -143,24 +161,47 @@ def run(*, cache_dir: Path | None = None) -> NormalizeCacheResult:
             errors += 1
             continue
 
-        if not rr.ok:
-            errors += 1
+        if rr.ok:
+            processed += 1
+            already.add(cache_key)
+            log_row = {
+                "cache_key": cache_key,
+                "source": "nist_webbook",
+                "webbook_id": webbook_id,
+                "mask": str(mask),
+                "retrieved_utc": meta.get("retrieved_utc"),
+                "content_sha256": meta.get("content_sha256"),
+                "body_filename": body_path.name,
+                "meta_filename": meta_path.name,
+                "normalize_ok": True,
+                "no_data": False,
+                "normalize_message": rr.message,
+            }
+            append_ndjson_dedupe(ingest_log, [log_row], "cache_key")
             continue
 
-        processed += 1
-        already.add(cache_key)
+        # Expected: discovered page with no diatomic constants table
+        if _is_expected_no_data(rr.message):
+            skipped_no_table += 1
+            already.add(cache_key)
+            log_row = {
+                "cache_key": cache_key,
+                "source": "nist_webbook",
+                "webbook_id": webbook_id,
+                "mask": str(mask),
+                "retrieved_utc": meta.get("retrieved_utc"),
+                "content_sha256": meta.get("content_sha256"),
+                "body_filename": body_path.name,
+                "meta_filename": meta_path.name,
+                "normalize_ok": False,
+                "no_data": True,
+                "normalize_message": rr.message,
+            }
+            append_ndjson_dedupe(ingest_log, [log_row], "cache_key")
+            continue
 
-        log_row = {
-            "cache_key": cache_key,
-            "source": "nist_webbook",
-            "webbook_id": webbook_id,
-            "mask": str(mask),
-            "retrieved_utc": meta.get("retrieved_utc"),
-            "content_sha256": meta.get("content_sha256"),
-            "body_filename": body_path.name,
-            "meta_filename": meta_path.name,
-        }
-        append_ndjson_dedupe(ingest_log, [log_row], "cache_key")
+        # Unexpected failure: count as error and do not mark ingested.
+        errors += 1
 
     ok = errors == 0
     msg = "ok" if ok else f"completed with {errors} errors"
@@ -173,6 +214,7 @@ def run(*, cache_dir: Path | None = None) -> NormalizeCacheResult:
         skipped_incomplete_pair=skipped_pair,
         skipped_non_200=skipped_non200,
         skipped_non_diatomic_mask=skipped_mask,
+        skipped_no_diatomic_table=skipped_no_table,
         errors=errors,
         message=msg,
     )

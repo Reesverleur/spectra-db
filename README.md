@@ -1,107 +1,86 @@
-# Spectra DB
+# Spectra-DB
 
-**Spectra DB** is a **local-first spectroscopy database + query API** backed by **DuckDB**, built around a
-**cache → normalize (NDJSON) → bootstrap (DuckDB)** pipeline.
+Spectra-DB is a **local-first spectroscopy database + query API** backed by **DuckDB**, built around a reproducible pipeline:
 
-This repo currently supports **two separated data profiles**:
-
-- **Atomic (NIST ASD)** — stable, working well
-- **Molecular (NIST Chemistry WebBook: diatomic constants)** — working and designed to expand (ExoMol, HITRAN, …)
+**fetch/cache HTML → normalize to NDJSON → bootstrap into DuckDB → query via CLI + Python API**
 
 > This project is not affiliated with NIST. Use at your own risk and subject to upstream terms/disclaimers.
 
 ---
 
-## Profiles, storage layout, and separation
+## Profiles and storage layout
 
-### Atomic profile (NIST ASD)
-- Normalized NDJSON: `data/normalized/`
-- DuckDB: `data/spectra.duckdb`
-- CLI: `scripts/query.py` (levels/lines/export)
+Spectra-DB supports **two separated “profiles”** with hard separation (**different normalized dirs and DB files**).
 
-### Molecular profile (NIST WebBook diatomic constants; Mask=1000)
-- Cache: `data/raw/nist_webbook/cbook/` (`*.body` + `*.meta.json`, written by `fetch_webbook`)
-- Normalized NDJSON: `data/normalized_molecular/`
-- DuckDB: `data/db/spectra_molecular.duckdb` (separate from atomic DB)
-- CLI: `scripts/query.py diatomic ...` (molecular-only query)
+### Atomic profile — NIST Atomic Spectra Database (ASD)
 
-Hard rule: **atomic behavior is preserved**. Shared utilities must remain backward-compatible.
+- **Normalized NDJSON:** `data/normalized/`
+- **DuckDB:** `data/db/spectra.duckdb`
+- **CLI:** `python scripts/query.py` (`species`, `levels`, `lines`, `export`)
 
----
+Hard requirement: **Do not break atomic behavior**. Shared utilities must remain backward-compatible.
 
-## What this repository provides today
+### Molecular profile — NIST Chemistry WebBook (diatomic constants, Mask=1000)
 
-## Atomic (NIST ASD)
-
-### Energy levels (`energy1.pl`)
-- Configuration, Term, J
-- Level energy and uncertainty
-- Landé g-factor and leading percentages when present
-- **References**: supports **multiple references per level** (comma-separated in ASD tables)
-
-### Spectral lines (`lines1.pl`)
-- Observed and Ritz wavelengths + uncertainties
-- Relative intensity, Aki, accuracy (when present)
-- Endpoint energies (Ei/Ek) and lower/upper level designations
-- **References**: supports **multiple refs per line** for both:
-  - **TP Ref** (transition probabilities; `type=T`)
-  - **Line Ref** (line classification; `type=L`)
-
-### Bibliographic reference enrichment (optional)
-- ASD table cells often contain comma-separated reference codes
-- We preserve raw ref codes and normalized ref keys (`E:<code>`, `L:<code>`, `T:<code>`)
-- `enrich_refs` (optional) fetches each unique ASBib page and extracts DOI/citation metadata
+- **Cache:** `data/raw/nist_webbook/cbook/` (`*.body` + `*.meta.json`)
+- **Normalized NDJSON:** `data/normalized_molecular/`
+- **DuckDB:** `data/db/spectra_molecular.duckdb`
+- **CLI:** `python scripts/query.py diatomic ...` (always uses molecular profile)
 
 ---
 
-## Molecular (NIST Chemistry WebBook)
+## Molecular (WebBook) semantics and storage
 
-### What we ingest
-**Diatomic constants** (WebBook “Constants of diatomic molecules”, fetched with `Mask=1000`).
+WebBook pages have two “reference-like” systems:
 
-### How WebBook “links” are interpreted
-WebBook diatomic tables include hyperlink-like markers that look like references, but they are actually:
+- **DiaNN anchors**: footnotes/annotations referenced from table cells
+- **ref-N anchors**: bibliographic citations in the “References” section (often with DOI)
 
-- **Footnotes / annotations:** `DiaNN` anchors (linked from table cells)
-- **Bibliographic references:** `ref-N` anchors listed in the **References** section at the bottom of the page
+We preserve both:
 
-We preserve both faithfully:
+### Footnotes (DiaNN)
 
-- **Footnotes** are stored per-species in `species.extra_json`:
-  - `webbook_footnotes_by_id["Dia53"] -> {"text": "...", "ref_targets": ["ref-1", ...], "dia_targets": ["Dia88", ...]}`
-- **Citations** (bibliography) are normalized into the `refs` table:
-  - `refs.ref_id = "WB:<webbook_id>:ref-1"` and includes citation text + DOI (when present)
-- Table cells keep their link markers out of the numeric value:
-  - Per-cell linkage is stored in `spectroscopic_parameters.context_json["cell_note_targets"] = ["Dia53", ...]`
-  - CLI displays these as square-bracket markers like `64748.48 Z [Dia53]`
+Stored per species in `species.extra_json["webbook_footnotes_by_id"]` as structured objects:
 
-### Normalized molecular tables
-Written to `data/normalized_molecular/`:
+```json
+{
+  "Dia53": {
+    "text": "...",
+    "ref_targets": ["ref-1", "..."],
+    "dia_targets": ["Dia88", "..."]
+  }
+}
+```
 
-- `species.ndjson`
-- `isotopologues.ndjson`
-- `states.ndjson` (molecular electronic states; Te stored as `energy_value`)
-- `parameters.ndjson` (`spectroscopic_parameters` in DuckDB)
-- `refs.ndjson` (bibliography for WebBook pages; `WB:<webbook_id>:ref-N`)
+### Bibliographic references (ref-N)
+
+Normalized into the `refs` table:
+
+- `refs.ref_id = "WB:<webbook_id>:ref-1"`
+- `refs.citation` contains the reference text
+- `refs.doi` is extracted when present
+
+### Table cell linkage (markers without contaminating numeric values)
+
+Per-cell linkage is stored separately from numeric parsing:
+
+- `spectroscopic_parameters.context_json["cell_note_targets"] = ["Dia53", ...]`
+
+The CLI renders this as square-bracket markers, e.g. `64748.48 Z [Dia53]`.
+
+### Mixed-token behavior (WebBook quirks we preserve)
+
+- `nu00` numeric value may include a trailing letter (e.g. `Z`): stored as numeric value + `value_suffix`
+- `Trans` is stored as **text in the state `extra_json`**, not as a numeric parameter
+- numeric parsing strips `<sub>…</sub>` markers from values but preserves them in `context_json`
 
 ---
 
-## Repository layout (high level)
+## Installation
 
-- `tools/scrapers/nist_asd/` — ASD scrapers + parsers + enrichment
-- `tools/scrapers/nist_webbook/` — WebBook fetch + bulk ingest + normalizers
-- `data/raw/` — cached HTML responses (traceability)
-- `data/normalized/` — atomic NDJSON
-- `data/normalized_molecular/` — molecular NDJSON
-- `src/spectra_db/` — DuckDB schema + query API
-- `scripts/query.py` — CLI querying / verification
-- `examples/` — small Python examples (`asd_demo.py`, `molecular_demo.py`)
+Python **3.11+** is required.
 
----
-
-## Install
-
-From repo root (Python 3.10+ recommended):
+From repo root:
 
 ```bash
 python -m venv .venv
@@ -110,87 +89,78 @@ pip install -U pip
 pip install -e .
 ```
 
+Optional scrape dependencies:
+
+```bash
+pip install -e ".[scrape]"
+```
+
 ---
 
-## Tooling, code quality, and Git strategy
-
-### Ruff + Pytest
-This repo uses:
-- **ruff** for linting/style checks
-- **pytest** for unit/integration tests on scrapers, normalization, and DB bootstrap/query behavior
-
-Run them:
+## Tooling (Ruff + pytest)
 
 ```bash
 ruff check .
 pytest -q
 ```
 
-### Suggested repository strategy
-Raw caches and database artifacts can be large. Recommended approach:
-
-- Keep source code + tests in Git
-- **Do not commit** (or commit rarely) the following by default:
-  - `data/raw/**`
-  - `data/normalized/*.ndjson`
-  - `data/normalized_molecular/*.ndjson`
-  - `data/*.duckdb`, `data/db/*.duckdb`
-- If you need to share large artifacts:
-  - use Git LFS, or
-  - publish DB snapshots / NDJSON bundles as GitHub Release assets
-
-The pipeline is designed so DuckDB is fully rebuildable from NDJSON.
+(Tests add `src/` to `sys.path`, so they work whether or not you installed the package editable.)
 
 ---
 
 ## End-to-end ingestion workflows
 
-## Atomic ingestion (ASD)
+### Atomic ingestion (ASD)
 
 (Optional) start fresh:
+
 ```bash
 rm -f data/normalized/*.ndjson
-rm -f data/spectra.duckdb
+rm -f data/db/spectra.duckdb
 ```
 
 Fetch levels:
+
 ```bash
 python -m tools.scrapers.nist_asd.fetch_levels --spectrum "Fe II"
 ```
 
 Fetch lines (small window):
+
 ```bash
 python -m tools.scrapers.nist_asd.fetch_lines --spectrum "Fe II" --min-wav 380 --max-wav 381 --unit nm --wavelength-type vacuum
 ```
 
 Bootstrap atomic DB:
+
 ```bash
 python scripts/bootstrap_db.py --profile atomic --truncate-all
 ```
 
----
+### Molecular ingestion (WebBook diatomics)
 
-## Molecular ingestion (WebBook diatomics)
-
-### Fetch a single species page
-Example for CO (WebBook ID `C630080`), Mask=1000:
+Fetch a single species page (example: CO WebBook ID `C630080`), `Mask=1000`:
 
 ```bash
 python -m tools.scrapers.nist_webbook.fetch_webbook --id C630080 --mask 1000
 ```
 
 Normalize cached pages → NDJSON:
+
 ```bash
 python -m tools.scrapers.nist_webbook.normalize_cache
 ```
 
 Bootstrap molecular DB:
+
 ```bash
 python scripts/bootstrap_db.py --profile molecular --truncate-all
 ```
 
-### Bulk ingest all diatomic-constants pages from WebBook
+#### Bulk ingest all diatomic-constants pages from WebBook
+
 This performs:
+
 1) discovery via the WebBook formula search pattern
 2) fetch of each discovered WebBook ID via the canonical `fetch_webbook` cache layer
 
@@ -199,113 +169,113 @@ python -m tools.scrapers.nist_webbook.bulk_ingest_diatomics --sleep 0.5
 ```
 
 Then normalize + bootstrap:
+
 ```bash
 python -m tools.scrapers.nist_webbook.normalize_cache
 python scripts/bootstrap_db.py --profile molecular --truncate-all
 ```
 
+Note: some discovered pages are legitimate **“no data”** cases (no diatomic constants table). These are expected and are logged as ingested.
+
 ---
 
 ## Query from the command line
-
-Run from repo root:
 
 ```bash
 python scripts/query.py --help
 ```
 
-### Species search
+### Species search (smart fuzzy + formula reversal)
+
 ```bash
 python scripts/query.py species He
 python scripts/query.py species Iron
+python scripts/query.py species HF
 ```
-
-### Exact matching and formula order
-
-Some WebBook entries may store formulas in an order that differs from common usage (e.g. `HF` stored as `FH`).
-To avoid ambiguous overlaps (e.g. `HF` vs `HfO`), the project provides **exact-match resolution**:
-
-- **Exact match** checks, in order: `species_id` → `formula` → `name` (case-insensitive for formula/name).
-- For formula-like queries, exact matching also considers **reversed token order** (`HF` ⇄ `FH`, `HfO` ⇄ `OHf`).
-
-In the CLI, use `--exact` with `diatomic` when you want an exact match first:
-
-```bash
-python scripts/query.py diatomic HF --exact --footnotes --citations
-python scripts/query.py diatomic "Hydrogen fluoride" --exact --footnotes --citations
-```
-
-The `species` command uses the same “smart” search behavior, so `python scripts/query.py species HF` will list both `HF` and `FH`-stored entries when applicable.
-
 
 ### Atomic levels
+
 ```bash
 python scripts/query.py levels "Fe II" --limit 30
 python scripts/query.py levels "Fe II" --max-energy 90000 --limit 50
 ```
 
 ### Atomic lines
+
 ```bash
 python scripts/query.py lines "H I" --min-wav 400 --max-wav 700 --unit nm --limit 30
 python scripts/query.py lines "Fe II" --min-wav 380 --max-wav 381 --unit nm --limit 30
 ```
 
 ### Molecular diatomic constants
+
 This switches internally to the **molecular profile**.
 
 ```bash
 python scripts/query.py diatomic "CO"
-python scripts/query.py diatomic "CH"
-python scripts/query.py diatomic "H2"
+python scripts/query.py diatomic "CH" --footnotes --citations
 ```
 
-Include footnotes and bibliography (linked by square-bracket markers in the table):
+#### Exact matching + formula order reversal (important)
+
+Some WebBook entries store formulas in an unusual order (example: user query `HF` stored as `FH`). This can cause fuzzy ambiguity (e.g., `HF` incorrectly matching `HfO`).
+
+The project implements an exact resolution order:
+
+1) `species_id`
+2) `formula` (case-insensitive; also tries **reversed token order**, e.g. `HF` ⇄ `FH`)
+3) `name` (case-insensitive)
+
+In the CLI, use `--exact` with `diatomic` when you want exact resolution first:
+
 ```bash
-python scripts/query.py diatomic "CO" --footnotes --citations
+python scripts/query.py diatomic HF --exact --footnotes --citations
+python scripts/query.py diatomic "Hydrogen fluoride" --exact --footnotes --citations
 ```
 
 ---
 
 ## Query from Python
 
-### Atomic
 ```python
 from spectra_db.query import open_default_api
 
-api = open_default_api(profile="atomic")
-matches = api.find_species("He", limit=10)
+api_atomic = open_default_api(profile="atomic")          # data/db/spectra.duckdb
+api_mol    = open_default_api(profile="molecular")       # data/db/spectra_molecular.duckdb
 ```
 
-### Molecular
-```python
-from spectra_db.query import open_default_api
-
-api = open_default_api(profile="molecular")
-matches = api.find_species("CO", limit=10)
-```
-
-### Exact matching in Python
-
-The API exposes exact-match helpers so scripts can avoid fuzzy ambiguities:
-
-- `api.find_species_exact(query, by=("species_id","formula","name"))`
-- `api.resolve_species_id(query, exact_first=True, fuzzy_fallback=True)`
-
-These also consider reversed-token formulas for formula-like queries (e.g. `HF` ⇄ `FH`).
-
-Example:
+### Exact helpers (recommended for molecular)
 
 ```python
-from spectra_db.query import open_default_api
-
-api = open_default_api(profile="molecular")
-sid = api.resolve_species_id("HF", exact_first=True, fuzzy_fallback=True)
+sid = api_mol.resolve_species_id("HF", exact_first=True, fuzzy_fallback=True)
+rows = api_mol.find_species_exact("CO", by=("species_id", "formula", "name"))
 ```
 
+---
 
-Examples:
-- `examples/asd_demo.py` — atomic walkthrough (levels, lines, export)
-- `examples/molecular_demo.py` — molecular walkthrough + validation (footnotes + citations)
+## Repository strategy (Git vs data artifacts)
+
+Raw caches and database artifacts can be large. Recommended approach:
+
+**Keep in Git**
+- source code (`src/`, `tools/`, `scripts/`)
+- schemas (`src/spectra_db/db/*.sql`)
+- tests (`tests/`)
+- small examples (`examples/`)
+
+**Do not commit by default**
+- `data/raw/**`
+- `data/normalized/**`
+- `data/normalized_molecular/**`
+- `data/db/*.duckdb`
+
+If you need to share large artifacts, prefer **Git LFS** or **GitHub Release assets**.
+
+---
+
+## Future direction (brief)
+
+Planned expansions (ExoMol, HITRAN/HITEMP, …) should remain **profile/dataset separated**, likely with on-demand fetch + local caching due to scale (billions of lines). The atomic pipeline and DB behavior should remain stable as new datasets are added.
 
 ---
 
