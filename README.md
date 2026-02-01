@@ -220,6 +220,24 @@ python scripts/query.py species He
 python scripts/query.py species Iron
 ```
 
+### Exact matching and formula order
+
+Some WebBook entries may store formulas in an order that differs from common usage (e.g. `HF` stored as `FH`).
+To avoid ambiguous overlaps (e.g. `HF` vs `HfO`), the project provides **exact-match resolution**:
+
+- **Exact match** checks, in order: `species_id` → `formula` → `name` (case-insensitive for formula/name).
+- For formula-like queries, exact matching also considers **reversed token order** (`HF` ⇄ `FH`, `HfO` ⇄ `OHf`).
+
+In the CLI, use `--exact` with `diatomic` when you want an exact match first:
+
+```bash
+python scripts/query.py diatomic HF --exact --footnotes --citations
+python scripts/query.py diatomic "Hydrogen fluoride" --exact --footnotes --citations
+```
+
+The `species` command uses the same “smart” search behavior, so `python scripts/query.py species HF` will list both `HF` and `FH`-stored entries when applicable.
+
+
 ### Atomic levels
 ```bash
 python scripts/query.py levels "Fe II" --limit 30
@@ -265,6 +283,25 @@ from spectra_db.query import open_default_api
 api = open_default_api(profile="molecular")
 matches = api.find_species("CO", limit=10)
 ```
+
+### Exact matching in Python
+
+The API exposes exact-match helpers so scripts can avoid fuzzy ambiguities:
+
+- `api.find_species_exact(query, by=("species_id","formula","name"))`
+- `api.resolve_species_id(query, exact_first=True, fuzzy_fallback=True)`
+
+These also consider reversed-token formulas for formula-like queries (e.g. `HF` ⇄ `FH`).
+
+Example:
+
+```python
+from spectra_db.query import open_default_api
+
+api = open_default_api(profile="molecular")
+sid = api.resolve_species_id("HF", exact_first=True, fuzzy_fallback=True)
+```
+
 
 Examples:
 - `examples/asd_demo.py` — atomic walkthrough (levels, lines, export)
