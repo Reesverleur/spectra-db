@@ -12,7 +12,12 @@ from spectra_db.query.export import export_species_bundle
 from spectra_db.util.asd_spectrum import parse_spectrum_label
 
 
-def resolve_species_ids(api, query: str) -> list[str]:
+def resolve_species_ids_atomic(api, query: str) -> list[str]:
+    """
+    Atomic profile:
+    - Prefer ASD spectrum label parsing ("H I" etc.)
+    - Fallback to fuzzy search for convenience
+    """
     try:
         ps = parse_spectrum_label(query)
         return [f"ASD:{ps.element}:{ps.charge:+d}"]
@@ -47,7 +52,7 @@ def _first_url_ellipsis(urls: object) -> str:
 def _fmt_number(x: float) -> str:
     """
     Formatting rules:
-      - Round to 12 decimal places first
+      - Round to 6 decimal places first
       - Strip trailing zeros (and trailing decimal point)
       - After rounding: any non-zero |x| < 0.001 uses scientific notation
       - Scientific notation mantissa also strips trailing zeros
@@ -63,11 +68,9 @@ def _fmt_number(x: float) -> str:
     except Exception:
         return str(x)
 
-    # ROUND FIRST (this is the behavior change you requested)
-    y = round(float(x), 12)
+    y = round(float(x), 6)
     ay = abs(y)
 
-    # Scientific notation for very small non-zero values (AFTER rounding)
     if ay != 0.0 and ay < 1e-3:
         s = f"{y:.6e}"
         mantissa, exp = s.split("e", 1)
@@ -76,13 +79,12 @@ def _fmt_number(x: float) -> str:
         if mantissa in {"-0", ""}:
             mantissa = "0"
 
-        sign = exp[0]  # '+' or '-'
+        sign = exp[0]
         digits = exp[1:].lstrip("0") or "0"
         exp_compact = (sign + digits) if sign == "-" else digits
 
         return f"{mantissa}e{exp_compact}"
 
-    # Regular fixed-point formatting (AFTER rounding)
     s = f"{y:.6f}".rstrip("0").rstrip(".")
     if s == "-0":
         s = "0"
@@ -223,11 +225,13 @@ def main() -> None:
     )
 
     dc = sub.add_parser("diatomic", help="Show WebBook diatomic constants (pivoted by electronic state).")
-    dc.add_argument("q", help='e.g. "CO" or "Carbon monoxide"')
+    dc.add_argument("q", help='e.g. "CO" or "Hydrogen fluoride" or "HF"')
     dc.add_argument("--limit", type=int, default=5000)
     dc.add_argument("--model", default="webbook_diatomic_constants")
     dc.add_argument("--footnotes", action="store_true", help="Print referenced DiaNN footnotes for the displayed table.")
     dc.add_argument("--citations", action="store_true", help="Print bibliographic references (WebBook 'References' section).")
+    dc.add_argument("--exact", action="store_true", help="Try exact formula/name/species_id match first; fallback to fuzzy if not found.")
+    dc.add_argument("--species-id", default=None, help="Query a specific species_id directly (bypasses search).")
 
     ex = sub.add_parser("export", help="Export a machine-friendly JSON bundle.")
     ex.add_argument("q", help='e.g. "H I" or "H"')
@@ -240,19 +244,21 @@ def main() -> None:
     ex.add_argument("--out", type=Path, default=None)
 
     args = ap.parse_args()
+
+    # diatomic is always molecular profile
     profile = args.profile
     if args.cmd == "diatomic":
         profile = "molecular"
     api = open_default_api(profile=profile)
 
     if args.cmd == "species":
-        rows = api.find_species(args.q, limit=50)
+        rows = api.find_species_smart(args.q, limit=50, include_formula_reversal=True)
         for r in rows:
-            print(f"{r['species_id']:15}  {r['formula']:4}  {r.get('name')}")
+            print(f"{r['species_id']:18}  {(r.get('formula') or ''):8}  {r.get('name')}")
         return
 
     if args.cmd == "levels":
-        sids = resolve_species_ids(api, args.q)
+        sids = resolve_species_ids_atomic(api, args.q)
         if not sids:
             print("No species found.")
             return
@@ -265,7 +271,6 @@ def main() -> None:
                 print(f"{sid}: no isotopologues")
                 continue
             iso_id = iso[0]["iso_id"]
-
             rows = api.atomic_levels(iso_id=iso_id, limit=args.limit, max_energy=args.max_energy)
 
             disp = []
@@ -320,7 +325,7 @@ def main() -> None:
         return
 
     if args.cmd == "lines":
-        sids = resolve_species_ids(api, args.q)
+        sids = resolve_species_ids_atomic(api, args.q)
         if not sids:
             print("No species found.")
             return
@@ -424,19 +429,31 @@ def main() -> None:
         return
 
     if args.cmd == "diatomic":
-        rows = api.find_species(args.q, limit=50)
-        if not rows:
+        # Resolve species_id
+        sid = None
+
+        if args.species_id:
+            sid = args.species_id.strip()
+
+        if sid is None and args.exact:
+            # exact-only first
+            sid = api.resolve_species_id(args.q, exact_first=True, fuzzy_fallback=True, fuzzy_limit=50)
+            if sid is None:
+                print(f"[diatomic] Exact match failed for {args.q!r}; falling back to fuzzy search…")
+
+        if sid is None:
+            sid = api.resolve_species_id(args.q, exact_first=True, fuzzy_fallback=True, fuzzy_limit=50)
+
+        if sid is None:
             print("No species found.")
             return
 
-        sid = rows[0]["species_id"]
         iso = api.isotopologues_for_species(sid)
         if not iso:
             print(f"{sid}: no isotopologues")
             return
         iso_id = iso[0]["iso_id"]
 
-        # Species-level metadata (webbook_id + footnotes)
         sx_row = api.con.execute("SELECT extra_json FROM species WHERE species_id = ?", [sid]).fetchone()
         sx = _json_load_maybe(sx_row[0] if sx_row else None)
         webbook_id = sx.get("webbook_id")
@@ -444,7 +461,6 @@ def main() -> None:
         raw_foot = sx.get("webbook_footnotes_by_id") or {}
 
         def _foot_entry(v):
-            # backward compatible: string or dict
             if v is None:
                 return {"text": "", "ref_targets": [], "dia_targets": []}
             if isinstance(v, str):
@@ -460,13 +476,11 @@ def main() -> None:
         def _markers(targets: list[str] | None) -> str:
             if not targets:
                 return ""
-            # stable display: [Dia3] [Dia12]
             uniq = list(dict.fromkeys([str(t) for t in targets]))
             for t in uniq:
                 referenced_note_targets.add(t)
             return " " + " ".join([f"[{t}]" for t in uniq])
 
-        # Pull diatomic parameters and molecular states
         params = api.parameters(iso_id=iso_id, model=args.model, limit=args.limit)
 
         state_rows = api.con.execute(
@@ -476,7 +490,6 @@ def main() -> None:
 
         by_state: dict[str, dict[str, Any]] = {}
 
-        # Initialize with states (Te + Trans)
         for st_label, te, extra_json in state_rows:
             st = (st_label or "").strip() or "(unknown)"
             extra = _json_load_maybe(extra_json)
@@ -485,11 +498,10 @@ def main() -> None:
             te_marks = _markers(extra.get("Te_note_targets") or [])
 
             by_state.setdefault(st, {"State": st})
-            by_state[st]["Te"] = te if te is not None else None
+            by_state[st]["Te"] = te
             by_state[st]["Te_disp"] = f"{_fmt_cell(te)}{te_marks}" if te is not None else ""
             by_state[st]["Trans"] = (trans + trans_marks).strip()
 
-        # Fill parameters (append markers to display)
         for p in params:
             ctx = _json_load_maybe(p.get("context_json"))
             st = (ctx.get("state_label") or "").strip() or "(unknown)"
@@ -502,7 +514,6 @@ def main() -> None:
                 base = f"{_fmt_cell(p['value'])} {suf}".strip()
                 rec["nu00"] = f"{base}{marks}".strip()
             elif p["name"] == "Te":
-                # If Te also appears as a parameter row, keep numeric Te sort key as-is
                 rec["Te"] = p.get("value")
                 rec["Te_disp"] = f"{_fmt_cell(p['value'])}{marks}".strip()
             else:
@@ -524,7 +535,6 @@ def main() -> None:
             ("nu00", "ν00"),
         ]
 
-        # Sort by Te numeric (ground first); missing Te last alphabetical
         def _sort_key(rec: dict[str, Any]) -> tuple[int, float, str]:
             te = rec.get("Te", None)
             state = str(rec.get("State", "") or "")
@@ -557,7 +567,6 @@ def main() -> None:
                     text = ent["text"]
                     preview = text if len(text) <= 500 else text[:500] + "..."
                     line = f"[{t}] {preview}"
-                    # also show citation markers if present
                     refs = ent.get("ref_targets") or []
                     if refs:
                         line += "  cites: " + " ".join([f"[{r}]" for r in refs])
@@ -576,7 +585,7 @@ def main() -> None:
                     print("(none)")
                 else:
                     for ref_id, doi, citation, url in ref_rows:
-                        short = ref_id.split(":")[-1]  # ref-1
+                        short = ref_id.split(":")[-1]
                         print({"tag": f"[{short}]", "doi": doi, "citation": citation, "url": url})
 
         return
@@ -587,7 +596,7 @@ def main() -> None:
             levels_max_energy=args.levels_max_energy,
             levels_limit=args.levels_limit,
             lines_min_wav=args.lines_min_wav,
-            lines_max_wav=args.lines_max_wav,  # fixed typo
+            lines_max_wav=args.lines_max_wav,
             lines_unit=args.lines_unit,
             lines_limit=args.lines_limit,
         )

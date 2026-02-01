@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import json
+import re
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -18,6 +20,242 @@ class QueryAPI:
 
     con: duckdb.DuckDBPyConnection
     profile: str = "atomic"
+
+    _FORMULA_TOKEN_RE = re.compile(r"([A-Z][a-z]?)(\d*)")
+    _CHARGE_RE = re.compile(r"([+-]\d*)$")
+
+    @classmethod
+    def _reverse_formula_tokens(cls, s: str) -> str | None:
+        """
+        If s looks like a plain chemical formula (e.g. HF, H2O, HfO, DH+, CO-),
+        return a reversed-token version (e.g. FH, OH2, OHf, HD+, OC-).
+        Otherwise return None.
+
+        Notes:
+        - Tokenization is by element symbol [A-Z][a-z]? with optional integer count.
+        - Trailing charge like +, -, +2, -1 is preserved at the end.
+        - If the string contains unsupported characters (spaces, commas, etc.), returns None.
+        """
+        q = (s or "").strip()
+        if not q:
+            return None
+
+        # Peel off a trailing charge suffix if present
+        charge = ""
+        m_charge = cls._CHARGE_RE.search(q)
+        if m_charge:
+            charge = m_charge.group(1)
+            q_core = q[: -len(charge)]
+        else:
+            q_core = q
+
+        # Tokenize the core
+        tokens: list[tuple[str, str]] = []
+        pos = 0
+        for m in cls._FORMULA_TOKEN_RE.finditer(q_core):
+            if m.start() != pos:
+                # unsupported characters (e.g., parentheses, dots, spaces)
+                return None
+            el = m.group(1)
+            cnt = m.group(2) or ""
+            tokens.append((el, cnt))
+            pos = m.end()
+
+        if pos != len(q_core):
+            return None
+        if len(tokens) < 2:
+            # No point reversing a single token formula
+            return None
+
+        rev = "".join(f"{el}{cnt}" for (el, cnt) in reversed(tokens)) + charge
+        if rev.lower() == s.strip().lower():
+            return None
+        return rev
+
+    def find_species_smart(self, query: str, *, limit: int = 50, include_formula_reversal: bool = True) -> list[dict[str, Any]]:
+        """
+        Fuzzy species search, but if the query looks like a formula, also search the
+        reversed-token formula and merge results.
+
+        This improves cases like:
+          HF (user) vs FH (stored)
+          HfO vs OHf (stored)
+        """
+        q = (query or "").strip()
+        if not q:
+            return []
+
+        primary = self.find_species(q, limit=limit)
+        if not include_formula_reversal:
+            return primary
+
+        rev = self._reverse_formula_tokens(q)
+        if not rev:
+            return primary
+
+        secondary = self.find_species(rev, limit=limit)
+
+        # Merge and dedupe by species_id, preserving order (primary first)
+        out: list[dict[str, Any]] = []
+        seen: set[str] = set()
+
+        for r in primary + secondary:
+            sid = r.get("species_id")
+            if isinstance(sid, str) and sid:
+                if sid in seen:
+                    continue
+                seen.add(sid)
+            out.append(r)
+
+        return out[:limit]
+
+    def find_species_exact(
+        self,
+        query: str,
+        *,
+        by: Iterable[str] = ("species_id", "formula", "name"),
+        limit: int = 25,
+        include_formula_reversal: bool = True,
+    ) -> list[dict[str, Any]]:
+        """
+        Exact-match species search against the `species` table.
+
+        - species_id: exact match
+        - formula: case-insensitive exact match (+ optional reversed-token formula)
+        - name: case-insensitive exact match
+
+        include_formula_reversal:
+            If True, and query looks like a formula, also match reversed token order.
+            Example: "HF" matches stored "FH".
+        """
+        q = (query or "").strip()
+        if not q:
+            return []
+
+        clauses: list[str] = []
+        params: list[Any] = []
+
+        for field in by:
+            f = field.lower().strip()
+
+            if f == "species_id":
+                clauses.append("SELECT * FROM species WHERE species_id = ?")
+                params.append(q)
+
+            elif f == "formula":
+                rev = self._reverse_formula_tokens(q) if include_formula_reversal else None
+                if rev:
+                    clauses.append("SELECT * FROM species WHERE lower(formula) = lower(?) OR lower(formula) = lower(?)")
+                    params.extend([q, rev])
+                else:
+                    clauses.append("SELECT * FROM species WHERE lower(formula) = lower(?)")
+                    params.append(q)
+
+            elif f == "name":
+                clauses.append("SELECT * FROM species WHERE name IS NOT NULL AND lower(name) = lower(?)")
+                params.append(q)
+
+            else:
+                raise ValueError(f"Unsupported exact-match field: {field!r}")
+
+        if not clauses:
+            return []
+
+        sql = " UNION ".join(clauses) + " LIMIT ?"
+        params.append(int(limit))
+
+        # You should already have _fetch_dicts; if not, add it (same as earlier).
+        return self._fetch_dicts(sql, params)
+
+    def resolve_species_id(
+        self,
+        query: str,
+        *,
+        exact_first: bool = True,
+        fuzzy_fallback: bool = True,
+        fuzzy_limit: int = 25,
+        include_formula_reversal: bool = True,
+    ) -> str | None:
+        """
+        Resolve a query to a single best species_id.
+
+        exact_first=True:
+          tries exact in priority order: species_id -> formula -> name
+          formula matching also considers reversed-token formula if enabled.
+
+        fuzzy_fallback=True:
+          if exact match fails, uses fuzzy search.
+          If query looks formula-like, fuzzy search also tries reversed-token query via find_species_smart.
+        """
+        q = (query or "").strip()
+        if not q:
+            return None
+
+        if exact_first:
+            # exact species_id
+            rows = self.find_species_exact(q, by=("species_id",), limit=1, include_formula_reversal=include_formula_reversal)
+            if rows:
+                sid = rows[0].get("species_id")
+                if isinstance(sid, str) and sid:
+                    return sid
+
+            # exact formula (with reversal)
+            rows = self.find_species_exact(q, by=("formula",), limit=1, include_formula_reversal=include_formula_reversal)
+            if rows:
+                sid = rows[0].get("species_id")
+                if isinstance(sid, str) and sid:
+                    return sid
+
+            # exact name
+            rows = self.find_species_exact(q, by=("name",), limit=1, include_formula_reversal=include_formula_reversal)
+            if rows:
+                sid = rows[0].get("species_id")
+                if isinstance(sid, str) and sid:
+                    return sid
+
+        if fuzzy_fallback:
+            rows = self.find_species_smart(q, limit=int(fuzzy_limit), include_formula_reversal=include_formula_reversal)
+            if rows:
+                sid = rows[0].get("species_id")
+                if isinstance(sid, str) and sid:
+                    return sid
+
+        return None
+
+    def _fetch_dicts(self, sql: str, params: Sequence[Any] | None = None) -> list[dict[str, Any]]:
+        """
+        Execute a query and return rows as dictionaries using cursor description.
+        Works across atomic/molecular profiles even if column order differs.
+        """
+        cur = self.con.execute(sql, params or [])
+        cols = [d[0] for d in cur.description]  # type: ignore[attr-defined]
+        rows = cur.fetchall()
+        return [dict(zip(cols, r, strict=True)) for r in rows]
+
+    def resolve_species_ids_exact(
+        self,
+        query: str,
+        *,
+        by: Iterable[str] = ("species_id", "formula", "name"),
+        limit: int = 25,
+    ) -> list[str]:
+        """
+        Return only species_id values for exact matches.
+        """
+        rows = self.find_species_exact(query, by=by, limit=limit)
+        out: list[str] = []
+        for r in rows:
+            sid = r.get("species_id")
+            if isinstance(sid, str) and sid:
+                out.append(sid)
+        # stable + unique
+        seen = set()
+        uniq = []
+        for sid in out:
+            if sid not in seen:
+                uniq.append(sid)
+                seen.add(sid)
+        return uniq
 
     def find_species(self, text: str, limit: int = 20) -> list[dict[str, Any]]:
         q = """
