@@ -25,7 +25,7 @@ data/raw/nist_asd/refs/**
 data/raw/**
 
 # Local DB and NDJSON
-data/**
+data/
 
 # mkdocs build output
 site/
