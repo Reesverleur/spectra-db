@@ -276,7 +276,7 @@ def main(argv: list[str] | None = None) -> None:
     profile = args.profile
     if args.cmd == "diatomic":
         profile = "molecular"
-    api = open_default_api(profile=profile)
+    api = open_default_api(profile=profile, read_only=True, ensure_schema=False)
 
     if args.cmd == "species":
         rows = api.find_species_smart(args.q, limit=50, include_formula_reversal=True)

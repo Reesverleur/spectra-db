@@ -464,19 +464,36 @@ class QueryAPI:
         return [dict(zip(cols, r, strict=True)) for r in rows]
 
 
-def open_default_api(*, profile: str = "atomic", db_path: Path | None = None) -> QueryAPI:
+def open_default_api(
+    *,
+    profile: str = "atomic",
+    db_path: Path | None = None,
+    read_only: bool = False,
+    ensure_schema: bool = True,
+) -> QueryAPI:
     """
     Open the default local DB for a profile.
 
-    - atomic: data/db/spectra.duckdb
-    - molecular: data/db/spectra_molecular.duckdb
+    - For query-only use (CLI query commands): read_only=True, ensure_schema=False
+      This prevents DB file modifications (mtime/WAL/checkpoint) during reads.
+    - For build/bootstrap operations: read_only=False, ensure_schema=True
     """
     paths = get_paths()
     if db_path is None:
         db_path = paths.default_duckdb_path if profile == "atomic" else paths.default_molecular_duckdb_path
 
     store = DuckDBStore(db_path=db_path)
-    store.init_schema(profile=profile)
 
-    con = store.connect()
+    if read_only:
+        # Do not run schema init on a read-only path.
+        # Also do not create directories/files: if DB is missing, raise.
+        if not db_path.exists():
+            raise FileNotFoundError(f"Database does not exist: {db_path}\nRun bootstrap/build first, or point SPECTRA_DB_DATA_DIR at the correct data directory.")
+        con = store.connect(read_only=True)
+        return QueryAPI(con=con, profile=profile)
+
+    if ensure_schema:
+        store.init_schema(profile=profile)
+
+    con = store.connect(read_only=False)
     return QueryAPI(con=con, profile=profile)

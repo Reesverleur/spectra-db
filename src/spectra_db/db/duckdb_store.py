@@ -22,9 +22,16 @@ def _pragma_table_info_sql(table_name: str) -> str:
 class DuckDBStore:
     db_path: Path
 
-    def connect(self) -> duckdb.DuckDBPyConnection:
+    def connect(self, *, read_only: bool = False) -> duckdb.DuckDBPyConnection:
+        """
+        Open a DuckDB connection.
+
+        If read_only=True, the database file will not be modified by queries.
+        This is ideal for CLI/query usage where you want stable DB mtimes.
+        """
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
-        return duckdb.connect(str(self.db_path))
+        # duckdb.connect supports read_only=... (duckdb-python).
+        return duckdb.connect(str(self.db_path), read_only=read_only)
 
     def _table_columns(self, con: duckdb.DuckDBPyConnection, table_name: str) -> list[str]:
         rows = con.execute(_pragma_table_info_sql(table_name)).fetchall()
