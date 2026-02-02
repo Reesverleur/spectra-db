@@ -6,8 +6,9 @@ It’s built around a reproducible pipeline:
 
 **fetch/cache → normalize to NDJSON → bootstrap into DuckDB → query via CLI + Python API**
 
-> This project is not affiliated with NIST. Use at your own risk and subject to upstream terms/disclaimers.
+Docs Site: https://reesverleur.github.io/spectra-db/
 
+> This project is not affiliated with NIST. Use at your own risk and subject to upstream terms/disclaimers.
 ---
 
 ## Key features
