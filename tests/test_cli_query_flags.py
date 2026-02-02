@@ -1,4 +1,3 @@
-# tests/test_cli_query_flags.py
 from __future__ import annotations
 
 import json
@@ -70,7 +69,7 @@ def _install_minimal_fixture_db(tmp_path: Path) -> QueryAPI:
 
 
 def _parse_header_cols(line: str) -> list[str]:
-    # robust against substring collisions ("g" in "Energy")
+    # Robust against substring collisions ("g" in "Energy")
     parts = [p.strip() for p in line.split("|")]
     return [p for p in parts if p]
 
@@ -79,7 +78,8 @@ def test_cli_levels_flags(monkeypatch, tmp_path: Path, capsys) -> None:
     api = _install_minimal_fixture_db(tmp_path)
     monkeypatch.setattr(cli, "open_default_api", lambda *args, **kwargs: api)
 
-    monkeypatch.setattr(sys, "argv", ["query.py", "levels", "H I", "--limit", "5", "--no-refs"])
+    # Default: references are hidden unless explicitly requested
+    monkeypatch.setattr(sys, "argv", ["query.py", "levels", "H I", "--limit", "5"])
     cli.main()
     out = capsys.readouterr().out
     assert "Ref URL" not in out
@@ -87,6 +87,13 @@ def test_cli_levels_flags(monkeypatch, tmp_path: Path, capsys) -> None:
     assert "J" in out
     assert "g" in out
 
+    # Explicit opt-in: references shown
+    monkeypatch.setattr(sys, "argv", ["query.py", "levels", "H I", "--limit", "5", "--references"])
+    cli.main()
+    out_refs = capsys.readouterr().out
+    assert "Ref URL" in out_refs
+
+    # --columns overrides all default hiding behavior
     monkeypatch.setattr(sys, "argv", ["query.py", "levels", "H I", "--columns", "Energy,J,g,RefURL"])
     cli.main()
     out2 = capsys.readouterr().out
@@ -100,13 +107,22 @@ def test_cli_lines_flags(monkeypatch, tmp_path: Path, capsys) -> None:
     api = _install_minimal_fixture_db(tmp_path)
     monkeypatch.setattr(cli, "open_default_api", lambda *args, **kwargs: api)
 
-    monkeypatch.setattr(sys, "argv", ["query.py", "lines", "H I", "--limit", "5", "--no-refs"])
+    # Default: references are hidden unless explicitly requested
+    monkeypatch.setattr(sys, "argv", ["query.py", "lines", "H I", "--limit", "5"])
     cli.main()
     out = capsys.readouterr().out
     assert "TP Ref URL" not in out
     assert "Line Ref URL" not in out
     assert "Observed λ" in out
 
+    # Explicit opt-in: references shown
+    monkeypatch.setattr(sys, "argv", ["query.py", "lines", "H I", "--limit", "5", "--references"])
+    cli.main()
+    out_refs = capsys.readouterr().out
+    assert "TP Ref URL" in out_refs
+    assert "Line Ref URL" in out_refs
+
+    # --columns overrides all default hiding behavior
     monkeypatch.setattr(sys, "argv", ["query.py", "lines", "H I", "--columns", "Obs,Lower,Upper,Type,LineRefURL"])
     cli.main()
     out2 = capsys.readouterr().out

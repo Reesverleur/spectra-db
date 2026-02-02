@@ -205,12 +205,16 @@ def main(argv: list[str] | None = None) -> None:
     lv.add_argument("q", help='e.g. "He I" or "He"')
     lv.add_argument("--limit", type=int, default=20)
     lv.add_argument("--max-energy", type=float, default=None)
-    lv.add_argument("--no-refs", action="store_true", help="Hide reference URL column.")
+    lv.add_argument(
+        "--references",
+        action="store_true",
+        help="Include reference URL column(s) in the output (off by default).",
+    )
     lv.add_argument("--compact", action="store_true", help="Hide commonly irrelevant columns.")
     lv.add_argument(
         "--columns",
         default=None,
-        help=("Comma-separated column keys to show (overrides --no-refs/--compact). Levels keys: Energy,Unit,Unc,J,g,LandeG,Configuration,Term,RefURL"),
+        help=("Comma-separated column keys to show (overrides --references/--compact). Levels keys: Energy,Unit,Unc,J,g,LandeG,Configuration,Term,RefURL"),
     )
 
     ln = sub.add_parser("lines", help="List spectral lines for a species/spectrum.")
@@ -219,12 +223,16 @@ def main(argv: list[str] | None = None) -> None:
     ln.add_argument("--max-wav", type=float, default=None)
     ln.add_argument("--unit", default="nm", help="Filter by wavelength unit stored in DB (default: nm).")
     ln.add_argument("--limit", type=int, default=30)
-    ln.add_argument("--no-refs", action="store_true", help="Hide TP/Line reference URL columns.")
+    ln.add_argument(
+        "--references",
+        action="store_true",
+        help="Include reference URL column(s) in the output (off by default).",
+    )
     ln.add_argument("--compact", action="store_true", help="Hide commonly irrelevant columns.")
     ln.add_argument(
         "--columns",
         default=None,
-        help=("Comma-separated column keys to show (overrides --no-refs/--compact). Lines keys: Obs,ObsUnc,Ritz,RitzUnc,RelInt,Aki,Acc,Ei,Ek,Lower,Upper,Type,TPRefURL,LineRefURL"),
+        help=("Comma-separated column keys to show (overrides --references/--compact). Lines keys: Obs,ObsUnc,Ritz,RitzUnc,RelInt,Aki,Acc,Ei,Ek,Lower,Upper,Type,TPRefURL,LineRefURL"),
     )
 
     dc = sub.add_parser("diatomic", help="Show WebBook diatomic constants (pivoted by electronic state).")
@@ -340,10 +348,11 @@ def main(argv: list[str] | None = None) -> None:
             ]
 
             exclude: set[str] = set()
+            # Default: hide refs unless requested (and unless user explicitly chose --columns)
+            if include_keys is None and not args.references:
+                exclude |= {"RefURL"}
             if args.compact:
                 exclude |= {"Unit", "Unc", "LandeG", "RefURL"}
-            if args.no_refs:
-                exclude |= {"RefURL"}
 
             columns = _apply_column_filter(columns_full, include_keys=include_keys, exclude_keys=exclude)
 
@@ -444,10 +453,11 @@ def main(argv: list[str] | None = None) -> None:
             ]
 
             exclude: set[str] = set()
+            # Default: hide refs unless requested (and unless user explicitly chose --columns)
+            if include_keys is None and not args.references:
+                exclude |= {"TPRefURL", "LineRefURL"}
             if args.compact:
                 exclude |= {"ObsUnc", "RitzUnc", "Acc", "TPRefURL", "LineRefURL"}
-            if args.no_refs:
-                exclude |= {"TPRefURL", "LineRefURL"}
 
             columns = _apply_column_filter(columns_full, include_keys=include_keys, exclude_keys=exclude)
 
