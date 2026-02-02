@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spectra-db-sources"
-version = "0.0.2"
+version = "0.0.3"
 description = "NDJSON source data for Spectra-DB (rebuildable truth)."
 readme = "README.md"
 requires-python = ">=3.11"
