@@ -3,8 +3,8 @@
 This section is generated from the Python source using `mkdocstrings`.
 
 > Notes:
-> - This page documents only import-safe runtime modules (querying, paths, asset/source provisioning).
-> - Scraper modules are intentionally excluded from the API reference.
+> - This page documents import-safe runtime modules (querying, paths, asset/source provisioning).
+> - Scraper modules are intentionally excluded.
 
 ## Query API
 

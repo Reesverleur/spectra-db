@@ -17,6 +17,9 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
+          # Load modules directly from the repo source tree. This avoids any ambiguity
+          # about install paths in CI and makes docs builds more robust.
+          paths: [src]
           options:
             docstring_style: google
             show_source: true
