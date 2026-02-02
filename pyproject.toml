@@ -18,13 +18,23 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# Dependencies required for the ingestion/scraping pipeline (NIST ASD, NIST WebBook, etc.)
+# Everything needed to run the scraping/normalization pipeline and its tests.
+# Key point: lxml is required for BeautifulSoup("lxml") and (commonly) pandas.read_html parsing.
 scrape = [
   "requests>=2.31",
   "beautifulsoup4>=4.12",
+  "lxml>=5.0",
+  "html5lib>=1.1",
 ]
 
-# Dev / CI helpers
+# Docs tooling used by the GitHub docs workflow.
+docs = [
+  "mkdocs>=1.6",
+  "mkdocs-material>=9.5",
+]
+
+# Dev/CI tooling.
+# CI should install: -e ".[dev,scrape]" so tests have parser dependencies.
 dev = [
   "pytest>=7.4",
   "ruff>=0.4",
