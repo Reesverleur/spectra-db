@@ -2,6 +2,7 @@
 __pycache__/
 *.pyc
 *.egg-info/
+dist/
 build/
 
 # Local DB/cache artifacts (choose what to ignore vs LFS-track)
