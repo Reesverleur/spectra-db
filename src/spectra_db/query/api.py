@@ -26,21 +26,10 @@ class QueryAPI:
 
     @classmethod
     def _reverse_formula_tokens(cls, s: str) -> str | None:
-        """
-        If s looks like a plain chemical formula (e.g. HF, H2O, HfO, DH+, CO-),
-        return a reversed-token version (e.g. FH, OH2, OHf, HD+, OC-).
-        Otherwise return None.
-
-        Notes:
-        - Tokenization is by element symbol [A-Z][a-z]? with optional integer count.
-        - Trailing charge like +, -, +2, -1 is preserved at the end.
-        - If the string contains unsupported characters (spaces, commas, etc.), returns None.
-        """
         q = (s or "").strip()
         if not q:
             return None
 
-        # Peel off a trailing charge suffix if present
         charge = ""
         m_charge = cls._CHARGE_RE.search(q)
         if m_charge:
@@ -49,12 +38,10 @@ class QueryAPI:
         else:
             q_core = q
 
-        # Tokenize the core
         tokens: list[tuple[str, str]] = []
         pos = 0
         for m in cls._FORMULA_TOKEN_RE.finditer(q_core):
             if m.start() != pos:
-                # unsupported characters (e.g., parentheses, dots, spaces)
                 return None
             el = m.group(1)
             cnt = m.group(2) or ""
@@ -64,7 +51,6 @@ class QueryAPI:
         if pos != len(q_core):
             return None
         if len(tokens) < 2:
-            # No point reversing a single token formula
             return None
 
         rev = "".join(f"{el}{cnt}" for (el, cnt) in reversed(tokens)) + charge
@@ -72,15 +58,26 @@ class QueryAPI:
             return None
         return rev
 
-    def find_species_smart(self, query: str, *, limit: int = 50, include_formula_reversal: bool = True) -> list[dict[str, Any]]:
-        """
-        Fuzzy species search, but if the query looks like a formula, also search the
-        reversed-token formula and merge results.
+    def _fetch_dicts(self, sql: str, params: Sequence[Any] | None = None) -> list[dict[str, Any]]:
+        cur = self.con.execute(sql, params or [])
+        cols = [d[0] for d in cur.description]  # type: ignore[attr-defined]
+        rows = cur.fetchall()
+        return [dict(zip(cols, r, strict=True)) for r in rows]
 
-        This improves cases like:
-          HF (user) vs FH (stored)
-          HfO vs OHf (stored)
+    def find_species(self, text: str, limit: int = 20) -> list[dict[str, Any]]:
+        q = """
+        SELECT species_id, formula, name, charge, multiplicity, tags
+        FROM species
+        WHERE lower(formula) LIKE lower(?) OR lower(name) LIKE lower(?)
+        ORDER BY formula
+        LIMIT ?
         """
+        like = f"%{text}%"
+        rows = self.con.execute(q, [like, like, limit]).fetchall()
+        cols = ["species_id", "formula", "name", "charge", "multiplicity", "tags"]
+        return [dict(zip(cols, r, strict=True)) for r in rows]
+
+    def find_species_smart(self, query: str, *, limit: int = 50, include_formula_reversal: bool = True) -> list[dict[str, Any]]:
         q = (query or "").strip()
         if not q:
             return []
@@ -95,10 +92,8 @@ class QueryAPI:
 
         secondary = self.find_species(rev, limit=limit)
 
-        # Merge and dedupe by species_id, preserving order (primary first)
         out: list[dict[str, Any]] = []
         seen: set[str] = set()
-
         for r in primary + secondary:
             sid = r.get("species_id")
             if isinstance(sid, str) and sid:
@@ -117,17 +112,6 @@ class QueryAPI:
         limit: int = 25,
         include_formula_reversal: bool = True,
     ) -> list[dict[str, Any]]:
-        """
-        Exact-match species search against the `species` table.
-
-        - species_id: exact match
-        - formula: case-insensitive exact match (+ optional reversed-token formula)
-        - name: case-insensitive exact match
-
-        include_formula_reversal:
-            If True, and query looks like a formula, also match reversed token order.
-            Example: "HF" matches stored "FH".
-        """
         q = (query or "").strip()
         if not q:
             return []
@@ -158,12 +142,8 @@ class QueryAPI:
             else:
                 raise ValueError(f"Unsupported exact-match field: {field!r}")
 
-        if not clauses:
-            return []
-
         sql = " UNION ".join(clauses) + " LIMIT ?"
         params.append(int(limit))
-
         return self._fetch_dicts(sql, params)
 
     def resolve_species_id(
@@ -175,42 +155,17 @@ class QueryAPI:
         fuzzy_limit: int = 25,
         include_formula_reversal: bool = True,
     ) -> str | None:
-        """
-        Resolve a query to a single best species_id.
-
-        exact_first=True:
-          tries exact in priority order: species_id -> formula -> name
-          formula matching also considers reversed-token formula if enabled.
-
-        fuzzy_fallback=True:
-          if exact match fails, uses fuzzy search.
-          If query looks formula-like, fuzzy search also tries reversed-token query via find_species_smart.
-        """
         q = (query or "").strip()
         if not q:
             return None
 
         if exact_first:
-            # exact species_id
-            rows = self.find_species_exact(q, by=("species_id",), limit=1, include_formula_reversal=include_formula_reversal)
-            if rows:
-                sid = rows[0].get("species_id")
-                if isinstance(sid, str) and sid:
-                    return sid
-
-            # exact formula (with reversal)
-            rows = self.find_species_exact(q, by=("formula",), limit=1, include_formula_reversal=include_formula_reversal)
-            if rows:
-                sid = rows[0].get("species_id")
-                if isinstance(sid, str) and sid:
-                    return sid
-
-            # exact name
-            rows = self.find_species_exact(q, by=("name",), limit=1, include_formula_reversal=include_formula_reversal)
-            if rows:
-                sid = rows[0].get("species_id")
-                if isinstance(sid, str) and sid:
-                    return sid
+            for mode in ("species_id", "formula", "name"):
+                rows = self.find_species_exact(q, by=(mode,), limit=1, include_formula_reversal=include_formula_reversal)
+                if rows:
+                    sid = rows[0].get("species_id")
+                    if isinstance(sid, str) and sid:
+                        return sid
 
         if fuzzy_fallback:
             rows = self.find_species_smart(q, limit=int(fuzzy_limit), include_formula_reversal=include_formula_reversal)
@@ -220,54 +175,6 @@ class QueryAPI:
                     return sid
 
         return None
-
-    def _fetch_dicts(self, sql: str, params: Sequence[Any] | None = None) -> list[dict[str, Any]]:
-        """
-        Execute a query and return rows as dictionaries using cursor description.
-        Works across atomic/molecular profiles even if column order differs.
-        """
-        cur = self.con.execute(sql, params or [])
-        cols = [d[0] for d in cur.description]  # type: ignore[attr-defined]
-        rows = cur.fetchall()
-        return [dict(zip(cols, r, strict=True)) for r in rows]
-
-    def resolve_species_ids_exact(
-        self,
-        query: str,
-        *,
-        by: Iterable[str] = ("species_id", "formula", "name"),
-        limit: int = 25,
-    ) -> list[str]:
-        """
-        Return only species_id values for exact matches.
-        """
-        rows = self.find_species_exact(query, by=by, limit=limit)
-        out: list[str] = []
-        for r in rows:
-            sid = r.get("species_id")
-            if isinstance(sid, str) and sid:
-                out.append(sid)
-        # stable + unique
-        seen = set()
-        uniq = []
-        for sid in out:
-            if sid not in seen:
-                uniq.append(sid)
-                seen.add(sid)
-        return uniq
-
-    def find_species(self, text: str, limit: int = 20) -> list[dict[str, Any]]:
-        q = """
-        SELECT species_id, formula, name, charge, multiplicity, tags
-        FROM species
-        WHERE lower(formula) LIKE lower(?) OR lower(name) LIKE lower(?)
-        ORDER BY formula
-        LIMIT ?
-        """
-        like = f"%{text}%"
-        rows = self.con.execute(q, [like, like, limit]).fetchall()
-        cols = ["species_id", "formula", "name", "charge", "multiplicity", "tags"]
-        return [dict(zip(cols, r, strict=True)) for r in rows]
 
     def isotopologues_for_species(self, species_id: str) -> list[dict[str, Any]]:
         q = """
@@ -288,12 +195,6 @@ class QueryAPI:
         model: str | None = None,
         limit: int = 200,
     ) -> list[dict[str, Any]]:
-        """
-        Fetch spectroscopic parameters for an isotopologue.
-
-        Atomic profile returns numeric-focused columns.
-        Molecular profile includes optional text/suffix/refs columns (if present in schema_molecular).
-        """
         clauses = ["iso_id = ?"]
         args: list[Any] = [iso_id]
 
@@ -342,17 +243,7 @@ class QueryAPI:
             ORDER BY model, name
             LIMIT ?
             """
-            cols = [
-                "param_id",
-                "model",
-                "name",
-                "value",
-                "unit",
-                "uncertainty",
-                "convention",
-                "ref_id",
-                "source",
-            ]
+            cols = ["param_id", "model", "name", "value", "unit", "uncertainty", "convention", "ref_id", "source"]
 
         args.append(limit)
         rows = self.con.execute(q, args).fetchall()
@@ -416,12 +307,7 @@ class QueryAPI:
 
         return out
 
-    def atomic_levels(
-        self,
-        iso_id: str,
-        limit: int = 50,
-        max_energy: float | None = None,
-    ) -> list[dict[str, Any]]:
+    def atomic_levels(self, iso_id: str, limit: int = 50, max_energy: float | None = None) -> list[dict[str, Any]]:
         if self.profile != "atomic":
             raise ValueError("atomic_levels() is only available on the atomic profile.")
 
@@ -474,21 +360,31 @@ def open_default_api(
     """
     Open the default local DB for a profile.
 
-    - For query-only use (CLI query commands): read_only=True, ensure_schema=False
-      This prevents DB file modifications (mtime/WAL/checkpoint) during reads.
-    - For build/bootstrap operations: read_only=False, ensure_schema=True
+    UX goals:
+    - Installed users can query anywhere after installing `spectra-db` + `spectra-db-assets`
+      (DB auto-copies into a writable per-user data dir if missing).
+    - Repo developers can keep using repo/data/db.
     """
     paths = get_paths()
+
     if db_path is None:
         db_path = paths.default_duckdb_path if profile == "atomic" else paths.default_molecular_duckdb_path
+
+        # Auto-provision DB in installed/user mode (or env override mode).
+        if paths.source in {"user", "env"} and not db_path.exists():
+            from spectra_db.assets import ensure_db_available  # local import avoids cycles
+
+            db_path = ensure_db_available(profile=profile)
 
     store = DuckDBStore(db_path=db_path)
 
     if read_only:
-        # Do not run schema init on a read-only path.
-        # Also do not create directories/files: if DB is missing, raise.
         if not db_path.exists():
-            raise FileNotFoundError(f"Database does not exist: {db_path}\nRun bootstrap/build first, or point SPECTRA_DB_DATA_DIR at the correct data directory.")
+            raise FileNotFoundError(
+                f"Database does not exist: {db_path}\n"
+                "Install the DB assets wheel (spectra-db-assets) or set SPECTRA_DB_DATA_DIR to a data directory that contains db/.\n"
+                "In a repo checkout, you can also copy/symlink the DB into data/db/."
+            )
         con = store.connect(read_only=True)
         return QueryAPI(con=con, profile=profile)
 

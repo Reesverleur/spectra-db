@@ -16,16 +16,16 @@ Spectra-DB supports **two separated “profiles”** with hard separation (**dif
 
 - **Normalized NDJSON:** `data/normalized/`
 - **DuckDB:** `data/db/spectra.duckdb`
-- **CLI:** `python scripts/query.py` (`species`, `levels`, `lines`, `export`)
-
-Hard requirement: **Do not break atomic behavior**. Shared utilities must remain backward-compatible.
+- **CLI:** `spectra-db` (`species`, `levels`, `lines`, `export`)
 
 ### Molecular profile — NIST Chemistry WebBook (diatomic constants, Mask=1000)
 
 - **Cache:** `data/raw/nist_webbook/cbook/` (`*.body` + `*.meta.json`)
 - **Normalized NDJSON:** `data/normalized_molecular/`
 - **DuckDB:** `data/db/spectra_molecular.duckdb`
-- **CLI:** `python scripts/query.py diatomic ...` (always uses molecular profile)
+- **CLI:** `spectra-db diatomic ...` (always uses molecular profile)
+
+> `diatomic` always queries the molecular DB internally, regardless of `--profile`.
 
 ---
 
@@ -70,9 +70,9 @@ The CLI renders this as square-bracket markers, e.g. `64748.48 Z [Dia53]`.
 
 ### Mixed-token behavior (WebBook quirks we preserve)
 
-- `nu00` numeric value may include a trailing letter (e.g. `Z`): stored as numeric value + `value_suffix`
+- `nu00` numeric value may include a trailing letter (e.g. `Z`): stored as numeric value + `value_suffix` and displayed as `... Z`
 - `Trans` is stored as **text in the state `extra_json`**, not as a numeric parameter
-- numeric parsing strips `<sub>…</sub>` markers from values but preserves them in `context_json`
+- numeric parsing strips `<sub>…</sub>` markers from values but preserves markers in `context_json`
 
 ---
 
@@ -80,20 +80,71 @@ The CLI renders this as square-bracket markers, e.g. `64748.48 Z [Dia53]`.
 
 Python **3.11+** is required.
 
-From repo root:
+There are two supported install styles:
+
+1) **End-user install from Release wheels** (recommended for most users)
+2) **Developer install from a repo checkout**
+
+### 1) End-user install (Release wheels)
+
+Download the wheels from the GitHub Release page (three separate wheels):
+
+- `spectra_db_assets-<ver>-*.whl`  → DuckDB files (required for “it just works” querying)
+- `spectra_db_sources-<ver>-*.whl` → NDJSON “source of truth” (optional, for rebuild/edit workflows)
+- `spectra_db-<ver>-*.whl`         → code + CLI
+
+Install them (order doesn’t strictly matter, but this makes intent clear):
+
+```bash
+pip install spectra_db_assets-<ver>-*.whl
+pip install spectra_db_sources-<ver>-*.whl   # optional
+pip install spectra_db-<ver>-*.whl
+```
+
+Now you can run from **any directory**:
+
+```bash
+spectra-db species HF
+spectra-db levels "Fe II" --limit 10
+spectra-db diatomic CO --limit 20
+```
+
+#### Where the data lives (installed usage)
+
+By default Spectra-DB uses a per-user data directory (via `platformdirs`) and stores:
+
+- `db/spectra.duckdb`
+- `db/spectra_molecular.duckdb`
+- (optionally) `normalized/` and `normalized_molecular/` when sources are installed or scrapers are run
+
+On first query, if the DB does not exist yet in the per-user location, Spectra-DB **copies the DuckDB files from `spectra-db-assets`** into the per-user data directory automatically.
+
+You can override the data directory with an environment variable:
+
+```bash
+export SPECTRA_DB_DATA_DIR=/path/to/your/data_dir
+```
+
+> Tip: if you ever set `SPECTRA_DB_DATA_DIR` for testing and later want “repo mode” again, run `unset SPECTRA_DB_DATA_DIR`.
+
+### 2) Developer install (repo checkout)
+
+From the repo root:
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -U pip
-pip install -e .
+pip install -e ".[dev,scrape,docs]"
 ```
 
-Optional scrape dependencies:
+For developer convenience, it’s recommended to keep local artifacts in the repo:
 
-```bash
-pip install -e ".[scrape]"
-```
+- `data/db/*.duckdb`
+- `data/normalized/*.ndjson`
+- `data/normalized_molecular/*.ndjson`
+
+These can be untracked (recommended) or stored via Git LFS (your choice). The Release wheels do **not** depend on repo-local artifacts.
 
 ---
 
@@ -101,10 +152,15 @@ pip install -e ".[scrape]"
 
 ```bash
 ruff check .
+ruff format --check .
 pytest -q
 ```
 
-(Tests add `src/` to `sys.path`, so they work whether or not you installed the package editable.)
+Docs:
+
+```bash
+mkdocs build --strict
+```
 
 ---
 
@@ -134,7 +190,7 @@ python -m spectra_db.scrapers.nist_asd.fetch_lines --spectrum "Fe II" --min-wav 
 Bootstrap atomic DB:
 
 ```bash
-python scripts/bootstrap_db.py --profile atomic --truncate-all
+spectra-db --profile atomic bootstrap --truncate-all
 ```
 
 ### Molecular ingestion (WebBook diatomics)
@@ -154,7 +210,7 @@ python -m spectra_db.scrapers.nist_webbook.normalize_cache
 Bootstrap molecular DB:
 
 ```bash
-python scripts/bootstrap_db.py --profile molecular --truncate-all
+spectra-db --profile molecular bootstrap --truncate-all
 ```
 
 #### Bulk ingest all diatomic-constants pages from WebBook
@@ -172,7 +228,7 @@ Then normalize + bootstrap:
 
 ```bash
 python -m spectra_db.scrapers.nist_webbook.normalize_cache
-python scripts/bootstrap_db.py --profile molecular --truncate-all
+spectra-db --profile molecular bootstrap --truncate-all
 ```
 
 Note: some discovered pages are legitimate **“no data”** cases (no diatomic constants table). These are expected and are logged as ingested.
@@ -182,29 +238,56 @@ Note: some discovered pages are legitimate **“no data”** cases (no diatomic 
 ## Query from the command line
 
 ```bash
-python scripts/query.py --help
+spectra-db --help
+```
+
+### About `--profile`
+`--profile` is a **global flag** and must appear **before** the subcommand:
+
+```bash
+spectra-db --profile atomic levels "Fe II"
+spectra-db --profile molecular bootstrap --truncate-all
 ```
 
 ### Species search (smart fuzzy + formula reversal)
 
 ```bash
-python scripts/query.py species He
-python scripts/query.py species Iron
-python scripts/query.py species HF
+spectra-db species He
+spectra-db species Iron
+spectra-db species HF
 ```
 
 ### Atomic levels
 
+By default, **reference URL columns are hidden**. Opt in with `--references`.
+
 ```bash
-python scripts/query.py levels "Fe II" --limit 30
-python scripts/query.py levels "Fe II" --max-energy 90000 --limit 50
+spectra-db levels "Fe II" --limit 30
+spectra-db levels "Fe II" --max-energy 90000 --limit 50
+spectra-db levels "Fe II" --references
+```
+
+You can explicitly control columns with `--columns` (overrides `--references` / `--compact`):
+
+```bash
+spectra-db levels "Fe II" --columns Energy,J,g,Configuration,Term
+spectra-db levels "Fe II" --columns Energy,J,g,RefURL
 ```
 
 ### Atomic lines
 
+By default, **reference URL columns are hidden**. Opt in with `--references`.
+
 ```bash
-python scripts/query.py lines "H I" --min-wav 400 --max-wav 700 --unit nm --limit 30
-python scripts/query.py lines "Fe II" --min-wav 380 --max-wav 381 --unit nm --limit 30
+spectra-db lines "H I" --min-wav 400 --max-wav 700 --unit nm --limit 30
+spectra-db lines "Fe II" --min-wav 380 --max-wav 381 --unit nm --limit 30
+spectra-db lines "H I" --references
+```
+
+Column override:
+
+```bash
+spectra-db lines "H I" --columns Obs,Lower,Upper,Type,LineRefURL
 ```
 
 ### Molecular diatomic constants
@@ -212,8 +295,8 @@ python scripts/query.py lines "Fe II" --min-wav 380 --max-wav 381 --unit nm --li
 This switches internally to the **molecular profile**.
 
 ```bash
-python scripts/query.py diatomic "CO"
-python scripts/query.py diatomic "CH" --footnotes --citations
+spectra-db diatomic "CO"
+spectra-db diatomic HF --exact --footnotes --citations
 ```
 
 #### Exact matching + formula order reversal (important)
@@ -226,11 +309,25 @@ The project implements an exact resolution order:
 2) `formula` (case-insensitive; also tries **reversed token order**, e.g. `HF` ⇄ `FH`)
 3) `name` (case-insensitive)
 
-In the CLI, use `--exact` with `diatomic` when you want exact resolution first:
+In the CLI, use `--exact` with `diatomic` when you want exact resolution first.
+
+---
+
+## Rebuild databases from NDJSON sources (optional)
+
+If you installed `spectra-db-sources`, you can rebuild the DuckDB files offline.
+
+Bootstrap will automatically copy NDJSON sources into the active data directory if the NDJSON inputs are missing.
 
 ```bash
-python scripts/query.py diatomic HF --exact --footnotes --citations
-python scripts/query.py diatomic "Hydrogen fluoride" --exact --footnotes --citations
+spectra-db --profile atomic bootstrap --truncate-all
+spectra-db --profile molecular bootstrap --truncate-all
+```
+
+You can override the NDJSON directory explicitly:
+
+```bash
+spectra-db --profile atomic bootstrap --normalized /path/to/normalized --truncate-all
 ```
 
 ---
@@ -240,8 +337,8 @@ python scripts/query.py diatomic "Hydrogen fluoride" --exact --footnotes --citat
 ```python
 from spectra_db.query import open_default_api
 
-api_atomic = open_default_api(profile="atomic")          # data/db/spectra.duckdb
-api_mol    = open_default_api(profile="molecular")       # data/db/spectra_molecular.duckdb
+api_atomic = open_default_api(profile="atomic")          # atomic DB
+api_mol    = open_default_api(profile="molecular")       # molecular DB
 ```
 
 ### Exact helpers (recommended for molecular)
@@ -251,6 +348,12 @@ sid = api_mol.resolve_species_id("HF", exact_first=True, fuzzy_fallback=True)
 rows = api_mol.find_species_exact("CO", by=("species_id", "formula", "name"))
 ```
 
+### Read-only access (recommended for analysis scripts)
+
+```python
+api = open_default_api(profile="atomic", read_only=True, ensure_schema=False)
+```
+
 ---
 
 ## Repository strategy (Git vs data artifacts)
@@ -258,9 +361,10 @@ rows = api_mol.find_species_exact("CO", by=("species_id", "formula", "name"))
 Raw caches and database artifacts can be large. Recommended approach:
 
 **Keep in Git**
-- source code (`src/`, `tools/`, `scripts/`)
+- source code (`src/`)
 - schemas (`src/spectra_db/db/*.sql`)
 - tests (`tests/`)
+- docs (`docs/`, `mkdocs.yml`)
 - small examples (`examples/`)
 
 **Do not commit by default**
@@ -268,8 +372,9 @@ Raw caches and database artifacts can be large. Recommended approach:
 - `data/normalized/**`
 - `data/normalized_molecular/**`
 - `data/db/*.duckdb`
+- build artifacts: `dist/`, `build/`, `*.egg-info/`
 
-If you need to share large artifacts, prefer **Git LFS** or **GitHub Release assets**.
+If you need to share large artifacts in-repo, prefer **Git LFS**. For end users, prefer the Release wheels described above.
 
 ---
 

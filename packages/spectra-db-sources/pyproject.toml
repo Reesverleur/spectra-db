@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spectra-db-sources"
+version = "0.0.2"
+description = "NDJSON source data for Spectra-DB (rebuildable truth)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "Rees Verleur"}]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["spectra_db_sources*"]
+
+[tool.setuptools.package-data]
+spectra_db_sources = ["ndjson/**/*.ndjson"]

@@ -205,11 +205,7 @@ def main(argv: list[str] | None = None) -> None:
     lv.add_argument("q", help='e.g. "He I" or "He"')
     lv.add_argument("--limit", type=int, default=20)
     lv.add_argument("--max-energy", type=float, default=None)
-    lv.add_argument(
-        "--references",
-        action="store_true",
-        help="Include reference URL column(s) in the output (off by default).",
-    )
+    lv.add_argument("--references", action="store_true", help="Include reference URL columns (off by default).")
     lv.add_argument("--compact", action="store_true", help="Hide commonly irrelevant columns.")
     lv.add_argument(
         "--columns",
@@ -223,11 +219,7 @@ def main(argv: list[str] | None = None) -> None:
     ln.add_argument("--max-wav", type=float, default=None)
     ln.add_argument("--unit", default="nm", help="Filter by wavelength unit stored in DB (default: nm).")
     ln.add_argument("--limit", type=int, default=30)
-    ln.add_argument(
-        "--references",
-        action="store_true",
-        help="Include reference URL column(s) in the output (off by default).",
-    )
+    ln.add_argument("--references", action="store_true", help="Include reference URL columns (off by default).")
     ln.add_argument("--compact", action="store_true", help="Hide commonly irrelevant columns.")
     ln.add_argument(
         "--columns",
@@ -268,9 +260,22 @@ def main(argv: list[str] | None = None) -> None:
         if norm_dir is None:
             norm_dir = paths.normalized_dir if args.profile == "atomic" else paths.normalized_molecular_dir
 
+        # Auto-provision NDJSON sources into writable install location if missing/empty and sources wheel exists.
+        try:
+            from spectra_db.sources import ensure_sources_available, ndjson_has_core_files
+
+            if not ndjson_has_core_files(norm_dir, args.profile):
+                ensured = ensure_sources_available(profile=args.profile, force=False)
+                if ensured is not None:
+                    norm_dir = ensured
+        except Exception:
+            pass
+
         db_path = args.db_path
         if db_path is None:
             db_path = paths.default_duckdb_path if args.profile == "atomic" else paths.default_molecular_duckdb_path
+
+        db_path.parent.mkdir(parents=True, exist_ok=True)
 
         store = DuckDBStore(db_path=db_path)
         counts = store.bootstrap_from_normalized_dir(norm_dir, truncate_all=args.truncate_all, profile=args.profile)
@@ -348,7 +353,6 @@ def main(argv: list[str] | None = None) -> None:
             ]
 
             exclude: set[str] = set()
-            # Default: hide refs unless requested (and unless user explicitly chose --columns)
             if include_keys is None and not args.references:
                 exclude |= {"RefURL"}
             if args.compact:
@@ -453,7 +457,6 @@ def main(argv: list[str] | None = None) -> None:
             ]
 
             exclude: set[str] = set()
-            # Default: hide refs unless requested (and unless user explicitly chose --columns)
             if include_keys is None and not args.references:
                 exclude |= {"TPRefURL", "LineRefURL"}
             if args.compact:
@@ -466,9 +469,7 @@ def main(argv: list[str] | None = None) -> None:
         return
 
     if args.cmd == "diatomic":
-        # Resolve species_id
         sid = None
-
         if args.species_id:
             sid = args.species_id.strip()
 
@@ -506,7 +507,6 @@ def main(argv: list[str] | None = None) -> None:
             return {"text": str(v), "ref_targets": [], "dia_targets": []}
 
         footnotes_by_id = {k: _foot_entry(v) for k, v in raw_foot.items()}
-
         referenced_note_targets: set[str] = set()
 
         def _markers(targets: list[str] | None) -> str:
@@ -525,7 +525,6 @@ def main(argv: list[str] | None = None) -> None:
         ).fetchall()
 
         by_state: dict[str, dict[str, Any]] = {}
-
         for st_label, te, extra_json in state_rows:
             st = (st_label or "").strip() or "(unknown)"
             extra = _json_load_maybe(extra_json)
@@ -623,7 +622,6 @@ def main(argv: list[str] | None = None) -> None:
                     for ref_id, doi, citation, url in ref_rows:
                         short = ref_id.split(":")[-1]
                         print({"tag": f"[{short}]", "doi": doi, "citation": citation, "url": url})
-
         return
 
     if args.cmd == "export":

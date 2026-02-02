@@ -18,16 +18,16 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# Everything needed to run the scraping/normalization pipeline and its tests.
 scrape = [
   "requests>=2.31",
   "beautifulsoup4>=4.12",
   "lxml>=5.0",
   "html5lib>=1.1",
 ]
+assets = ["spectra-db-assets==0.0.2"]
+sources = ["spectra-db-sources==0.0.2"]
 
-# Docs tooling used by the GitHub docs workflow.
-# mkdocstrings is enabled in mkdocs.yml, so it must be installed here.
+
 docs = [
   "mkdocs>=1.6",
   "mkdocs-material>=9.5",
@@ -35,12 +35,14 @@ docs = [
   "mkdocstrings-python>=1.10",
 ]
 
-# Dev/CI tooling.
 dev = [
   "pytest>=7.4",
   "ruff>=0.4",
   "types-requests>=2.31",
 ]
+
+# Note: pip can only resolve this automatically if spectra-db-assets is available on an index.
+# For GitHub Releases, users will install the assets wheel by URL.
 
 [project.scripts]
 spectra-db = "spectra_db.cli:main"

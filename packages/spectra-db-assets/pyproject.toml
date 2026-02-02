@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spectra-db-assets"
+version = "0.0.2"
+description = "Database assets for Spectra-DB (DuckDB files)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "Rees Verleur"}]
+
+# No runtime deps; it only ships files.
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["spectra_db_assets*"]
+
+[tool.setuptools.package-data]
+spectra_db_assets = ["db/*.duckdb"]
