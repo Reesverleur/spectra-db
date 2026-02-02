@@ -6,7 +6,7 @@ theme:
 nav:
   - Home: index.md
   - User Guide:
-      - README: README.md
+      - README: repo_readme.md
   - Developer:
       - Contributing: dev/contributing.md
       - Data layout: dev/data_layout.md

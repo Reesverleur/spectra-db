@@ -2,6 +2,10 @@
 
 This section is generated from the Python source using `mkdocstrings`.
 
+> Notes:
+> - This page documents only import-safe runtime modules (querying, paths, asset/source provisioning).
+> - Scraper modules are intentionally excluded from the API reference.
+
 ## Query API
 
 ::: spectra_db.query.api.QueryAPI
@@ -16,13 +20,9 @@ This section is generated from the Python source using `mkdocstrings`.
 
 ::: spectra_db.cli.main
 
-## Data paths and resolution
+## Paths and data resolution
 
-::: spectra_db.util.paths.RepoPaths
-
-::: spectra_db.util.paths.get_paths
-
-::: spectra_db.util.paths.get_user_paths
+::: spectra_db.util.paths
 
 ## Asset provisioning
 

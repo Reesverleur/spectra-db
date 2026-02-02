@@ -32,7 +32,7 @@ jobs:
 
       - name: Sync README into docs
         run: |
-          cp README.md docs/README.md
+          cp README.md docs/repo_readme.md
 
       - name: Build site
         run: mkdocs build --strict
