@@ -11,12 +11,21 @@ Key ideas:
 Public API:
 - spectra_db.query.open_default_api
 - spectra_db.query.api.QueryAPI
-
-Scrapers / ingestion tools live under:
-- spectra_db.scrapers.*
+- Convenience helpers:
+  - spectra_db.get_atomic_levels
+  - spectra_db.get_atomic_lines
+  - spectra_db.get_diatomic_constants
 """
 
 from __future__ import annotations
 
-__all__ = ["__version__"]
+from spectra_db.db_query import get_atomic_levels, get_atomic_lines, get_diatomic_constants
+
+__all__ = [
+    "__version__",
+    "get_atomic_levels",
+    "get_atomic_lines",
+    "get_diatomic_constants",
+]
+
 __version__ = "0.0.2"
