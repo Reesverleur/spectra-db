@@ -30,22 +30,29 @@ def export_species_bundle(
     include_lines: bool = True,
     parse_line_payload: bool = True,
 ) -> dict[str, Any]:
-    """Return a machine-friendly Python bundle for one-or-many species.
+    """
+    Export a machine-friendly JSON bundle for one or more ASD species.
 
-    This is meant for downstream programmatic use. The return value is JSON-serializable.
+    This helper is designed for downstream programmatic use. The returned object is
+    fully JSON-serializable.
 
     Args:
-        query: 'He I' for an exact ASD stage, or 'He' for fuzzy species search.
-        levels_max_energy: Optional filter for energy levels (<=).
-        levels_limit: Max levels per isotopologue.
-        lines_min_wav/lines_max_wav: Optional wavelength filter for lines.
-        lines_unit: Wavelength unit filter (must match stored transitions.quantity_unit).
-        lines_limit: Max lines per isotopologue.
-        include_levels/include_lines: Whether to include levels/lines blocks.
-        parse_line_payload: If True, parse transitions.intensity_json into dict.
+        query: A query like "He I" (exact ASD spectrum label) or "He" (fuzzy species search).
+        levels_max_energy: Optional upper bound on level energy (<=).
+        levels_limit: Maximum number of levels per isotopologue.
+        lines_min_wav: Optional minimum wavelength (inclusive) for lines.
+        lines_max_wav: Optional maximum wavelength (inclusive) for lines.
+        lines_unit: Wavelength unit filter (must match stored `transitions.quantity_unit`), default "nm".
+        lines_limit: Maximum number of lines per isotopologue.
+        include_levels: If True, include the `levels` block.
+        include_lines: If True, include the `lines` block.
+        parse_line_payload: If True, parse `transitions.intensity_json` into a dict under each line entry.
 
     Returns:
-        Dict containing species list, isotopologues, and optionally levels and lines.
+        A dict containing:
+            - `species`: resolved species rows
+            - `isotopologues`: isotopologue rows for each species
+            - optionally `levels` and `lines` blocks, depending on flags
     """
     api = open_default_api()
     species_ids = _resolve_species_ids(api, query)
