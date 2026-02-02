@@ -5,6 +5,7 @@ Spectra-DB is a **local-first spectroscopy database + query API** backed by **Du
 **fetch/cache HTML → normalize to NDJSON → bootstrap into DuckDB → query via CLI + Python API**
 
 > This project is not affiliated with NIST. Use at your own risk and subject to upstream terms/disclaimers.
+
 Docs Site: https://reesverleur.github.io/spectra-db/
 ---
 
